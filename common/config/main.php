@@ -20,6 +20,10 @@ return [
         'cache' => [
             'class' => FileCache::class,
         ],
+        'paymentGatewayService' => [
+            'class' => 'common\components\PaymentGatewayService',
+            'secretKey' => getenv('GATEWAY_SECRET_KEY'), // Use variáveis de ambiente!
+        ],
     ],
 
     // =======================================================

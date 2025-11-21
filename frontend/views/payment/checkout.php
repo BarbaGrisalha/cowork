@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
+use yii\helpers\Html; // OBRIGATÓRIO
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $reservation common\models\Reservations */
-/* @var $model frontend\models\CartaoFakeForm */
+/* @var $model frontend\models\FakeCardForm */ // 🚨 Aponta para o seu Model de cartão completo
 
-$this->title = 'Checkout de Pagamento FAKE';
+$this->title = 'Checkout de Pagamento FAKE (Completo)';
 ?>
 
 <div class="pagamento-checkout">
@@ -24,12 +24,12 @@ $this->title = 'Checkout de Pagamento FAKE';
     <div class="card-form-mock">
         <?php $form = ActiveForm::begin([
             'id' => 'fake-payment-form',
-            'enableAjaxValidation' => false, // Não complique a vida, valide no servidor.
+            'enableAjaxValidation' => false,
         ]); ?>
 
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'card_number')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 4xxx xxxx xxxx xxxx (Visa)']) ?>
+                <?= $form->field($model, 'card_number')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 4xxx xxxx xxxx xxxx (Visa FAKE)']) ?>
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'card_name')->textInput(['maxlength' => true, 'placeholder' => 'Nome como no cartão']) ?>
@@ -48,7 +48,15 @@ $this->title = 'Checkout de Pagamento FAKE';
             </div>
         </div>
 
-        <p class="text-muted small">Aqui só aceitamos cartões FAKE Visa, Mastercard, Amex e Diners. E sim, tem que passar no Luhn Check.</p>
+        <p class="text-muted small">
+            **Regras de Simulação FAKE:**
+        <ul>
+            <li>Para **SUCESSO** (APROVADO), use um número que comece com o dígito **4**.</li>
+            <li>Para **PENDENTE**, use um número que comece com o dígito **5**.</li>
+            <li>Para **FALHA** (NEGADO), use qualquer outro dígito inicial.</li>
+        </ul>
+        *O número também deve passar no Algoritmo de Luhn.*
+        </p>
 
         <div class="form-group">
             <?= Html::submitButton('Simular Pagamento', ['class' => 'btn btn-success']) ?>
