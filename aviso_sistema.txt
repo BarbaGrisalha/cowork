@@ -1,0 +1,2 @@
+Até aqui- sistema a funcionar. 
+Falta o sistema de confirmação de pagamento. 
