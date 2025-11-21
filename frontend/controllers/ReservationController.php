@@ -234,4 +234,27 @@ class ReservationController extends Controller
         // Redireciona de volta para o Dashboard
         return $this->redirect(['/dashboard/index']);
     }
+    /**
+     * Endpoint para receber o webhook de pagamento aprovado.
+     * Deve ser acessado via POST pelo gateway de pagamento.
+     * @param int $reservationId O ID da reserva.
+     */
+    public function actionConfirmReservationFromWebhook($reservationId)
+    {
+        // ... (Coloque aqui TODA a lógica de Active Record que te passei antes) ...
+
+        $reservation = Reservations::findOne($reservationId);
+
+        if ($reservation === null) {
+            // Lógica de erro...
+            throw new NotFoundHttpException("Reserva não encontrada.");
+        }
+
+        // As 3 Linhas que funcionam:
+        $reservation->status = 'Confirmado';
+        if ($reservation->save()) {
+            // Sucesso e log...
+            return "Reserva #{$reservationId} CONFIRMADA.";
+        }
+    }
 }
