@@ -12,8 +12,9 @@ use Yii; // Necessário para acessar o ID do usuário logado
 // Você pode precisar ajustar os 'use' statements.
 use common\models\Rooms;
 use frontend\models\Reservations;
+use yii\web\Controller;
 
-class DashboardController extends \yii\web\Controller
+class DashboardController extends Controller
 {
     public function actionIndex()
     {
@@ -31,21 +32,9 @@ class DashboardController extends \yii\web\Controller
             ->orderBy(['data_reserva' => SORT_ASC, 'hora_inicio_agendada' => SORT_ASC])
             ->all();
 
-        // 3. Itens de Bar e Equipamentos (Mocks temporários, ajuste com seus Models reais)
-        // Se você tiver Models como Economato, use Economato::find()->where(['type' => 'bar'])->all();
-        /*$barItems = [
-            ['name' => 'Café Espresso', 'price' => 0.50],
-            ['name' => 'Chá', 'price' => 0.60],
-            ['name' => 'Água', 'price' => 1.00],
-            ['name' => 'Snacks', 'price' => 1.50],
-        ];*/
+
         $barItems = Economato::find()->all();
-        /*
-        $equipment = [
-            ['name' => 'Projetor HD', 'price' => 10.00],
-            ['name' => 'Webcam Profissional', 'price' => 5.00],
-            ['name' => 'Microfone Profissional', 'price' => 5.00],
-        ];*/
+
         $equipment = RoomItems::find()->all();
         // Passa todas as variáveis necessárias para a View
         return $this->render('index', [
