@@ -147,4 +147,60 @@ class CheckoutController extends \yii\web\Controller
     {
         return $this->render('index');
     }
+
+    /**
+     * Action que recebe o token do pagamento e processa a transação.
+     * Esta é a Action 'pagar'.
+     */
+    public function actionPagar()
+    {
+        // 1. Recebe o token, valor e dados do pedido.
+        $request = Yii::$app->request;
+
+        // Pelo seu código, o token viria via POST.
+        $token = $request->post('payment_token');
+
+        // Assumindo que você tem um método auxiliar para carregar o pedido/reserva
+        $pedido = $this->findPedido(Yii::$app->user->id);
+
+        // Se o pedido não existir ou já estiver pago, pare aqui!
+        if (!$pedido) {
+            // Lógica de redirecionamento ou throw 404
+        }
+
+        try {
+            // 2. Chama o Service/Componente (que você configurou em common\components ou Services)
+            // Lembre-se, o componente `paymentGatewayService` deve estar configurado no seu `common/config/main.php`
+            $gateway = Yii::$app->paymentGatewayService;
+
+            // O componente faz a chamada real para a API do Gateway
+            $response = $gateway->processPayment($token, $pedido->valor);
+
+            // 3. O Retorno do Gateway
+            if ($response->isApproved()) {
+                $pedido->status = 'APROVADO';
+            } elseif ($response->isPending()) {
+                // Pendente (aguardando confirmação do Gateway)
+                $pedido->status = 'AGUARDANDO_GATEWAY';
+            } else {
+                $pedido->status = 'NEGADO';
+            }
+
+            // 4. Salva a Transaction ID (essencial para Webhooks e rastreio)
+            $pedido->transaction_id = $response->getTransactionId();
+
+            // 5. Use TRANSAÇÕES DE BANCO (SQL/MySQL)
+            // Se falhar a gravação do status, reverte. Cantiga de Ninar, lembra?
+            $this->savePedidoInTransaction($pedido);
+
+            // Redireciona para o sucesso (onde o cliente deve ir)
+            return $this->redirect(['sucesso']);
+        } catch (\Exception $e) {
+            // Log do erro (logar é vida, Git/GitHub sabe disso)
+            Yii::error("Erro no pagamento do Pedido #{$pedido->id}: " . $e->getMessage(), __METHOD__);
+            $pedido->status = 'ERRO';
+            $pedido->save(); // Salva o erro antes de redirecionar para 'falha'
+            return $this->redirect(['falha', 'mensagem' => 'Pagamento negado ou erro interno.']);
+        }
+    }
 }

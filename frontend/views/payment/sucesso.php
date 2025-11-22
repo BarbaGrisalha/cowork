@@ -13,8 +13,8 @@ $this->title = 'Pagamento Aprovado!';
     <hr>
     <div class="alert alert-success">
         <p>Parabéns, Altamir! O pagamento FAKE da sua reserva #<?= $reservation->id ?> foi **APROVADO** pelo nosso Gateway FAKE com sucesso.</p>
-        <p>A sala **<?= Html::encode($reservation->room->name) ?>** está reservada para você, do dia <?= Yii::$app->formatter->asDate($reservation->start_time) ?> à <?= Yii::$app->formatter->asTime($reservation->end_time) ?>.</p>
-        <p>O preço total da reserva foi de: <strong>R$ <?= number_format($reservation->total_price, 2, ',', '.') ?></strong>.</p>
+        <p>A sala **<?= Html::encode($reservation->room->nome_sala) ?>** está reservada para você, do dia <?= Yii::$app->formatter->asDate($reservation->hora_inicio_agendada) ?> à <?= Yii::$app->formatter->asTime($reservation->hora_fim_agendada) ?>.</p>
+        <p>O preço total da reserva foi de: <strong>R$ <?= number_format($reservation->total_estimado, 2, ',', '.') ?></strong>.</p>
     </div>
 
     <p>

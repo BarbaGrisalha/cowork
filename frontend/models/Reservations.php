@@ -7,7 +7,7 @@ use Yii;
 use frontend\models\Room;     // Verifique se este namespace está correto
 use frontend\models\Customer; // Verifique se este namespace está correto
 use DateTime; // <<< ADICIONADO: Necessário para lógica de datas
-
+use yii\yii\web\NotFoundHttpException;
 /**
  * This is the model class for table "reservations".
  *
