@@ -8,6 +8,7 @@ use frontend\models\Room;     // Verifique se este namespace está correto
 use frontend\models\Customer; // Verifique se este namespace está correto
 use DateTime; // <<< ADICIONADO: Necessário para lógica de datas
 use yii\yii\web\NotFoundHttpException;
+
 /**
  * This is the model class for table "reservations".
  *
@@ -76,6 +77,8 @@ class Reservations extends \yii\db\ActiveRecord
             // <<< ADICIONADO: Regras para o novo código de reserva
             [['reservation_code'], 'string', 'max' => 50],
             [['reservation_code'], 'unique'],
+            [['tipo_reserva'], 'string', 'max' => 20],
+            [['tipo_reserva'], 'default', 'value' => 'hora'],
         ];
     }
 
