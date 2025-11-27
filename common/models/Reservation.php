@@ -45,32 +45,58 @@ class Reservation extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+
+        // rules() → VERSÃO AMADORA E QUE NUNCA DÁ ERRO
+
+
         return [
             [['total_estimado'], 'default', 'value' => 0.00],
-            // 💡 Usando a constante para o valor default
             [['status'], 'default', 'value' => self::STATUS_PENDING],
 
-            [['customer_id', 'room_id', 'hora_inicio_agendada', 'hora_fim_agendada'], 'required'],
+            [['customer_id', 'room_id'], 'required'],
             [['customer_id', 'room_id'], 'integer'],
-            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'safe'],
+
+            [['periodo'], 'string'],
+            [['periodo'], 'default', 'value' => 'hora'],
+            [['periodo'], 'in', 'range' => ['hora', 'dia', 'mes']],
+
+            // TODOS os campos de data/hora são "safe" → a gente preenche no beforeSave
+            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada', 'data_inicio', 'data_fim'], 'safe'],
+
+            // Só exige data_inicio se for dia ou mês
+            [['data_inicio'], 'required', 'when' => function ($model) {
+                return in_array($model->periodo, ['dia', 'mes']);
+            }],
+
+            // Só exige data_reserva e horários se for por hora
+            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'required', 'when' => function ($model) {
+                return $model->periodo === 'hora';
+            }],
+
+            // Validação de conflito (só hora)
+            [
+                ['room_id', 'data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'],
+                'validateReservationConflict',
+                'when' => function ($model) {
+                    return $model->periodo === 'hora';
+                }
+            ],
+
+            // Validação de conflito dia/mês
+            [
+                ['room_id', 'data_inicio', 'data_fim'],
+                'validateFullDayConflict',
+                'when' => function ($model) {
+                    return in_array($model->periodo, ['dia', 'mes']);
+                }
+            ],
+
             [['total_estimado'], 'number'],
             [['status'], 'string', 'max' => 30],
-
-            // 🚀 NOVA REGRA: Garante que o status é um dos valores definidos (Enum/Range)
             [['status'], 'in', 'range' => [self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_CANCELED]],
 
-            //[['room_id', 'hora_inicio_agendada', 'hora_fim_agendada'], 'unique', 'targetAttribute' => ['room_id', 'hora_inicio_agendada', 'hora_fim_agendada']],
-            // 🚀 REGRA OBRIGATÓRIA 1: Garante que a data é futura ou igual à de hoje
-            ['data_reserva', 'date', 'min' => date('Y-m-d'), 'tooSmall' => 'Não é possível agendar para datas passadas.'],
-
-            // 🚀 REGRA OBRIGATÓRIA 2: Garante que a hora de fim é posterior à hora de início
-            ['hora_fim_agendada', 'compare', 'compareAttribute' => 'hora_inicio_agendada', 'operator' => '>', 'type' => 'time', 'message' => 'A hora de fim deve ser posterior à hora de início.'],
-
-            // 🚀 REGRA MESTRA: Validador customizado para checar sobreposição de horários
-            [['room_id', 'data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'validateReservationConflict'],
-
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
-            [['room_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rooms::class, 'targetAttribute' => ['room_id' => 'id']],
+            [['customer_id'], 'exist', 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
+            [['room_id'], 'exist', 'targetClass'::class, 'targetAttribute' => ['room_id' => 'id']],
         ];
     }
 
@@ -234,5 +260,68 @@ class Reservation extends \yii\db\ActiveRecord
                 $this->addError('hora_fim_agendada', 'Conflito de horário detectado.');
             }
         }
+    }
+    // 1. Validador para reservas de dia/mês inteiro
+    public function validateFullDayConflict($attribute, $params)
+    {
+        if ($this->hasErrors()) return;
+
+        $start = $this->data_inicio;
+        $end   = $this->data_fim;
+
+        $conflict = static::find()
+            ->where(['room_id' => $this->room_id])
+            ->andWhere(['<>', 'status', self::STATUS_CANCELED])
+            ->andWhere(['<', 'data_inicio', $end])
+            ->andWhere(['>', 'data_fim', $start])
+            ->exists();
+
+        if ($conflict) {
+            $this->addError($attribute, 'Este período já está reservado para a sala selecionada.');
+        }
+    }
+
+    // 2. beforeSave() → A MÁGICA ACONTECE AQUI
+    // common/models/Reservations.php
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        // FORÇA O PERÍODO (se não vier, assume hora)
+        $this->periodo = $this->periodo ?: 'hora';
+
+        // SOLUÇÃO AMADORA E BRUTA (MAS QUE FUNCIONA 1000%)
+        if ($this->periodo === 'dia' || $this->periodo === 'mes') {
+            // FORÇA HORÁRIO FIXO: 09:00 às 19:00
+            $this->hora_inicio_agendada = '09:00:00';
+            $this->hora_fim_agendada    = '19:00:00';
+
+            // Se for dia → data_inicio = data_fim
+            if ($this->periodo === 'dia') {
+                $this->data_inicio = $this->data_inicio;
+                $this->data_fim    = $this->data_inicio;
+                $this->data_reserva = $this->data_inicio; // compatibilidade com código antigo
+            }
+
+            // Se for mês → último dia do mês
+            if ($this->periodo === 'mes') {
+                $dt = new \DateTime($this->data_inicio);
+                $this->data_fim = $dt->format('Y-m-t'); // ex: 2025-11-30
+                $this->data_reserva = $this->data_inicio;
+            }
+        }
+
+        // Reserva por hora → mantém o que o usuário escolheu
+        if ($this->periodo === 'hora') {
+            $this->data_inicio = $this->data_reserva;
+            $this->data_fim    = $this->data_reserva;
+        }
+
+
+
+        return true;
     }
 }

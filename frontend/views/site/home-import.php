@@ -60,7 +60,11 @@ use yii\helpers\Url;
                                     </i>Suporte técnico</li>
                             </ul>
 
-                            <a href="#" class="btn btn-outline-primary w-100 py-3 fw-bold">Escolher Por Hora</a>
+                            <!-- <a href="#" class="btn btn-outline-primary w-100 py-3 fw-bold">Escolher Por Hora</a> -->
+                            <a href="<?= Url::to(['/reservation/select-hourly']) ?>"
+                                class="btn btn-outline-primary w-100 py-3 fw-bold">
+                                Escolher Por Hora
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -103,7 +107,12 @@ use yii\helpers\Url;
                                     </i>Suporte prioritário</li>
                             </ul>
 
-                            <a href="#" class="btn btn-primary w-100 py-3 fw-bold shadow-lg">Escolher Diário</a>
+                            <!-- <a href="#" class="btn btn-primary w-100 py-3 fw-bold shadow-lg">Escolher Diário</a> -->
+                            <a href="<?= Url::to(['/reservation/select-daily']) ?>"
+                                class="btn btn-primary w-100 py-3 fw-bold shadow-lg">
+                                Escolher Diário
+                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -149,7 +158,12 @@ use yii\helpers\Url;
                                     </i>Desconto em eventos</li>
                             </ul>
 
-                            <a href="#" class="btn btn-outline-primary w-100 py-3 fw-bold">Escolher Mensal</a>
+                            <!-- <a href="#" class="btn btn-outline-primary w-100 py-3 fw-bold">Escolher Mensal</a> -->
+                            <a href="<?= Url::to(['/reservation/select-monthly']) ?>"
+                                class="btn btn-outline-primary w-100 py-3 fw-bold">
+                                Escolher Mensal
+                            </a>
+
                         </div>
                     </div>
                 </div>

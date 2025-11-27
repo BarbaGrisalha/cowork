@@ -93,9 +93,18 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-            // 🚨 MUDANÇA AQUI: Redireciona para a Action criada no Passo 1
+            // 🔥 Se existe um returnUrl definido, VOLTA para a página que o cliente queria
+            if (
+                Yii::$app->user->returnUrl &&
+                Yii::$app->user->returnUrl !== Yii::$app->homeUrl
+            ) {
+                return $this->redirect(Yii::$app->user->returnUrl);
+            }
+
+            // 🔥 Se não tinha returnUrl → envia para o dashboard que você definiu
             return $this->redirect(['/site/frontend-cowork']);
         }
 

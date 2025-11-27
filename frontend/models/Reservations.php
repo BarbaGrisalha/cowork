@@ -8,6 +8,7 @@ use frontend\models\Room;     // Verifique se este namespace está correto
 use frontend\models\Customer; // Verifique se este namespace está correto
 use DateTime; // <<< ADICIONADO: Necessário para lógica de datas
 use yii\yii\web\NotFoundHttpException;
+
 /**
  * This is the model class for table "reservations".
  *
@@ -76,6 +77,8 @@ class Reservations extends \yii\db\ActiveRecord
             // <<< ADICIONADO: Regras para o novo código de reserva
             [['reservation_code'], 'string', 'max' => 50],
             [['reservation_code'], 'unique'],
+            [['tipo_reserva'], 'string', 'max' => 20],
+            [['tipo_reserva'], 'default', 'value' => 'hora'],
         ];
     }
 
@@ -338,39 +341,40 @@ class Reservations extends \yii\db\ActiveRecord
      */
     public function beforeSave($insert)
     {
-        // Chama o método pai primeiro
-        if (parent::beforeSave($insert)) {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
 
-            // Se o valor já foi definido ou não é uma nova reserva, ignora o cálculo
+        // REGRAS ESPECIAIS PARA DIÁRIA E MENSAL
+        if ($this->tipo_reserva === 'diaria') {
+            $this->total_estimado = 32.00;
+            return true; // SAI AQUI, NÃO CALCULA NADA!
+        }
+
+        if ($this->tipo_reserva === 'mensal') {
+            $this->total_estimado = 800.00;
+            return true; // SAI AQUI TAMBÉM!
+        }
+
+        // SÓ CALCULA SE FOR POR HORA (comportamento antigo)
+        if ($this->tipo_reserva === 'hora' || $this->tipo_reserva === null) {
             if ($insert || $this->total_estimado == 0.00) {
-
-                // As tarifas que você mencionou (R$ 7 por hora)
                 $HOURLY_RATE = 7.00;
 
                 try {
-                    // As datas já estão concatenadas graças ao beforeValidate()
                     $startTime = new DateTime($this->hora_inicio_agendada);
-                    $endTime = new DateTime($this->hora_fim_agendada);
-
-                    // Calcula a diferença entre os dois DATETIMES
-                    $interval = $startTime->diff($endTime);
-
-                    // Converte a diferença para horas (interval->h = horas, interval->i = minutos)
+                    $endTime   = new DateTime($this->hora_fim_agendada);
+                    $interval  = $startTime->diff($endTime);
                     $totalHoursDecimal = $interval->h + ($interval->i / 60);
-
-                    // Cobrar por hora cheia (ceil) para simplificar (Ex: 1.5h vira 2h)
                     $calculatedPrice = ceil($totalHoursDecimal) * $HOURLY_RATE;
-
-                    // Atualiza o valor total estimado na Model
                     $this->total_estimado = round($calculatedPrice, 2);
                 } catch (\Exception $e) {
                     Yii::error("Erro no cálculo do preço da Reserva #{$this->id}: " . $e->getMessage());
                     $this->total_estimado = 0.00;
                 }
             }
-
-            return true;
         }
-        return false;
+
+        return true;
     }
 }
