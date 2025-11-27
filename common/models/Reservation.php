@@ -320,17 +320,7 @@ class Reservation extends \yii\db\ActiveRecord
             $this->data_fim    = $this->data_reserva;
         }
 
-        // Preço fixo (sem frescura)
-        if ($this->periodo === 'hora') {
-            $inicio = new \DateTime($this->hora_inicio_agendada);
-            $fim    = new \DateTime($this->hora_fim_agendada);
-            $horas  = $fim->diff($inicio)->h + ($fim->diff($inicio)->i / 60);
-            $this->total_estimado = $horas * 10.00;
-        } elseif ($this->periodo === 'dia') {
-            $this->total_estimado = 60.00;
-        } elseif ($this->periodo === 'mes') {
-            $this->total_estimado = 800.00;
-        }
+
 
         return true;
     }
