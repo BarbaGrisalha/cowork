@@ -108,7 +108,7 @@ use yii\helpers\Url;
                             </ul>
 
                             <!-- <a href="#" class="btn btn-primary w-100 py-3 fw-bold shadow-lg">Escolher Diário</a> -->
-                            <a href="<?= Url::to(['/reservation/select-daily']) ?>"
+                            <a href="<?= Url::to(['/reservation/select-hourly']) ?>"
                                 class="btn btn-primary w-100 py-3 fw-bold shadow-lg">
                                 Escolher Diário
                             </a>
@@ -159,7 +159,7 @@ use yii\helpers\Url;
                             </ul>
 
                             <!-- <a href="#" class="btn btn-outline-primary w-100 py-3 fw-bold">Escolher Mensal</a> -->
-                            <a href="<?= Url::to(['/reservation/select-monthly']) ?>"
+                            <a href="<?= Url::to(['/reservation/select-hourly']) ?>"
                                 class="btn btn-outline-primary w-100 py-3 fw-bold">
                                 Escolher Mensal
                             </a>
