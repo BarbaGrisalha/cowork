@@ -98,13 +98,13 @@ class ReservationController extends Controller
         // ==========================================
         // 🔵 2. FLUXO MONTHLY
         // ==========================================
-        if ($type === 'monthly' && $inicio && $fim) {
+        /* if ($type === 'monthly' && $inicio && $fim) {
             $model->data_reserva = $inicio;
             $model->hora_inicio_agendada = $inicio . " 00:00:00";
             $model->hora_fim_agendada    = $fim . " 23:59:59";
             $model->total_estimado = 225.00; // valor fixo
         }
-
+*/
         // ==========================================
         // 🔵 3. FLUXO HOURLY (teu fluxo já existente)
         // ==========================================
@@ -395,50 +395,53 @@ class ReservationController extends Controller
     }
     public function actionCheckoutMonthly()
     {
-        $data_inicio = Yii::$app->request->post('data_inicio');
-        $room_id     = Yii::$app->request->post('room_id');
+        // Aceita tanto POST quanto GET
+        $data_inicio = Yii::$app->request->post('data_inicio') ?: Yii::$app->request->get('inicio');
+        $room_id     = Yii::$app->request->post('room_id')     ?: Yii::$app->request->get('room_id');
 
         if (!$data_inicio || !$room_id) {
-            Yii::$app->session->setFlash('error', 'Preenche tudo direito!');
+            Yii::$app->session->setFlash('error', 'Dados inválidos para reserva mensal.');
             return $this->redirect(['dashboard/index']);
         }
 
+        // Normaliza para o primeiro dia do mês
         $inicio = date('Y-m-01', strtotime($data_inicio));
-        $fim    = date('Y-m-t', strtotime($inicio));
+        $fim    = date('Y-m-t', strtotime($inicio)); // último dia do mês
 
-        // Verifica se qualquer dia do mês tá ocupado
-        $jaReservado = Reservations::find()
+        // Verifica conflito (qualquer reserva que sobreponha o mês inteiro)
+        $conflito = Reservations::find()
             ->where(['room_id' => $room_id])
-            ->andWhere(['<', 'data_fim', $fim])
-            ->andWhere(['>', 'data_inicio', $inicio])
-            ->andWhere(['<>', 'status', 'cancelado'])
+            ->andWhere(['<>', 'status', 'cancelada'])
+            ->andWhere(['<', 'hora_fim_agendada', $fim . ' 23:59:59'])
+            ->andWhere(['>', 'hora_inicio_agendada', $inicio . ' 00:00:00'])
             ->exists();
 
-        if ($jaReservado) {
-            Yii::$app->session->setFlash('error', 'Esse mês já tá reservado!');
+        if ($conflito) {
+            Yii::$app->session->setFlash('error', 'Este mês já possui reserva ou conflito.');
             return $this->redirect(['dashboard/index']);
         }
 
         $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
-        if (!$customer) return $this->redirect(['site/index']);
+        if (!$customer) {
+            return $this->redirect(['site/index']);
+        }
 
         $model = new Reservations();
         $model->room_id              = $room_id;
         $model->customer_id          = $customer->id;
         $model->data_reserva         = $inicio;
-        $model->data_inicio          = $inicio;
-        $model->data_fim             = $fim;
-        $model->hora_inicio_agendada = '09:00:00';
-        $model->hora_fim_agendada    = '19:00:00';
-        $model->total_estimado       = 800.00;
+        $model->hora_inicio_agendada = $inicio . ' 00:00:00';
+        $model->hora_fim_agendada    = $fim . ' 23:59:59';
+        $model->total_estimado       = 800.00;  // ← valor real (não 225)
         $model->status               = 'Pendente';
-        $model->periodo              = 'mes';
+        $model->periodo              = 'mes';   // ou 'mensal'
+        $model->tipo_reserva         = 'mensal';
 
-        if ($model->save(false)) {  // ← SEM VALIDAÇÃO, SÓ SALVA
+        if ($model->save(false)) {  // false = pula validação chata
             return $this->redirect(['payment/checkout', 'reservation_id' => $model->id]);
         }
 
-        Yii::$app->session->setFlash('error', 'Falha total ao reservar o mês.');
+        Yii::$app->session->setFlash('error', 'Erro ao criar reserva mensal.');
         return $this->redirect(['dashboard/index']);
     }
 }
