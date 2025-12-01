@@ -123,7 +123,7 @@ class ReservationController extends Controller
         return $this->render('create', [
             'model' => $model,
             'room'  => $room,
-        ]);
+        ]); 
     }
 
     /**
