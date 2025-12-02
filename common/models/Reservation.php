@@ -21,7 +21,6 @@ use common\models\Rooms;
  * This is the model class for table "reservations".
  *
  * @property int $id
-// ... (restante dos PHPDocs)
  */
 class Reservation extends \yii\db\ActiveRecord
 {
@@ -30,6 +29,8 @@ class Reservation extends \yii\db\ActiveRecord
     public const STATUS_PENDING = 'pendente';
     public const STATUS_PAID = 'pago'; // Usada no seu Service!
     public const STATUS_CANCELED = 'cancelado';
+
+    public $periodo;
 
 
     /**
@@ -72,6 +73,7 @@ class Reservation extends \yii\db\ActiveRecord
             [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'required', 'when' => function ($model) {
                 return $model->periodo === 'hora';
             }],
+            [['hora_inicio_agendada'], 'validateNotInPast'],
 
             // Validação de conflito (só hora)
             [
@@ -283,6 +285,33 @@ class Reservation extends \yii\db\ActiveRecord
 
     // 2. beforeSave() → A MÁGICA ACONTECE AQUI
     // common/models/Reservations.php
+
+    // Nova função de validação
+    public function validateNotInPast($attribute, $params)
+    {
+        if ($this->periodo === 'hora') {
+            $inicio = new \DateTime($this->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
+            $agora  = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+
+            if ($inicio <= $agora) {
+                $this->addError($attribute, 'Não é permitido reservar horários no passado. Escolha uma data/hora futura.');
+            }
+        }
+
+        // Para reservas diárias e mensais (usam data_inicio ou data_reserva)
+        if (in_array($this->periodo, ['dia', 'mes'])) {
+            $dataInicio = $this->data_inicio ?? $this->data_reserva;
+            if ($dataInicio) {
+                $data = new \DateTime($dataInicio . ' 00:00:00', new \DateTimeZone('Europe/Lisbon'));
+                $hoje = new \DateTime('today', new \DateTimeZone('Europe/Lisbon'));
+
+                if ($data < $hoje) {
+                    $this->addError('data_inicio', 'Não é permitido reservar em datas passadas.');
+                    $this->addError('data_reserva', 'Não é permitido reservar em datas passadas.');
+                }
+            }
+        }
+    }
 
     public function beforeSave($insert)
     {

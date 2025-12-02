@@ -25,6 +25,7 @@ class ReservationController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
     }
 */
+    public $periodo;
     // Desabilitar o comportamento padrão do REST para usarmos as nossas ações
     public function actions()
     {
@@ -54,72 +55,118 @@ class ReservationController extends Controller
     }
 
     /**
-     * Ação POST: Cria uma nova reserva. (Próximo Passo)
+     * Ação POST: Cria uma nova reserva (hourly, daily, monthly)
      */
     public function actionCreate($location_id = null)
     {
         $model = new Reservations();
-        $room = null;
+        $room  = null;
 
-        // --- RECEBE room_id ---
+        // --- ROOM ID ---
         $roomId = Yii::$app->request->get('room_id');
         if ($roomId) {
             $room = Rooms::findOne($roomId);
+            if (!$room) {
+                Yii::$app->session->setFlash('error', 'Sala não encontrada.');
+                return $this->redirect(['dashboard/index']);
+            }
             $model->room_id = $roomId;
         }
 
-        // --- CUSTOMER LOGADO ---
-        $userId = Yii::$app->user->identity->getId();
+        // --- CLIENTE LOGADO ---
+        $userId   = Yii::$app->user->identity->getId();
         $customer = Customer::findOne(['user_id' => $userId]);
 
         if (!$customer) {
-            Yii::$app->session->setFlash('error', 'Seu perfil de Cliente não foi encontrado.');
+            Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
             return $this->redirect(['/site/index']);
         }
-
         $model->customer_id = $customer->id;
 
-        // --- PARÂMETROS DO GET PARA DIFERENTES PLANOS ---
+        // --- PARÂMETROS DO GET (para pré-preenchimento) ---
         $type   = Yii::$app->request->get('type');      // hourly | daily | monthly
-        $date   = Yii::$app->request->get('date');      // daily
-        $inicio = Yii::$app->request->get('inicio');    // monthly
-        $fim    = Yii::$app->request->get('fim');       // monthly
+        $date   = Yii::$app->request->get('date');      // usado no daily
+        $inicio = Yii::$app->request->get('inicio');
+        $fim    = Yii::$app->request->get('fim');
 
-        // ==========================================
-        // 🔵 1. FLUXO DAILY
-        // ==========================================
+        // Pré-preenchimento rápido para DAILY (via link direto)
         if ($type === 'daily' && $date) {
-            $model->data_reserva = $date;
-            $model->hora_inicio_agendada = $date . " 09:00:00";
-            $model->hora_fim_agendada    = $date . " 19:00:00";
-            $model->total_estimado = 32.00; // valor fixo
+            $selectedDate = date('Y-m-d', strtotime($date));
+            $today        = date('Y-m-d');
+
+            // BLOQUEIO IMEDIATO: data passada
+            if ($selectedDate < $today) {
+                Yii::$app->session->setFlash('error', 'Não é possível reservar uma data que já passou.');
+                return $this->redirect(['dashboard/index']);
+            }
+
+            // Se for hoje, bloqueia se já passou das 09:00
+            if ($selectedDate === $today) {
+                $now     = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+                $opening = new \DateTime('today 09:00:00', new \DateTimeZone('Europe/Lisbon'));
+                if ($now > $opening) {
+                    Yii::$app->session->setFlash('error', 'Não é mais possível reservar para hoje após as 09:00.');
+                    return $this->redirect(['dashboard/index']);
+                }
+            }
+
+            $model->periodo              = 'dia';
+            $model->data_reserva         = $selectedDate;
+            $model->hora_inicio_agendada = $selectedDate . ' 09:00:00';
+            $model->hora_fim_agendada    = $selectedDate . ' 19:00:00';
+            $model->total_estimado       = 32.00;
         }
 
-        // ==========================================
-        // 🔵 2. FLUXO MONTHLY
-        // ==========================================
-        /* if ($type === 'monthly' && $inicio && $fim) {
-            $model->data_reserva = $inicio;
-            $model->hora_inicio_agendada = $inicio . " 00:00:00";
-            $model->hora_fim_agendada    = $fim . " 23:59:59";
-            $model->total_estimado = 225.00; // valor fixo
+        // -------------------------------------------------------------
+        // CARREGA DADOS DO FORMULÁRIO (POST) - AQUI É O FLUXO PRINCIPAL
+        // -------------------------------------------------------------
+        if ($model->load(Yii::$app->request->post())) {
+
+            // VALIDAÇÃO FORTE: NÃO PERMITE HORÁRIO NO PASSADO (só hourly usa hora exata)
+            if ($model->periodo === 'hora' && $model->hora_inicio_agendada) {
+                $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
+                $agora         = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+
+                // Bloqueia se o início for no passado ou exatamente agora
+                if ($inicioReserva <= $agora) {
+                    Yii::$app->session->setFlash('error', 'Você não pode reservar um horário que já passou ou está acontecendo agora. Escolha um horário futuro.');
+                    return $this->render('create', [
+                        'model' => $model,
+                        'room'  => $room,
+                    ]);
+                }
+            }
+
+            // Validação extra para DAILY (caso venha do formulário)
+            if ($model->periodo === 'dia' && $model->data_reserva) {
+                $dataSelecionada = date('Y-m-d', strtotime($model->data_reserva));
+                $hoje            = date('Y-m-d');
+
+                if ($dataSelecionada < $hoje) {
+                    Yii::$app->session->setFlash('error', 'Não é permitido reservar datas passadas.');
+                    return $this->render('create', ['model' => $model, 'room' => $room]);
+                }
+
+                if ($dataSelecionada === $hoje) {
+                    $now     = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+                    $opening = new \DateTime('today 09:00:00', new \DateTimeZone('Europe/Lisbon'));
+                    if ($now > $opening) {
+                        Yii::$app->session->setFlash('error', 'Reserva diária para hoje só é permitida antes das 09:00.');
+                        return $this->render('create', ['model' => $model, 'room' => $room]);
+                    }
+                }
+            }
+
+            // TENTA SALVAR
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
+                return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao salvar reserva: ' . implode(', ', $model->getFirstErrors()));
+            }
         }
-*/
-        // ==========================================
-        // 🔵 3. FLUXO HOURLY (teu fluxo já existente)
-        // ==========================================
-        // Nesse caso, o form de hours vai preencher tudo via POST normalmente
 
-
-        // ==========================================
-        // 🔵 SALVA A RESERVA
-        // ==========================================
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Prossiga para o pagamento.');
-            return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
-        }
-
-        // Renderiza view normal se não enviou POST
+        // Se chegou aqui: exibe o formulário
         return $this->render('create', [
             'model' => $model,
             'room'  => $room,
@@ -306,6 +353,23 @@ class ReservationController extends Controller
             Yii::$app->session->setFlash('error', 'Não pode reservar no passado!');
             return $this->redirect(['dashboard/index']);
         }
+
+        // BLOQUEIO FORTE: DATA NO PASSADO
+        $hoje = date('Y-m-d');
+        if ($date < $hoje) {
+            Yii::$app->session->setFlash('error', 'Não é permitido reservar em datas passadas.');
+            return $this->redirect(['dashboard/index']);
+        }
+
+        // Se for hoje, bloqueia se já passou do horário de abertura (ex: 09:00)
+        if ($date === $hoje) {
+            $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+            $abertura = new \DateTime('today 09:00:00', new \DateTimeZone('Europe/Lisbon'));
+            if ($agora > $abertura) {
+                Yii::$app->session->setFlash('error', 'Não é mais possível reservar para hoje. O horário de check-in já passou.');
+                return $this->redirect(['dashboard/index']);
+            }
+        }
         // Verifica se já tem reserva nesse dia (simples e bruto)
         $jaReservado = Reservations::find()
             ->where(['room_id' => $room_id])
@@ -354,8 +418,10 @@ class ReservationController extends Controller
             Yii::$app->user->setReturnUrl(['/reservation/select-monthly']);
             return $this->redirect(['/site/login']);
         }
-
-        return $this->render('select-monthly'); // criar esta view
+        $room = Rooms::findOne(id);
+        return $this->render('select-monthly', [
+            'room' => $room,
+        ]); // criar esta view
     }
     /**Busca da seleção para receber a seleção somente diária
      * aqui vamos buscar isso -.
@@ -403,7 +469,25 @@ class ReservationController extends Controller
             Yii::$app->session->setFlash('error', 'Dados inválidos para reserva mensal.');
             return $this->redirect(['dashboard/index']);
         }
+        $inicio = date('Y-m-01', strtotime($data_inicio));
 
+        // BLOQUEIO: mês já passou ou é o atual mas já começou
+        $primeiroDiaDoMes = new \DateTime($inicio);
+        $hoje = new \DateTime('first day of this month');
+
+        if ($primeiroDiaDoMes < $hoje) {
+            Yii::$app->session->setFlash('error', 'Não é possível reservar um mês que já passou.');
+            return $this->redirect(['dashboard/index']);
+        }
+
+        // Se for este mês, só permite se ainda não começou (ex: dia 1º e ainda é dia 1 antes das 00:01)
+        if ($primeiroDiaDoMes->format('Y-m') === $hoje->format('Y-m')) {
+            $agora = new \DateTime('now');
+            if ($agora->format('d') > 1 || ($agora->format('d') == 1 && $agora->format('H') >= 1)) {
+                Yii::$app->session->setFlash('error', 'Não é mais possível reservar este mês. A reserva mensal inicia no dia 1º às 00:00.');
+                return $this->redirect(['dashboard/index']);
+            }
+        }
         // Normaliza para o primeiro dia do mês
         $inicio = date('Y-m-01', strtotime($data_inicio));
         $fim    = date('Y-m-t', strtotime($inicio)); // último dia do mês
