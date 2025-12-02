@@ -35,7 +35,7 @@ use yii\yii\web\NotFoundHttpException;
  */
 class Reservations extends \yii\db\ActiveRecord
 {
-
+    public $periodo;
     /**
      * {@inheritdoc}
      */

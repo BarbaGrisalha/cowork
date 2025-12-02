@@ -21,7 +21,6 @@ use common\models\Rooms;
  * This is the model class for table "reservations".
  *
  * @property int $id
-// ... (restante dos PHPDocs)
  */
 class Reservation extends \yii\db\ActiveRecord
 {
@@ -30,6 +29,8 @@ class Reservation extends \yii\db\ActiveRecord
     public const STATUS_PENDING = 'pendente';
     public const STATUS_PAID = 'pago'; // Usada no seu Service!
     public const STATUS_CANCELED = 'cancelado';
+
+    public $periodo;
 
 
     /**
