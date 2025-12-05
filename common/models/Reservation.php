@@ -46,10 +46,6 @@ class Reservation extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-
-        // rules() → VERSÃO AMADORA E QUE NUNCA DÁ ERRO
-
-
         return [
             [['total_estimado'], 'default', 'value' => 0.00],
             [['status'], 'default', 'value' => self::STATUS_PENDING],
@@ -57,48 +53,41 @@ class Reservation extends \yii\db\ActiveRecord
             [['customer_id', 'room_id'], 'required'],
             [['customer_id', 'room_id'], 'integer'],
 
+            // periodo (hora, dia, mes)
             [['periodo'], 'string'],
             [['periodo'], 'default', 'value' => 'hora'],
             [['periodo'], 'in', 'range' => ['hora', 'dia', 'mes']],
 
-            // TODOS os campos de data/hora são "safe" → a gente preenche no beforeSave
-            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada', 'data_inicio', 'data_fim'], 'safe'],
+            // tipo_reserva (hora, diaria, mensal)
+            [['tipo_reserva'], 'string', 'max' => 20],
+            [['tipo_reserva'], 'default', 'value' => 'hora'],
 
-            // Só exige data_inicio se for dia ou mês
-            [['data_inicio'], 'required', 'when' => function ($model) {
-                return in_array($model->periodo, ['dia', 'mes']);
-            }],
+            // Campos que realmente existem no banco
+            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'safe'],
 
-            // Só exige data_reserva e horários se for por hora
-            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'required', 'when' => function ($model) {
-                return $model->periodo === 'hora';
-            }],
+            // Só exige horário completo quando for reserva por hora
+            [
+                ['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'],
+                'required',
+                'when' => fn($model) => $model->periodo === 'hora'
+            ],
+
+            // Só exige data_reserva quando for diária ou mensal
+            [
+                ['data_reserva'],
+                'required',
+                'when' => fn($model) => in_array($model->periodo, ['dia', 'mes'])
+            ],
+
             [['hora_inicio_agendada'], 'validateNotInPast'],
-
-            // Validação de conflito (só hora)
-            [
-                ['room_id', 'data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'],
-                'validateReservationConflict',
-                'when' => function ($model) {
-                    return $model->periodo === 'hora';
-                }
-            ],
-
-            // Validação de conflito dia/mês
-            [
-                ['room_id', 'data_inicio', 'data_fim'],
-                'validateFullDayConflict',
-                'when' => function ($model) {
-                    return in_array($model->periodo, ['dia', 'mes']);
-                }
-            ],
 
             [['total_estimado'], 'number'],
             [['status'], 'string', 'max' => 30],
             [['status'], 'in', 'range' => [self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_CANCELED]],
 
+            // Relacionamentos corretos
             [['customer_id'], 'exist', 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
-            [['room_id'], 'exist', 'targetClass'::class, 'targetAttribute' => ['room_id' => 'id']],
+            [['room_id'],     'exist', 'targetClass' => Rooms::class,      'targetAttribute' => ['room_id' => 'id']],
         ];
     }
 
@@ -319,37 +308,44 @@ class Reservation extends \yii\db\ActiveRecord
             return false;
         }
 
-        // FORÇA O PERÍODO (se não vier, assume hora)
         $this->periodo = $this->periodo ?: 'hora';
 
-        // SOLUÇÃO AMADORA E BRUTA (MAS QUE FUNCIONA 1000%)
-        if ($this->periodo === 'dia' || $this->periodo === 'mes') {
-            // FORÇA HORÁRIO FIXO: 09:00 às 19:00
-            $this->hora_inicio_agendada = '09:00:00';
-            $this->hora_fim_agendada    = '19:00:00';
-
-            // Se for dia → data_inicio = data_fim
-            if ($this->periodo === 'dia') {
-                $this->data_inicio = $this->data_inicio;
-                $this->data_fim    = $this->data_inicio;
-                $this->data_reserva = $this->data_inicio; // compatibilidade com código antigo
+        // RESERVA MENSAL — usa apenas data_reserva (que existe no banco)
+        if ($this->tipo_reserva === 'mensal') {
+            if (empty($this->data_reserva)) {
+                $this->addError('data_reserva', 'Data da reserva é obrigatória.');
+                return false;
             }
 
-            // Se for mês → último dia do mês
-            if ($this->periodo === 'mes') {
-                $dt = new \DateTime($this->data_inicio);
-                $this->data_fim = $dt->format('Y-m-t'); // ex: 2025-11-30
-                $this->data_reserva = $this->data_inicio;
-            }
+            $dt = new \DateTime($this->data_reserva); // já vem como 2026-01-01
+
+            $this->hora_inicio_agendada = $dt->format('Y-m-01 00:00:00');
+            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59.999'); // evita duplicate key
+            $this->total_estimado       = 800.00;
+            $this->status               = $this->status ?: 'Pendente';
+
+            return true;
         }
 
-        // Reserva por hora → mantém o que o usuário escolheu
+        // RESERVA DIÁRIA
+        if ($this->periodo === 'dia') {
+            if (empty($this->data_reserva)) {
+                $this->addError('data_reserva', 'Data é obrigatória para reserva diária.');
+                return false;
+            }
+
+            $this->hora_inicio_agendada = $this->data_reserva . ' 09:00:00';
+            $this->hora_fim_agendada    = $this->data_reserva . ' 19:00:00';
+            $this->total_estimado       = 32.00;
+            $this->tipo_reserva         = 'diaria';
+
+            return true;
+        }
+
+        // RESERVA POR HORA — nada muda
         if ($this->periodo === 'hora') {
-            $this->data_inicio = $this->data_reserva;
-            $this->data_fim    = $this->data_reserva;
+            // se precisar, pode manter alguma lógica aqui
         }
-
-
 
         return true;
     }

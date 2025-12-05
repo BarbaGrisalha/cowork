@@ -2,57 +2,52 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Reservation;
+use common\models\Customers;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Reservations */
+/* @var $model common\models\Reservation */
 /* @var $room common\models\Rooms */
 
 $this->title = 'Reserva Mensal';
 $this->params['breadcrumbs'][] = ['label' => 'Dashboard', 'url' => ['/dashboard/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-// Bloqueia meses passados (a partir do mês atual)
-$mesAtual = date('Y-m');
+// === DATA MÍNIMA: hoje + 30 dias → primeiro dia do mês permitido ===
+$hoje = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
+$hoje->modify('+30 days');
+$minDateJs = $hoje->format('Y-m');                    // ex: 2026-01
+$mesMinimoFormatado = $hoje->format('F/Y');           // ex: Janeiro/2026
+$mesMinimoBonito = ucfirst($hoje->format('F \d\e Y')); // Janeiro de 2026
+
 $js = <<<JS
 $(function() {
-    // Cria um calendário só de mês/ano
     $("#monthly-picker").datepicker({
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
         dateFormat: 'yy-mm',
-        minDate: '$mesAtual-01',  // primeiro dia do mês atual
-        maxDate: '+12M',
-        onClose: function(dateText, inst) {
-            if (dateText) {
-                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).val(year + '-' + (parseInt(month)+1));
-            }
+        minDate: '{$minDateJs}-01',
+        maxDate: '+13M',
+        onClose: function() {
+            var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
+            var year  = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            month = month < 10 ? '0' + month : month;
+            var value = year + '-' + month;
+            $(this).val(value);
+
+            var date = new Date(year, month - 1, 1);
+            $("#monthly-picker-display").val(date.toLocaleDateString('pt-BR', {year:'numeric', month:'long'}));
         },
-        beforeShow: function(input, inst) {
+        beforeShow: function() {
             setTimeout(function() {
-                inst.dpDiv.css({
-                    top: $("#monthly-picker").offset().top + 40,
-                    left: $("#monthly-picker").offset().left
-                });
-            });
-            // Esconde os dias
-            $('#ui-datepicker-div .ui-datepicker-calendar').hide();
-            $('#ui-datepicker-div .ui-datepicker-current-day').removeClass('ui-datepicker-current-day');
+                $('#ui-datepicker-div .ui-datepicker-calendar').hide();
+            }, 10);
         }
     });
 
-    // Formata bonito ao carregar
-    if ($("#monthly-picker").val()) {
-        var v = $("#monthly-picker").val();
-        var partes = v.split('-');
-        if (partes.length === 2) {
-            var mes = parseInt(partes[1]) - 1;
-            var ano = partes[0];
-            $("#monthly-picker").datepicker('setDate', new Date(ano, mes, 1));
-        }
-    }
+    $("#monthly-picker").val('$minDateJs');
+    $("#monthly-picker-display").val("$mesMinimoBonito");
 });
 JS;
 $this->registerJs($js);
@@ -60,21 +55,26 @@ $this->registerJs($js);
 
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-lg">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h2 class="mb-0">
-                        <i class="fas fa-calendar-alt me-2"></i>
-                        Reserva Mensal - <?= Html::encode($room->nome_sala ?? 'Sala') ?>
-                    </h2>
-                </div>
+        <div class="col-lg-9">
 
+            <!-- NOVA RESERVA -->
+            <div class="card border-0 shadow-lg mb-5">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h2 class="mb-0">Reserva Mensal - <?= Html::encode($room->nome_sala) ?></h2>
+                </div>
                 <div class="card-body p-5">
 
                     <div class="text-center mb-5">
-                        <h4>Selecione o mês que deseja reservar</h4>
-                        <p class="text-muted">Acesso ilimitado 24h durante todo o mês</p>
-                        <h3 class="text-success fw-bold">R$ 225,00 / mês</h3>
+                        <h4>Selecione o mês de início da reserva</h4>
+                        <p class="text-muted mb-1">
+                            <strong>Aviso:</strong> Só é possível iniciar uma reserva mensal <u>30 dias a partir de hoje</u>
+                        </p>
+                        <p class="text-primary fw-bold fs-5">
+                            Primeiro mês disponível: <?= $mesMinimoBonito ?>
+                        </p>
+                        <h3 class="text-success fw-bold">
+                            R$ <?= number_format($room->monthly_price ?? 225, 2, ',', '.') ?> / mês
+                        </h3>
                     </div>
 
                     <?php $form = ActiveForm::begin([
@@ -82,50 +82,128 @@ $this->registerJs($js);
                         'method' => 'post',
                     ]); ?>
 
-                    <?= Html::hiddenInput('room_id', $room->id) ?>
+                    <?= Html::hiddenInput('Reservation[room_id]', $room->id) ?>
+                    <?= Html::hiddenInput('Reservation[data_reserva]', $minDateJs . '-01', ['id' => 'monthly-picker']) ?>
 
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center mb-4">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label fw-bold">Mês desejado</label>
-                                <input type="text"
-                                    id="monthly-picker"
-                                    name="data_inicio"
-                                    class="form-control form-control-lg text-center"
-                                    placeholder="Clique para escolher o mês"
-                                    readonly
-                                    value="<?= date('Y-m') ?>"
-                                    required>
-                                <div class="form-text">Não é possível reservar meses passados</div>
+                            <label class="form-label fw-bold">Mês de início</label>
+                            <input type="text"
+                                id="monthly-picker-display"
+                                class="form-control form-control-lg text-center"
+                                readonly
+                                style="cursor:pointer;background:white;font-size:1.4rem;"
+                                value="<?= $mesMinimoBonito ?>">
+                            <div class="form-text text-primary">
+                                Clique para escolher outro mês (a partir de <?= $mesMinimoBonito ?>)
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-center mt-5">
-                        <?= Html::submitButton('Continuar para Pagamento', [
-                            'class' => 'btn btn-success btn-lg px-5'
-                        ]) ?>
-                        <?= Html::a('Cancelar', ['/dashboard/index'], [
-                            'class' => 'btn btn-outline-secondary btn-lg px-5 ms-3'
-                        ]) ?>
+                    <div class="text-center">
+                        <?= Html::submitButton('Continuar para Pagamento', ['class' => 'btn btn-success btn-lg px-5']) ?>
+                        <?= Html::a('Voltar', ['/dashboard/index'], ['class' => 'btn btn-outline-secondary btn-lg px-5 ms-3']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>
-
                 </div>
             </div>
+
+            <!-- MINHAS RESERVAS MENSAIS -->
+            <?php
+            // Pega customer_id do usuário logado
+            $customerId = Yii::$app->user->isGuest
+                ? null
+                : Customers::findOne(['user_id' => Yii::$app->user->id])?->id;
+
+            // Busca todas as reservas mensais do cliente
+            $todasReservasMensais = Reservation::find()
+                ->where([
+                    'customer_id'  => $customerId,
+                    'tipo_reserva' => 'mensal',
+                ])
+                ->andWhere(['!=', 'status', Reservation::STATUS_CANCELED])
+                ->with('room')
+                ->orderBy(['hora_inicio_agendada' => SORT_ASC])
+                ->all();
+
+            // Filtra no PHP: só as que ainda não começaram
+            $hoje = new \DateTime('today');
+            $minhasReservas = array_filter($todasReservasMensais, function ($r) use ($hoje) {
+                $inicio = new \DateTime($r->hora_inicio_agendada);
+                return $inicio >= $hoje;
+            });
+            ?>
+
+            <?php if ($minhasReservas): ?>
+                <h3 class="text-center mb-4 text-primary">
+                    Minhas reservas mensais ativas / futuras
+                </h3>
+
+                <div class="row g-4">
+                    <?php foreach ($minhasReservas as $reserva): ?>
+                        <?php
+                        $inicio = new \DateTime($reserva->hora_inicio_agendada);
+                        $mesAno = $inicio->format('F/Y');
+                        $badgeClass = $reserva->status === Reservation::STATUS_PAID ? 'bg-success' : ($reserva->status === Reservation::STATUS_PENDING ? 'bg-warning text-dark' : 'bg-secondary');
+                        $statusTexto = $reserva->status === Reservation::STATUS_PAID ? 'Pago' : ($reserva->status === Reservation::STATUS_PENDING ? 'Pendente' : ucfirst($reserva->status));
+                        ?>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm border-0 <?= $reserva->status === Reservation::STATUS_PAID ? 'border-success border-3' : '' ?>">
+                                <div class="card-body text-center py-4">
+                                    <h5 class="card-title fw-bold text-primary">
+                                        <?= Html::encode($reserva->room->nome_sala) ?>
+                                    </h5>
+                                    <p class="display-6 text-dark mb-2"><?= $mesAno ?></p>
+
+                                    <span class="badge <?= $badgeClass ?> fs-6 px-3 py-2 mb-3">
+                                        <?= $statusTexto ?>
+                                    </span>
+
+                                    <p class="fs-4 fw-bold text-success mb-3">
+                                        R$ <?= number_format($room->monthly_price ?? 225, 2, ',', '.') ?>
+                                    </p>
+
+                                    <?php if ($reserva->status === Reservation::STATUS_PENDING): ?>
+                                        <?= Html::a('Cancelar', ['reservation/cancel-monthly', 'id' => $reserva->id], [
+                                            'class' => 'btn btn-sm btn-outline-danger',
+                                            'data' => [
+                                                'confirm' => 'Tem certeza que deseja cancelar esta reserva mensal?',
+                                                'method' => 'post',
+                                            ]
+                                        ]) ?>
+                                    <?php else: ?>
+                                        <small class="text-muted">Reserva paga — cancelamento indisponível</small>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="alert alert-light border text-center py-4">
+                    <p class="mb-0">Você ainda não possui reservas mensais ativas ou futuras.</p>
+                </div>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>
 
 <style>
     #ui-datepicker-div {
-        font-size: 1.1em;
+        font-size: 1.2em;
+        z-index: 9999 !important;
     }
 
     #ui-datepicker-div .ui-datepicker-month,
     #ui-datepicker-div .ui-datepicker-year {
-        font-size: 1.2em;
         font-weight: bold;
     }
 </style>
+
+<script>
+    $(document).on('click', '#monthly-picker-display', function() {
+        $("#monthly-picker").datepicker("show");
+    });
+</script>

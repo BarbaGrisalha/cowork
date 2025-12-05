@@ -159,29 +159,26 @@ class Reservations extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        // 'insert' é true apenas na *criação* de um novo registo
-        // e verificamos se o código ainda não foi gerado
+        // Só gera o código na criação (insert) e se ainda não tiver vazio
         if ($insert && empty($this->reservation_code)) {
 
-            // 1. Obter o nome da sala (via relacionamento)
-            $room = $this->getRoom()->one(); // ou $this->room
-            $roomCode = 'SALA'; // Fallback
+            // Pega o nome da sala
+            $room = $this->room; // já tem relação getRoom()
+            $roomCode = 'SALA';
             if ($room && !empty($room->nome_sala)) {
-                // Limpa o nome para algo "amigável" para IDs (Ex: "Sala 02" -> "SALA02")
-                $roomCode = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $room->nome_sala));
-            } else {
-                $roomCode = 'SALA' . $this->room_id; // Se não houver nome, usa o ID
+                $roomCode = strtoupper(preg_replace('/[^A-Z0-9]/', '', $room->nome_sala));
             }
 
-            // 2. Formatar a data (Ex: 20251112)
-            $dateCode = (new DateTime($this->hora_inicio_agendada))->format('Ymd');
+            // Usa a data_inicio_agendada para pegar a data (funciona para hora, diária e mensal)
+            $dateObj = new \DateTime($this->hora_inicio_agendada);
+            $dateCode = $dateObj->format('Ymd'); // 20260101
 
-            // 3. Gerar o código (Ex: RES-20251112-SALA02-123)
+            // Monta o código: RES-AAAAMMDD-SALAXX-ID
             $code = "RES-{$dateCode}-{$roomCode}-{$this->id}";
 
-            // 4. Salvar o código no banco
-            // Usamos updateAttributes para salvar *apenas* este campo
-            // sem disparar o 'afterSave' novamente (loop infinito)
+            // ← ex: RES-20260101-MESA1-85
+
+            // Salva sem disparar afterSave de novo (evita loop)
             $this->updateAttributes(['reservation_code' => $code]);
         }
     }
@@ -339,6 +336,8 @@ class Reservations extends \yii\db\ActiveRecord
      * @param bool $insert
      * @return bool
      */
+
+    /*
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
@@ -373,6 +372,74 @@ class Reservations extends \yii\db\ActiveRecord
                     $this->total_estimado = 0.00;
                 }
             }
+        }
+
+        return true;
+    }
+        */
+    /**
+     * beforeSave: Preenche datas/horas corretas e calcula preço
+     */
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        // Garantir que sempre tenha um valor
+        $this->tipo_reserva = $this->tipo_reserva ?: 'hora';
+
+        // RESERVA MENSAL — 100% compatível com seu banco atual
+        if ($this->tipo_reserva === 'mensal') {
+            // Recebemos data_reserva no formato 2026-01-01 (vem do hidden input)
+            if (empty($this->data_reserva)) {
+                $this->addError('data_reserva', 'Data da reserva mensal é obrigatória.');
+                return false;
+            }
+
+            $dt = new \DateTime($this->data_reserva); // já vem como 2026-01-01
+
+            // Preenche os campos que EXISTEM no banco
+            $this->hora_inicio_agendada = $dt->format('Y-m-01 00:00:00');
+            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59.999'); // .999 evita duplicate key
+
+            $this->total_estimado = 800.00;
+            $this->status         = $this->status ?: 'Pendente';
+
+            return true;
+        }
+
+        // RESERVA DIÁRIA
+        if ($this->tipo_reserva === 'diaria') {
+            if (empty($this->data_inicio)) {
+                $this->addError('data_inicio', 'Data é obrigatória para reserva diária.');
+                return false;
+            }
+
+            $this->hora_inicio_agendada = $this->data_inicio . ' 09:00:00';
+            $this->hora_fim_agendada    = $this->data_inicio . ' 19:00:00';
+            $this->total_estimado = 32.00;
+
+            return true;
+        }
+
+        // RESERVA POR HORA → cálculo normal (seu código antigo)
+        if ($this->tipo_reserva === 'hora') {
+            if ($insert || $this->total_estimado == 0.00) {
+                $HOURLY_RATE = 7.00;
+                try {
+                    $startTime = new DateTime($this->hora_inicio_agendada);
+                    $endTime   = new DateTime($this->hora_fim_agendada);
+                    $interval  = $startTime->diff($endTime);
+                    $totalHoursDecimal = $interval->h + ($interval->i / 60);
+                    $calculatedPrice = ceil($totalHoursDecimal) * $HOURLY_RATE;
+                    $this->total_estimado = round($calculatedPrice, 2);
+                } catch (\Exception $e) {
+                    Yii::error("Erro no cálculo do preço da Reserva #{$this->id}: " . $e->getMessage());
+                    $this->total_estimado = 0.00;
+                }
+            }
+            return true;
         }
 
         return true;

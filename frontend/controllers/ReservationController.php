@@ -10,6 +10,7 @@ use frontend\models\Reservations; // O modelo que você acabou de gerar com suce
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use common\models\Rooms;
+use common\models\Reservation;
 
 use frontend\models\Customer;
 
@@ -405,8 +406,17 @@ class ReservationController extends Controller
 
         // SALVA SEM VALIDAR (a validação que tá te matando)
         if ($model->save(false)) {  // ← O "false" aqui é o SEGREDO DA VIDA
+            // MOSTRA O ERRO VERDADEIRO NO LOG + NA TELA (só em desenvolvimento!)
+            Yii::error('Erros no model Reservation: ' . print_r($model->getErrors(), true));
+            var_dump($model->getErrors()); // tira isso depois
+            die();
+
             return $this->redirect(['payment/checkout', 'reservation_id' => $model->id]);
         }
+
+
+
+
 
         // Se mesmo assim der erro (quase impossível)
         Yii::$app->session->setFlash('error', 'Deu ruim mesmo salvando na marra: ' . implode(' | ', $model->getFirstErrors()));
@@ -414,14 +424,23 @@ class ReservationController extends Controller
     }
     public function actionSelectMonthly()
     {
+        $id = Yii::$app->request->get('room_id') ?? Yii::$app->request->get('id');
+
         if (Yii::$app->user->isGuest) {
-            Yii::$app->user->setReturnUrl(['/reservation/select-monthly']);
             return $this->redirect(['/site/login']);
         }
-        $room = Rooms::findOne(id);
+
+        $room = \common\models\Rooms::findOne($id);
+        if (!$room) throw new \yii\web\NotFoundHttpException('Sala não encontrada.');
+
+        $model = new \common\models\Reservation();
+        $model->room_id = $room->id;
+        $model->periodo = 'mes';
+
         return $this->render('select-monthly', [
-            'room' => $room,
-        ]); // criar esta view
+            'model' => $model,
+            'room'  => $room,
+        ]);
     }
     /**Busca da seleção para receber a seleção somente diária
      * aqui vamos buscar isso -.
@@ -459,6 +478,7 @@ class ReservationController extends Controller
             'reservedDates' => $reservedDates
         ]);
     }
+    /*
     public function actionCheckoutMonthly()
     {
         // Aceita tanto POST quanto GET
@@ -527,5 +547,84 @@ class ReservationController extends Controller
 
         Yii::$app->session->setFlash('error', 'Erro ao criar reserva mensal.');
         return $this->redirect(['dashboard/index']);
+    }
+
+    */
+    public function actionCheckoutMonthly()
+    {
+        $model = new Reservation();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->periodo      = 'mes';
+            $model->tipo_reserva = 'mensal';
+
+            // Pega o customer_id do usuário logado
+            $customer = \common\models\Customers::findOne(['user_id' => Yii::$app->user->id]);
+            if (!$customer) {
+                Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
+                return $this->redirect(['dashboard/index']);
+            }
+            $model->customer_id = $customer->id;
+
+            // Força o data_reserva com o valor que veio do formulário (2026-01-01)
+            $model->data_reserva = Yii::$app->request->post('Reservation')['data_reserva'] ?? null;
+
+            // VERIFICAÇÃO DE CONFLITO MENSAL (nova, sem quebrar nada)
+            $dt = new \DateTime($model->data_reserva);
+            $inicioMes = $dt->format('Y-m-01 00:00:00');
+            $fimMes    = $dt->format('Y-m-t 23:59:59.999');
+
+            $conflito = Reservation::find()
+                ->where(['room_id' => $model->room_id])
+                ->andWhere(['tipo_reserva' => 'mensal'])
+                ->andWhere(['<', 'hora_inicio_agendada', $fimMes])
+                ->andWhere(['>', 'hora_fim_agendada', $inicioMes])
+                ->exists();
+
+            if ($conflito) {
+                $mesNome = $dt->format('F/Y');
+                $mesNomePt = [
+                    'January'   => 'Janeiro',
+                    'February' => 'Fevereiro',
+                    'March'     => 'Março',
+                    'April'     => 'Abril',
+                    'May'      => 'Maio',
+                    'June'      => 'Junho',
+                    'July'      => 'Julho',
+                    'August'   => 'Agosto',
+                    'September' => 'Setembro',
+                    'October'   => 'Outubro',
+                    'November' => 'Novembro',
+                    'December'  => 'Dezembro'
+                ];
+                $mesBonito = $mesNomePt[$dt->format('F')] . '/' . $dt->format('Y');
+
+                Yii::$app->session->setFlash(
+                    'warning',
+                    "Esta sala já está reservada para o mês de <strong>{$mesBonito}</strong>. 
+                 Por favor, escolha outra sala ou outro mês disponível."
+                );
+
+                return $this->redirect([
+                    'reservation/select-monthly',
+                    'room_id' => $model->room_id
+                ]);
+            }
+            // FIM DA VERIFICAÇÃO
+
+            if ($model->save()) {
+                $model->refresh(); // garante que o código tá no objeto
+
+                Yii::$app->session->setFlash('success', 'Reserva mensal criada com sucesso!');
+                return $this->redirect(['payment/sucesso', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', 'Erro ao salvar: ' . implode(', ', $model->getFirstErrors()));
+            }
+        } else {
+            Yii::$app->session->setFlash('error', 'Dados não enviados.');
+        }
+
+        $roomId = Yii::$app->request->post('Reservation')['room_id'] ?? null;
+        return $this->redirect(['reservation/select-monthly', 'room_id' => $roomId]);
     }
 }
