@@ -82,8 +82,13 @@ $this->registerJs($js);
                         'method' => 'post',
                     ]); ?>
 
-                    <?= Html::hiddenInput('Reservation[room_id]', $room->id) ?>
-                    <?= Html::hiddenInput('Reservation[data_reserva]', $minDateJs . '-01', ['id' => 'monthly-picker']) ?>
+                    <?= Html::hiddenInput('Reservations[room_id]', $room->id) ?>
+                    <input type="text"
+                        id="monthly-picker"
+                        name="Reservations[data_reserva]"
+                        value="<?= $minDateJs . '-01' ?>"
+                        style="position:absolute; left:-9999px;">
+
 
                     <div class="row justify-content-center mb-4">
                         <div class="col-md-6">

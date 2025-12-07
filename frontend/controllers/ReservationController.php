@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use common\models\Rooms;
 use common\models\Reservation;
 
+
 use frontend\models\Customer;
 
 class ReservationController extends Controller
@@ -552,7 +553,7 @@ class ReservationController extends Controller
     */
     public function actionCheckoutMonthly()
     {
-        $model = new Reservation();
+        $model = new \frontend\models\Reservations();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->periodo      = 'mes';
@@ -628,3 +629,4 @@ class ReservationController extends Controller
         return $this->redirect(['reservation/select-monthly', 'room_id' => $roomId]);
     }
 }
+    
