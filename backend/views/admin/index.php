@@ -16,17 +16,65 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             ]) ?>
         </div>
     </div>
-
+    <!-- Começa aqui um relatório  clientes-futuros -->
     <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'CPU Traffic',
-                'number' => '10 <small>%</small>',
-                'icon' => 'fas fa-cog',
-            ]) ?>
+            <?php
+            // A URL de destino que você deseja
+            $url_destino = 'http://localhost:8080/cowork/backend/web/relatorio/clientes-futuros';
+            ?>
+
+            <a href="<?= $url_destino ?>" style="text-decoration: none; color: inherit;">
+                <?= \hail812\adminlte\widgets\InfoBox::widget([
+                    // Sugestão de alteração do texto para refletir o link
+                    'text' => 'Clientes Futuros',
+                    //'number' => '10 <small>%</small>',
+                    // Sugestão de alteração do ícone para refletir o conteúdo (clientes/usuários)
+                    'icon' => 'fas fa-user-friends',
+                ]) ?>
+            </a>
         </div>
     </div>
+    <!-- Termina aqui -->
+    <!-- Começa aqui um relatório  clientes-me-atual -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <?php
+            // A URL de destino que você deseja
+            $url_destino = 'http://localhost:8080/cowork/backend/web/relatorio/clientes-mes-atual';
+            ?>
 
+            <a href="<?= $url_destino ?>" style="text-decoration: none; color: inherit;">
+                <?= \hail812\adminlte\widgets\InfoBox::widget([
+                    // Sugestão de alteração do texto para refletir o link
+                    'text' => 'Clientes mensal',
+                    //'number' => '10 <small>%</small>',
+                    // Sugestão de alteração do ícone para refletir o conteúdo (clientes/usuários)
+                    'icon' => 'fas fa-calendar-alt',
+                ]) ?>
+            </a>
+        </div>
+    </div>
+    <!-- Termina aqui  -->
+
+    <!-- Começa aqui um relatório  clientes-me-atual -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <?php
+            // A URL de destino que você deseja
+            $url_destino = 'http://localhost:8080/cowork/backend/web/relatorio/reservas-salas';
+            ?>
+
+            <a href="<?= $url_destino ?>" style="text-decoration: none; color: inherit;">
+                <?= \hail812\adminlte\widgets\InfoBox::widget([
+                    'text' => 'Clientes mensal',
+                    // Substituído 'fas fa-user-friends' por 'fas fa-building'
+                    'icon' => 'fas fa-building',
+                ]) ?>
+            </a>
+        </div>
+    </div>
+    <!-- Termina aqui  -->
     <div class="row">
         <div class="col-md-4 col-sm-6 col-12">
             <?= \hail812\adminlte\widgets\InfoBox::widget([

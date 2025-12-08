@@ -14,7 +14,7 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend', 
+            'csrfParam' => '_csrf-backend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -52,6 +52,13 @@ return [
                         'GET availability/<resourceType>/<date:\d{4}-\d{2}-\d{2}>' => 'availability',
                     ],
                 ],
+
+
+                'relatorio/clientes-mes-atual/<mes:\d{4}-\d{2}>' => 'relatorio/clientes-mes-atual',
+                'relatorio/clientes-futuros' => 'relatorio/clientes-proximos-meses',
+                'relatorio/salas-ranking/<mes:\d{4}-\d{2}>' => 'relatorio/salas-mais-alugadas',
+                'relatorio/reservas-salas/<mes:\d{4}-\d{2}>' => 'relatorio/reservas-por-sala',
+
             ],
         ],
 
