@@ -15,12 +15,17 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => 'ueSj8mcZ8LEa2bkfN_LUEmOYrp-_bfIh', // tem que ter uma chave
+            'enableCsrfValidation' => true, // ← tem que estar true
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
             'loginUrl' => ['site/login'],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager'
         ],
         'view' => [],
         'session' => [

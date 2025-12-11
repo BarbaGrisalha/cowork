@@ -1,182 +1,199 @@
 <?php
-$this->title = 'BackOffice';
-$this->params['breadcrumbs'] = [['label' => $this->title]];
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use dosamigos\chartjs\ChartJs;   // ESSA LINHA!
+
+/* @var $this yii\web\View */
+/* @var $clientesFuturos int */
+/* @var $faturamentoMes float */
+/* @var $totalReservasMes int */
+/* @var $pendentes int */
+/* @var $mesAtual string */
+/* @var $mesesGrafico array */
+/* @var $valoresGrafico array */
+/* @var $topSalas array */
+/* @var $topClientes array */
+
+$this->title = 'BackOffice Cowork';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-6">
-            <?= \hail812\adminlte\widgets\Alert::widget([
-                'type' => 'success',
-                'body' => '<h3>Congratulations!</h3>',
-            ]) ?>
-            <?= \hail812\adminlte\widgets\Callout::widget([
-                'type' => 'danger',
-                'head' => 'I am a danger callout!',
-                'body' => 'There is a problem that we need to fix. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.'
-            ]) ?>
-        </div>
-    </div>
-    <!-- Começa aqui um relatório  clientes-futuros -->
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-            <?php
-            // A URL de destino que você deseja
-            $url_destino = 'http://localhost:8080/cowork/backend/web/relatorio/clientes-futuros';
-            ?>
 
-            <a href="<?= $url_destino ?>" style="text-decoration: none; color: inherit;">
-                <?= \hail812\adminlte\widgets\InfoBox::widget([
-                    // Sugestão de alteração do texto para refletir o link
+    <div class="row">
+
+        <!-- CLIENTES FUTUROS -->
+        <div class="col-lg-6 col-12 mb-4">
+            <?= Html::a(
+                \hail812\adminlte\widgets\InfoBox::widget([
                     'text' => 'Clientes Futuros',
-                    //'number' => '10 <small>%</small>',
-                    // Sugestão de alteração do ícone para refletir o conteúdo (clientes/usuários)
-                    'icon' => 'fas fa-user-friends',
-                ]) ?>
-            </a>
+                    'number' => $clientesFuturos ?? 0,
+                    'theme' => 'info',
+                    'icon' => 'fas fa-user-clock',
+                ]),
+                ['relatorio/clientes-futuros'],
+                ['class' => 'text-decoration-none']
+            ) ?>
         </div>
-    </div>
-    <!-- Termina aqui -->
-    <!-- Começa aqui um relatório  clientes-me-atual -->
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-            <?php
-            // A URL de destino que você deseja
-            $url_destino = 'http://localhost:8080/cowork/backend/web/relatorio/clientes-mes-atual';
-            ?>
 
-            <a href="<?= $url_destino ?>" style="text-decoration: none; color: inherit;">
-                <?= \hail812\adminlte\widgets\InfoBox::widget([
-                    // Sugestão de alteração do texto para refletir o link
-                    'text' => 'Clientes mensal',
-                    //'number' => '10 <small>%</small>',
-                    // Sugestão de alteração do ícone para refletir o conteúdo (clientes/usuários)
-                    'icon' => 'fas fa-calendar-alt',
-                ]) ?>
-            </a>
+        <!-- FATURAMENTO DO MÊS -->
+        <div class="col-lg-6 col-12 mb-4">
+            <?= Html::a(
+                \hail812\adminlte\widgets\InfoBox::widget([
+                    'text' => 'Faturamento ' . ($mesAtual ?? date('F Y')),
+                    'number' => Yii::$app->formatter->asCurrency($faturamentoMes ?? 0, 'EUR'),
+                    'theme' => 'success',
+                    'icon' => 'fas fa-euro-sign',
+                ]),
+                ['relatorio/clientes-mes-atual'],
+                ['class' => 'text-decoration-none']
+            ) ?>
         </div>
+
     </div>
-    <!-- Termina aqui  -->
 
-    <!-- Começa aqui um relatório  clientes-me-atual -->
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-            <?php
-            // A URL de destino que você deseja
-            $url_destino = 'http://localhost:8080/cowork/backend/web/relatorio/reservas-salas';
-            ?>
 
-            <a href="<?= $url_destino ?>" style="text-decoration: none; color: inherit;">
-                <?= \hail812\adminlte\widgets\InfoBox::widget([
-                    'text' => 'Clientes mensal',
-                    // Substituído 'fas fa-user-friends' por 'fas fa-building'
+        <!-- RESERVAS POR SALA -->
+        <div class="col-lg-6 col-12 mb-4">
+            <?= Html::a(
+                \hail812\adminlte\widgets\InfoBox::widget([
+                    'text' => 'Reservas por Sala',
+                    'number' => $totalReservasMes ?? 0,
+                    'theme' => 'gradient-primary',
                     'icon' => 'fas fa-building',
-                ]) ?>
-            </a>
+                ]),
+                ['relatorio/reservas-salas'],
+                ['class' => 'text-decoration-none']
+            ) ?>
         </div>
+
+        <!-- RESERVAS PENDENTES -->
+        <div class="col-lg-6 col-12 mb-4">
+            <?= Html::a(
+                \hail812\adminlte\widgets\InfoBox::widget([
+                    'text' => 'Reservas Pendentes',
+                    'number' => $pendentes ?? 0,
+                    'theme' => 'warning',
+                    'icon' => 'fas fa-exclamation-triangle',
+                    'progress' => ($pendentes ?? 0) > 0 ? [
+                        'width' => '100%',
+                        'description' => 'Precisa de atenção!'
+                    ] : null
+                ]),
+                ['relatorio/reservas-pendentes'],
+                ['class' => 'text-decoration-none']
+            ) ?>
+        </div>
+
+        <!-- RESERVAS PLANEJADAS -->
+        <div class="col-lg-6 col-12 mb-4">
+            <?= Html::a(
+                \hail812\adminlte\widgets\InfoBox::widget([
+                    'text' => 'Reservas Planejadas',
+                    'number' => $totalReservasMes ?? 0,
+                    'theme' => 'gradient-info',
+                    'icon' => 'fas fa-calendar-check',
+                ]),
+                ['relatorio/reservas-mes-planejado'],
+                ['class' => 'text-decoration-none']
+            ) ?>
+        </div>
+
     </div>
-    <!-- Termina aqui  -->
-    <div class="row">
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Messages',
-                'number' => '1,410',
-                'icon' => 'far fa-envelope',
-            ]) ?>
+
+    <!-- GRÁFICOS BRUTAIS -->
+    <div class="row mt-5">
+
+        <div class="col-xl-8 col-lg-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="m-0 font-weight-bold">Faturamento - Últimos 12 Meses</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoFaturamento" height="400"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Bookmarks',
-                'number' => '410',
-                'theme' => 'success',
-                'icon' => 'far fa-flag',
-            ]) ?>
-        </div>
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Uploads',
-                'number' => '13,648',
-                'theme' => 'gradient-warning',
-                'icon' => 'far fa-copy',
-            ]) ?>
+
+        <div class="col-xl-4 col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h6 class="m-0 font-weight-bold">Top 5 Salas (Este Mês)</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoTopSalas" height="300"></canvas>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="m-0 font-weight-bold">Top 5 Clientes (Histórico)</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoTopClientes" height="300"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Bookmarks',
-                'number' => '41,410',
-                'icon' => 'far fa-bookmark',
-                'progress' => [
-                    'width' => '70%',
-                    'description' => '70% Increase in 30 Days'
-                ]
-            ]) ?>
-        </div>
-        <div class="col-md-4 col-sm-6 col-12">
-            <?php $infoBox = \hail812\adminlte\widgets\InfoBox::begin([
-                'text' => 'Likes',
-                'number' => '41,410',
-                'theme' => 'success',
-                'icon' => 'far fa-thumbs-up',
-                'progress' => [
-                    'width' => '70%',
-                    'description' => '70% Increase in 30 Days'
-                ]
-            ]) ?>
-            <?= \hail812\adminlte\widgets\Ribbon::widget([
-                'id' => $infoBox->id . '-ribbon',
-                'text' => 'Ribbon',
-            ]) ?>
-            <?php \hail812\adminlte\widgets\InfoBox::end() ?>
-        </div>
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Events',
-                'number' => '41,410',
-                'theme' => 'gradient-warning',
-                'icon' => 'far fa-calendar-alt',
-                'progress' => [
-                    'width' => '70%',
-                    'description' => '70% Increase in 30 Days'
-                ],
-                'loadingStyle' => true
-            ]) ?>
-        </div>
-    </div>
+    <!-- CHART.JS + GRÁFICOS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gráfico de linha
+        new Chart(document.getElementById('graficoFaturamento'), {
+            type: 'line',
+            data: {
+                labels: <?= json_encode($mesesGrafico) ?>,
+                datasets: [{
+                    label: 'Faturamento (€)',
+                    data: <?= json_encode($valoresGrafico) ?>,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
 
-    <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\SmallBox::widget([
-                'title' => '150',
-                'text' => 'New Orders',
-                'icon' => 'fas fa-shopping-cart',
-            ]) ?>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-            <?php $smallBox = \hail812\adminlte\widgets\SmallBox::begin([
-                'title' => '150',
-                'text' => 'New Orders',
-                'icon' => 'fas fa-shopping-cart',
-                'theme' => 'success'
-            ]) ?>
-            <?= \hail812\adminlte\widgets\Ribbon::widget([
-                'id' => $smallBox->id . '-ribbon',
-                'text' => 'Ribbon',
-                'theme' => 'warning',
-                'size' => 'lg',
-                'textSize' => 'lg'
-            ]) ?>
-            <?php \hail812\adminlte\widgets\SmallBox::end() ?>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\SmallBox::widget([
-                'title' => '44',
-                'text' => 'User Registrations',
-                'icon' => 'fas fa-user-plus',
-                'theme' => 'gradient-success',
-                'loadingStyle' => true
-            ]) ?>
-        </div>
-    </div>
-</div>
+        // Gráfico donut
+        new Chart(document.getElementById('graficoTopSalas'), {
+            type: 'doughnut',
+            data: {
+                labels: <?= json_encode(array_column($topSalas, 'nome_sala')) ?: '["Sem dados"]' ?>,
+                datasets: [{
+                    data: <?= json_encode(array_column($topSalas, 'faturado')) ?: '[0]' ?>,
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Gráfico de barras
+        new Chart(document.getElementById('graficoTopClientes'), {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode(array_column($topClientes, 'nome')) ?: '["Sem dados"]' ?>,
+                datasets: [{
+                    label: 'Faturado (€)',
+                    data: <?= json_encode(array_column($topClientes, 'total')) ?: '[0]' ?>,
+                    backgroundColor: '#ffc107'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>

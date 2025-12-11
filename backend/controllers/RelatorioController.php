@@ -11,6 +11,7 @@ use common\models\Payment;
 use common\models\Room;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 class RelatorioController extends Controller
 {
@@ -33,14 +34,14 @@ class RelatorioController extends Controller
         INNER JOIN reservations res ON res.customer_id = c.id
             AND res.hora_inicio_agendada >= :inicio
             AND res.hora_fim_agendada <= :fim
-            AND res.status IN ('confirmada', 'concluida')
+            AND LOWER(res.status) IN ('confirmada', 'concluida')
         INNER JOIN rooms r ON r.id = res.room_id
         LEFT JOIN payments p ON p.reservation_id = res.id 
-            AND LOWER(p.status) = 'aprovado'   -- ACEITA 'aprovado', 'Aprovado', 'APROVADO'...
+            AND LOWER(p.status) = 'aprovado'
         GROUP BY c.id, c.nome
         HAVING salas_ocupadas IS NOT NULL
         ORDER BY total_pago DESC, c.nome ASC
-        ";
+       ";
 
         $dados = Yii::$app->db->createCommand($sql)
             ->bindValue(':inicio', $inicio)
@@ -61,8 +62,6 @@ class RelatorioController extends Controller
             'mes' => $mes,
         ]);
     }
-
-
 
     public function actionClientesProximosMeses()
     {
@@ -114,42 +113,7 @@ class RelatorioController extends Controller
             'searchModel'  => $request->queryParams, // pra manter os filtros preenchidos
         ]);
     }
-    /* public function actionClientesProximosMeses()
-    {
-        $hoje = date('Y-m-d H:i:s'); // agora com hora também
 
-        $sql = "
-        SELECT 
-            c.nome,
-            r.nome_sala,
-            res.hora_inicio_agendada AS inicio,
-            res.hora_fim_agendada AS fim,
-            res.tipo_reserva,
-            res.status
-        FROM reservations res
-        JOIN customers c ON c.id = res.customer_id
-        JOIN rooms r ON r.id = res.room_id
-        WHERE res.hora_inicio_agendada >= :hoje
-          AND res.status IN ('confirmada', 'pendente', 'concluida')
-        ORDER BY res.hora_inicio_agendada ASC
-       ";
-
-        $results = Yii::$app->db->createCommand($sql)
-            ->bindValue(':hoje', $hoje)
-            ->queryAll();
-
-        $dataProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => $results,
-            'pagination' => ['pageSize' => 50],
-            'sort' => [
-                'attributes' => ['nome', 'nome_sala', 'inicio', 'tipo_reserva'],
-                'defaultOrder' => ['inicio' => SORT_ASC],
-            ],
-        ]);
-
-        return $this->render('clientes-futuros', ['dataProvider' => $dataProvider]);
-    }
-        */
     public function actionSalasMaisAlugadas($mes = null)
     {
         if (!$mes) $mes = date('Y-m');
@@ -328,6 +292,118 @@ class RelatorioController extends Controller
             'dataProvider' => $dataProvider,
             'mes'          => $mes,
             'ordem'        => $ordem === 'ASC' ? 'asc' : 'desc',
+        ]);
+    }
+
+    public function actionReservasPendentes()
+    {
+        $request = Yii::$app->request;
+
+        // Filtro por sala
+        $salaId = $request->get('sala');
+
+        // Processar cancelamento
+        if ($request->isPost && $request->post('selection')) {
+            $ids = $request->post('selection');
+            Yii::$app->db->createCommand()
+                ->update('reservations', ['status' => 'cancelada'], ['id' => $ids])
+                ->execute();
+
+            Yii::$app->session->setFlash('success', count($ids) . ' reserva(s) cancelada(s) com sucesso!');
+            return $this->refresh();
+        }
+
+        $query = \common\models\Reservation::find()
+            ->where(['status' => 'pendente'])
+            ->with('room', 'customer');
+
+        if ($salaId) {
+            $query->andWhere(['room_id' => $salaId]);
+        }
+
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['hora_inicio_agendada' => SORT_ASC]],
+            'pagination' => ['pageSize' => 50],
+        ]);
+
+        // Lista de salas para filtro
+        $salasList = \common\models\Rooms::find()
+            ->select(['id', 'nome_sala'])
+            ->orderBy('nome_sala')
+            ->asArray()
+            ->all();
+        $salasList = ArrayHelper::map($salasList, 'id', 'nome_sala');
+
+        return $this->render('reservas-pendentes', [
+            'dataProvider' => $dataProvider,
+            'salasList'    => $salasList,
+            'salaId'       => $salaId,
+        ]);
+    }
+
+    /**
+     * Relatório: Reservas do Mês (Planejado)
+     * Mostra TODAS as reservas do mês (passadas, hoje e futuras)
+     * Com valor pago e pendente
+     */
+    public function actionReservasMesPlanejado($mes = null)
+    {
+        if (!$mes) {
+            $mes = date('Y-m');
+        }
+
+        $inicio = $mes . '-01 00:00:00';
+        $fim    = date('Y-m-t 23:59:59', strtotime($inicio));
+
+        $sql = "
+        SELECT 
+            c.id AS cliente_id,
+            c.nome AS cliente_nome,
+            GROUP_CONCAT(DISTINCT r.nome_sala ORDER BY r.nome_sala SEPARATOR ', ') AS salas,
+            COUNT(res.id) AS total_reservas,
+            COALESCE(SUM(p.valor), 0) AS valor_pago,
+            COALESCE(SUM(res.total_estimado), 0) AS valor_previsto,
+            (COALESCE(SUM(res.total_estimado), 0) - COALESCE(SUM(p.valor), 0)) AS valor_pendente
+        FROM customers c
+        INNER JOIN reservations res ON res.customer_id = c.id
+            AND res.hora_inicio_agendada >= :inicio
+            AND res.hora_inicio_agendada <= :fim
+            AND LOWER(res.status) IN ('confirmada', 'Confirmado', 'concluida', 'pendente')
+        INNER JOIN rooms r ON r.id = res.room_id
+        LEFT JOIN payments p ON p.reservation_id = res.id 
+            AND LOWER(p.status) = 'aprovado'
+        GROUP BY c.id, c.nome
+        HAVING total_reservas > 0
+        ORDER BY valor_previsto DESC, c.nome ASC
+        ";
+
+        $dados = Yii::$app->db->createCommand($sql)
+            ->bindValue(':inicio', $inicio)
+            ->bindValue(':fim', $fim)
+            ->queryAll();
+
+        $dataProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $dados,
+            'pagination' => ['pageSize' => 50],
+            'sort' => [
+                'attributes' => ['cliente_nome', 'total_reservas', 'valor_previsto', 'valor_pago', 'valor_pendente'],
+                'defaultOrder' => ['valor_previsto' => SORT_DESC],
+            ],
+        ]);
+
+        // Totais gerais do mês
+        $totalGeralPrevisto = array_sum(array_column($dados, 'valor_previsto'));
+        $totalGeralPago     = array_sum(array_column($dados, 'valor_pago'));
+        $totalGeralPendente = $totalGeralPrevisto - $totalGeralPago;
+
+        return $this->render('reservas-mes-planejado', [
+            'dataProvider'       => $dataProvider,
+            'mes'                => $mes,
+            'mesBonito'          => Yii::$app->formatter->asDate($mes . '-01', 'MMMM yyyy'),
+            'totalGeralPrevisto' => $totalGeralPrevisto,
+            'totalGeralPago'     => $totalGeralPago,
+            'totalGeralPendente' => $totalGeralPendente,
         ]);
     }
 }
