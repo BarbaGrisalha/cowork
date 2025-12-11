@@ -270,16 +270,47 @@ class ReservationController extends Controller
     public function behaviors(): array
     {
         return [
-            'verb' => [
+            'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
                     'cancel' => ['POST'],
+                    'delete' => ['POST'],
                 ],
             ],
-
+            'access' => [
+                'class' => \yii\filters\AccessControl::class,
+                'rules' => [
+                    // Qualquer usuário logado pode criar
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['fazerReserva'],
+                    ],
+                    // Listar só as próprias
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['listarMinhasReservas'],
+                    ],
+                    // Ver, editar, cancelar → só o dono da reserva
+                    [
+                        'actions' => ['view', 'update', 'cancel'],
+                        'allow' => true,
+                        'roles' => ['verReserva'], // a regra OwnerRule vai validar
+                        'matchCallback' => function ($rule, $action) {
+                            $id = Yii::$app->request->get('id');
+                            $model = \common\models\Reservation::findOne($id);
+                            return $model && Yii::$app->user->can('verReserva', ['model' => $model]);
+                        }
+                    ],
+                ],
+                'denyCallback' => function () {
+                    Yii::$app->session->setFlash('error', 'Não tens permissão para isso.');
+                    return Yii::$app->response->redirect(['index']);
+                },
+            ],
         ];
     }
-
     public function actionCancel($id)
     {
         //encontrar a reserva pelo id

@@ -22,13 +22,18 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            // 🛑 REMOVA O FILTRO ACCESSCONTROL DAQUI! 🛑
-            // A segurança será gerenciada pelo AdminController e pelo actionLogin.
-
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
+            'access' => [
+                'class' => \yii\filters\AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];

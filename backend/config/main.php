@@ -14,13 +14,18 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend', 
+            'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => 'ueSj8mcZ8LEa2bkfN_LUEmOYrp-_bfIh', // tem que ter uma chave
+            'enableCsrfValidation' => true, // ← tem que estar true
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
             'loginUrl' => ['site/login'],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager'
         ],
         'view' => [],
         'session' => [
@@ -52,6 +57,13 @@ return [
                         'GET availability/<resourceType>/<date:\d{4}-\d{2}-\d{2}>' => 'availability',
                     ],
                 ],
+
+
+                'relatorio/clientes-mes-atual/<mes:\d{4}-\d{2}>' => 'relatorio/clientes-mes-atual',
+                'relatorio/clientes-futuros' => 'relatorio/clientes-proximos-meses',
+                'relatorio/salas-ranking/<mes:\d{4}-\d{2}>' => 'relatorio/salas-mais-alugadas',
+                'relatorio/reservas-salas/<mes:\d{4}-\d{2}>' => 'relatorio/reservas-por-sala',
+
             ],
         ],
 

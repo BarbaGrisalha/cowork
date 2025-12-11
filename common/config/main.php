@@ -24,6 +24,11 @@ return [
             'class' => 'common\components\PaymentGatewayService',
             'secretKey' => getenv('GATEWAY_SECRET_KEY'), // Use variáveis de ambiente!
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            // uncomment if you want to cache RBAC items hierarchy
+            // 'cache' => 'cache',
+        ],
     ],
 
     // =======================================================
