@@ -15,7 +15,6 @@ class SignupForm extends Model
     public $email;
     public $password;
 
-
     /**
      * {@inheritdoc}
      */
@@ -39,16 +38,16 @@ class SignupForm extends Model
     }
 
     /**
-     * Signs user up.
+     * Signs user up + atribui permissões automaticamente
      *
-     * @return bool whether the creating new account was successful and email was sent
+     * @return User|null the saved model or null if saving fails
      */
     public function signup()
     {
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
@@ -56,13 +55,30 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        // Salva o usuário primeiro
+        if ($user->save()) {
+            // AQUI É A MÁGICA: atribui as permissões de cliente automaticamente
+            $auth = Yii::$app->authManager;
+
+            $auth->assign($auth->getPermission('fazerReserva'), $user->id);
+            $auth->assign($auth->getPermission('listarMinhasReservas'), $user->id);
+            $auth->assign($auth->getPermission('verReserva'), $user->id);
+            $auth->assign($auth->getPermission('atualizarReserva'), $user->id);
+            $auth->assign($auth->getPermission('cancelarReserva'), $user->id);
+
+            // O usuário foi criado e já tem todas as permissões de cliente!
+
+            // Envia email de confirmação
+            $this->sendEmail($user);
+
+            return $user;
+        }
+
+        return null;
     }
 
     /**
      * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
      */
     protected function sendEmail($user)
     {

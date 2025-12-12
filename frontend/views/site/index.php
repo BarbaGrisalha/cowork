@@ -1,51 +1,101 @@
 <?php
 
-/** @var yii\web\View $this */
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ListView;
 
-$this->title = 'Cowork';
+/* @var $this yii\web\View */
+/* @var $proximasReservas \common\models\Reservation[] */
+/* @var $saldoPendente float */
+
+$this->title = 'Minha Área - Cowork ILeiria';
 ?>
+
 <div class="site-index">
-    <div class="p-5 mb-4 bg-transparent rounded-3">
-        <div class="container-fluid py-5 text-center">
-            <h1 class="display-4">Cowork FrontOffice!</h1>
-            <p class="fs-5 fw-light">You are welcome to use the Cowork Administration Application</p>
-            <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
-        </div>
+
+    <!-- CABEÇALHO DE BOAS-VINDAS -->
+    <div class="jumbotron text-center bg-transparent mb-5">
+        <h1 class="display-4">Bem-vindo, <?= Html::encode(Yii::$app->user->identity->username) ?>!</h1>
+        <p class="lead">Gerencie suas reservas e acompanhe seu saldo.</p>
+        <?= Html::a('Nova Reserva', ['reservation/create'], ['class' => 'btn btn-success btn-lg']) ?>
     </div>
 
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorena ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            <!-- PRÓXIMAS RESERVAS -->
+            <div class="col-lg-8 mb-4">
+                <div class="card border-left-primary shadow h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="m-0 font-weight-bold">Próximas Reservas</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (!empty($proximasReservas)): ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Horário</th>
+                                            <th>Sala/Mesa</th>
+                                            <th>Status</th>
+                                            <th>Valor</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($proximasReservas as $res): ?>
+                                            <tr>
+                                                <td><?= Yii::$app->formatter->asDate($res->hora_inicio_agendada, 'dd/MM/yyyy') ?></td>
+                                                <td><?= Yii::$app->formatter->asTime($res->hora_inicio_agendada, 'HH:mm') ?> → <?= Yii::$app->formatter->asTime($res->hora_fim_agendada, 'HH:mm') ?></td>
+                                                <td><strong><?= Html::encode($res->room->nome_sala) ?></strong></td>
+                                                <td>
+                                                    <?php if ($res->isPaid()): ?>
+                                                        <span class="badge badge-success">Pago</span>
+                                                    <?php else: ?>
+                                                        <span class="badge badge-warning">Pendente</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?= Yii::$app->formatter->asCurrency($res->total_estimado, 'EUR') ?></td>
+                                                <td>
+                                                    <?= Html::a('Ver', ['reservation/view', 'id' => $res->id], ['class' => 'btn btn-sm btn-outline-primary']) ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else: ?>
+                            <p class="text-muted">Nenhuma reserva agendada.</p>
+                        <?php endif; ?>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                        <div class="text-right mt-3">
+                            <?= Html::a('Ver Todas as Minhas Reservas →', ['reservation/index'], ['class' => 'btn btn-outline-primary']) ?>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <!-- SALDO PENDENTE -->
+            <div class="col-lg-4 mb-4">
+                <div class="card border-left-warning shadow h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="m-0 font-weight-bold">Saldo Pendente</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <h2 class="text-danger font-weight-bold">
+                            <?= Yii::$app->formatter->asCurrency($saldoPendente, 'EUR') ?>
+                        </h2>
+                        <?php if ($saldoPendente > 0): ?>
+                            <?= Html::a('Pagar Agora', ['payment/create-pending'], ['class' => 'btn btn-danger btn-lg']) ?>
+                        <?php else: ?>
+                            <p class="text-success">Tudo em dia!</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
         </div>
 
     </div>

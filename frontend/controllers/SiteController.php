@@ -15,6 +15,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Reservation;
+
 
 /**
  * Site controller
@@ -74,11 +76,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //Define o título da página
-        $this->view->title = 'Cowork Home';
+        // SE NÃO ESTIVER LOGADO → mostra página pública da empresa
+        if (Yii::$app->user->isGuest) {
+            return $this->render('welcome'); // página bonita da empresa
+        }
 
-        //Renderiza a view 'home-import'
-        return $this->render('home-import');
+        // SE ESTIVER LOGADO → mostra o dashboard privado (o teu código foda)
+        $userId = Yii::$app->user->id;
+
+        // Próximas reservas
+        $proximasReservas = Reservation::find()
+            ->where(['customer_id' => $userId])
+            ->andWhere(['>=', 'hora_inicio_agendada', date('Y-m-d H:i:s')])
+            ->with('room')
+            ->orderBy('hora_inicio_agendada')
+            ->limit(10)
+            ->all();
+
+        // 
+        $saldoPendente = Yii::$app->db->createCommand("
+        SELECT COALESCE(SUM(r.total_estimado), 0)
+        FROM reservations r
+        LEFT JOIN payments p ON p.reservation_id = r.id AND LOWER(p.status) = 'aprovado'
+        WHERE r.customer_id = :userId
+          AND r.status IN ('confirmada', 'pendente')
+          AND p.id IS NULL
+        ")->bindValue(':userId', $userId)->queryScalar();
+
+        return $this->render('index', [ // esse 'index' é o teu dashboard privado
+            'proximasReservas' => $proximasReservas,
+            'saldoPendente'    => $saldoPendente,
+        ]);
     }
 
     /**
