@@ -349,4 +349,16 @@ class Reservation extends \yii\db\ActiveRecord
 
         return true;
     }
+
+    /**
+     * Verifica se a reserva já tem pagamento aprovado
+     * @return bool
+     */
+    public function hasPaidPayment()
+    {
+        return Payment::find()
+            ->where(['reservation_id' => $this->id])
+            ->andWhere(['status' => 'aprovado'])
+            ->exists();
+    }
 }

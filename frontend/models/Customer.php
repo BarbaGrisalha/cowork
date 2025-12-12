@@ -2,7 +2,9 @@
 
 namespace frontend\models;
 
+
 use Yii;
+
 
 /**
  * This is the model class for table "customers".
@@ -50,7 +52,7 @@ class Customer extends \yii\db\ActiveRecord
             [['morada'], 'string', 'max' => 255],
             [['nif'], 'unique'],
             [['user_id'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -129,5 +131,44 @@ class Customer extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function signup()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $user = new User();
+        $user->username = $this->username;
+        $user->email = $this->email;
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        $user->generateEmailVerificationToken();
+
+        if ($user->save()) {
+            // CRIA O PERFIL CUSTOMER AUTOMATICAMENTE
+            $customer = new \frontend\models\Customer();
+            $customer->user_id = $user->id;
+            $customer->nome = $this->username; // nome inicial = username
+            $customer->nif = '';
+            $customer->morada = '';
+            $customer->telefone = '';
+            $customer->data_registro = date('Y-m-d H:i:s');
+            $customer->save(false); // false = pula validação (vai preencher depois)
+
+            // Atribui permissões de cliente
+            $auth = Yii::$app->authManager;
+            $auth->assign($auth->getPermission('fazerReserva'), $user->id);
+            $auth->assign($auth->getPermission('listarMinhasReservas'), $user->id);
+            $auth->assign($auth->getPermission('verReserva'), $user->id);
+            $auth->assign($auth->getPermission('atualizarReserva'), $user->id);
+            $auth->assign($auth->getPermission('cancelarReserva'), $user->id);
+
+            $this->sendEmail($user);
+            return $user;
+        }
+
+        return null;
     }
 }

@@ -15,6 +15,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Reservation;
+
 
 /**
  * Site controller
@@ -74,45 +76,69 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //Define o título da página
-        $this->view->title = 'Cowork Home';
+        // SE NÃO ESTIVER LOGADO → mostra página pública da empresa
+        if (Yii::$app->user->isGuest) {
+            return $this->render('welcome'); // página bonita da empresa
+        }
 
-        //Renderiza a view 'home-import'
-        return $this->render('home-import');
+        // SE ESTIVER LOGADO → mostra o dashboard privado (o teu código foda)
+        $userId = Yii::$app->user->id;
+
+        // Próximas reservas
+        $proximasReservas = Reservation::find()
+            ->where(['customer_id' => $userId])
+            ->andWhere(['>=', 'hora_inicio_agendada', date('Y-m-d H:i:s')])
+            ->with('room')
+            ->orderBy('hora_inicio_agendada')
+            ->limit(10)
+            ->all();
+
+        // 
+        $saldoPendente = Yii::$app->db->createCommand("
+        SELECT COALESCE(SUM(r.total_estimado), 0)
+        FROM reservations r
+        LEFT JOIN payments p ON p.reservation_id = r.id AND LOWER(p.status) = 'aprovado'
+        WHERE r.customer_id = :userId
+          AND r.status IN ('confirmada', 'pendente')
+          AND p.id IS NULL
+        ")->bindValue(':userId', $userId)->queryScalar();
+
+        return $this->render('index', [ // esse 'index' é o teu dashboard privado
+            'proximasReservas' => $proximasReservas,
+            'saldoPendente'    => $saldoPendente,
+        ]);
     }
 
     /**
      * Logs in a user.
-     *
-     * @return mixed
+     * Primeiro login → força completar perfil
+     * Depois → vai direto pro dashboard/agenda
      */
     public function actionLogin()
     {
+        // Se já tá logado → vai pro dashboard NOVO (o lindo)
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['site/frontend-cowork']);
         }
 
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
-            // 🔥 Se existe um returnUrl definido, VOLTA para a página que o cliente queria
-            if (
-                Yii::$app->user->returnUrl &&
-                Yii::$app->user->returnUrl !== Yii::$app->homeUrl
-            ) {
-                return $this->redirect(Yii::$app->user->returnUrl);
+            // Primeiro login ou falta NIF → força completar perfil
+            $customer = \frontend\models\Customer::findOne(['user_id' => Yii::$app->user->id]);
+
+            if (!$customer || empty($customer->nif)) {
+                Yii::$app->session->setFlash('info', 'Complete seu perfil para começar a reservar.');
+                return $this->redirect(['site/complete-profile']);
             }
 
-            // 🔥 Se não tinha returnUrl → envia para o dashboard que você definiu
-            return $this->redirect(['/site/frontend-cowork']);
+            // Já tem tudo → vai pro dashboard NOVO
+            return $this->redirect(['site/frontend-cowork']);
         }
 
         $model->password = '';
-
-        return $this->render('login', [
-            'model' => $model,
-        ]);
+        return $this->render('login', ['model' => $model]);
     }
 
     /**
@@ -317,5 +343,24 @@ class SiteController extends Controller
     {
 
         return $this->render('cookiesPolicy');
+    }
+
+    public function actionCompleteProfile()
+    {
+        // Se já tem perfil completo → vai pro dashboard
+        $customer = \frontend\models\Customer::findOne(['user_id' => Yii::$app->user->id]);
+        if ($customer && $customer->nif && $customer->morada) {
+            return $this->redirect(['site/index']);
+        }
+
+        $model = $customer ?? new \frontend\models\Customer();
+        $model->user_id = Yii::$app->user->id;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Perfil completado com sucesso! Agora pode fazer reservas.');
+            return $this->redirect(['site/index']);
+        }
+
+        return $this->render('complete-profile', ['model' => $model]);
     }
 }
