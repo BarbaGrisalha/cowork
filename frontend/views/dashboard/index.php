@@ -58,17 +58,20 @@ $this->title = 'Painel do Cliente | Cowork';
 
                                     <div class="mt-auto">
                                         <?= Html::a('<i class="bi bi-clock"></i> Por Hora', [
-                                            '/reservation/create',
+                                            //'/reservation/create',
+                                            'reservation/escolher',
                                             'room_id' => $room->id
                                         ], ['class' => 'btn btn-outline-primary btn-sm w-100 mb-2']) ?>
 
                                         <?= Html::a('<i class="bi bi-calendar-day"></i> Diária R$ 32', [
-                                            '/reservation/select-daily',
+                                            //'/reservation/select-daily',
+                                            'reservation/escolher',
                                             'room_id' => $room->id
                                         ], ['class' => 'btn btn-success btn-sm w-100 mb-2']) ?>
 
                                         <?= Html::a('<i class="bi bi-calendar-month"></i> Mensal R$ 225', [
-                                            '/reservation/select-monthly',
+                                            //'/reservation/select-monthly',
+                                            'reservation/escolher',
                                             'room_id' => $room->id
                                         ], ['class' => 'btn btn-warning text-white btn-sm w-100']) ?>
                                     </div>
@@ -82,7 +85,7 @@ $this->title = 'Painel do Cliente | Cowork';
             <!-- Minhas Reservas -->
             <h3 class="mt-5">Minhas Próximas Reservas</h3>
             <?php if (empty($userReservations)): ?>
-                <p class="text-muted">Você ainda não tem reservas. Escolha uma sala acima!</p>
+                <p class="text-muted">Você ainda não tem reservas. Escolha uma sala acima!!!</p>
             <?php else: ?>
                 <div class="row">
                     <?php foreach ($userReservations as $res):

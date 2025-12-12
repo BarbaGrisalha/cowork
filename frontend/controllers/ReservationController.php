@@ -6,7 +6,7 @@ use backend\tests\FunctionalTester;
 use Yii;
 use yii\rest\Controller;
 use yii\web\Response;
-use frontend\models\Reservations; // O modelo que você acabou de gerar com sucesso
+
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use common\models\Rooms;
@@ -16,16 +16,7 @@ use frontend\models\Customer;
 
 class ReservationController extends Controller
 {
-    // Define o modelo principal para este Controller REST
-    //public $modelClass = Reservations::class;
 
-    /* public function init()
-    {
-        parent::init();
-        // Garante que o output é sempre JSON
-        Yii::$app->response->format = Response::FORMAT_JSON;
-    }
-*/
     public $periodo;
     // Desabilitar o comportamento padrão do REST para usarmos as nossas ações
     public function actions()
@@ -33,10 +24,7 @@ class ReservationController extends Controller
         return [];
     }
 
-    /**
-     * Ação GET: Obtém eventos para o calendário.
-     * EndPoint: GET api/reservations/calendar?start=YYYY-MM-DD&end=YYYY-MM-DD
-     */
+
     public function actionCalendarEvents($start, $end)
     {
         if (empty($start) || empty($end)) {
@@ -45,7 +33,7 @@ class ReservationController extends Controller
         }
 
         // Lógica de consulta para sobreposição de datas
-        $query = Reservations::find()
+        $query = Reservation::find()
             ->where(['<=', 'hora_inicio_agendada', $end])
             ->andWhere(['>=', 'hora_fim_agendada', $start])
             ->with(['room', 'customer']);
@@ -58,126 +46,86 @@ class ReservationController extends Controller
     /**
      * Ação POST: Cria uma nova reserva (hourly, daily, monthly)
      */
-    public function actionCreate($location_id = null)
+    public function actionCreate($room_id = null)
     {
-        $model = new Reservations();
+        $model = new Reservation();
         $room  = null;
 
-        // --- ROOM ID ---
-        $roomId = Yii::$app->request->get('room_id');
-        if ($roomId) {
-            $room = Rooms::findOne($roomId);
-            if (!$room) {
-                Yii::$app->session->setFlash('error', 'Sala não encontrada.');
-                return $this->redirect(['dashboard/index']);
-            }
-            $model->room_id = $roomId;
+        if (!$room_id) {
+            Yii::$app->session->setFlash('warning', 'Por favor, escolha uma sala primeiro.');
+            return $this->redirect(['reservation/escolher']);
         }
 
-        // --- CLIENTE LOGADO ---
+        $room = Rooms::findOne($room_id);
+        if (!$room) {
+            Yii::$app->session->setFlash('error', 'Sala não encontrada.');
+            return $this->redirect(['site/index']);
+        }
+        $model->room_id = $room_id;
+
         $userId   = Yii::$app->user->identity->getId();
         $customer = Customer::findOne(['user_id' => $userId]);
 
         if (!$customer) {
             Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
-            return $this->redirect(['/site/index']);
+            return $this->redirect(['site/index']);
         }
         $model->customer_id = $customer->id;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-        // --- PARÂMETROS DO GET (para pré-preenchimento) ---
-        $type   = Yii::$app->request->get('type');      // hourly | daily | monthly
-        $date   = Yii::$app->request->get('date');      // usado no daily
-        $inicio = Yii::$app->request->get('inicio');
-        $fim    = Yii::$app->request->get('fim');
+            // RESERVA POR HORA — usa os campos que tu realmente tens no form
+            // RESERVA POR HORA — VERSÃO INDESTRUTÍVEL
+            if ($model->periodo === 'hora') {
+                $data = $model->data_reserva ?: date('Y-m-d');
 
-        // Pré-preenchimento rápido para DAILY (via link direto)
-        if ($type === 'daily' && $date) {
-            $selectedDate = date('Y-m-d', strtotime($date));
-            $today        = date('Y-m-d');
+                // Pega a hora do campo datetime (hora_inicio_agendada) que veio do form
+                $horaInicioRaw = $model->hora_inicio_agendada;
+                $horaFimRaw    = $model->hora_fim_agendada;
 
-            // BLOQUEIO IMEDIATO: data passada
-            if ($selectedDate < $today) {
-                Yii::$app->session->setFlash('error', 'Não é possível reservar uma data que já passou.');
-                return $this->redirect(['dashboard/index']);
+                // Extrai só HH:MM com segurança (se vazio, usa padrão)
+                $horaInicio = $horaInicioRaw ? substr($horaInicioRaw, 11, 5) : '09:00';
+                $horaFim    = $horaFimRaw    ? substr($horaFimRaw,    11, 5) : '10:00';
+
+                // Garante que tem :00 no final
+                if (strlen($horaInicio) !== 5) $horaInicio = '09:00';
+                if (strlen($horaFim) !== 5)    $horaFim    = '10:00';
+
+                $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
+                $model->hora_fim_agendada    = $data . ' ' . $horaFim    . ':00';
             }
-
-            // Se for hoje, bloqueia se já passou das 09:00
-            if ($selectedDate === $today) {
-                $now     = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
-                $opening = new \DateTime('today 09:00:00', new \DateTimeZone('Europe/Lisbon'));
-                if ($now > $opening) {
-                    Yii::$app->session->setFlash('error', 'Não é mais possível reservar para hoje após as 09:00.');
-                    return $this->redirect(['dashboard/index']);
-                }
-            }
-
-            $model->periodo              = 'dia';
-            $model->data_reserva         = $selectedDate;
-            $model->hora_inicio_agendada = $selectedDate . ' 09:00:00';
-            $model->hora_fim_agendada    = $selectedDate . ' 19:00:00';
-            $model->total_estimado       = 32.00;
-        }
-
-        // -------------------------------------------------------------
-        // CARREGA DADOS DO FORMULÁRIO (POST) - AQUI É O FLUXO PRINCIPAL
-        // -------------------------------------------------------------
-        if ($model->load(Yii::$app->request->post())) {
-
-            // VALIDAÇÃO FORTE: NÃO PERMITE HORÁRIO NO PASSADO (só hourly usa hora exata)
-            if ($model->periodo === 'hora' && $model->hora_inicio_agendada) {
-                $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
-                $agora         = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
-
-                // Bloqueia se o início for no passado ou exatamente agora
-                if ($inicioReserva <= $agora) {
-                    Yii::$app->session->setFlash('error', 'Você não pode reservar um horário que já passou ou está acontecendo agora. Escolha um horário futuro.');
-                    return $this->render('create', [
-                        'model' => $model,
-                        'room'  => $room,
-                    ]);
-                }
-            }
-
-            // Validação extra para DAILY (caso venha do formulário)
+            // RESERVA DIÁRIA
             if ($model->periodo === 'dia' && $model->data_reserva) {
-                $dataSelecionada = date('Y-m-d', strtotime($model->data_reserva));
-                $hoje            = date('Y-m-d');
+                $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
+                $model->hora_fim_agendada    = $model->data_reserva . ' 19:00:00';
+                $model->total_estimado       = 32.00;
+            }
 
-                if ($dataSelecionada < $hoje) {
-                    Yii::$app->session->setFlash('error', 'Não é permitido reservar datas passadas.');
+            // VALIDAÇÃO DE PASSADO
+            if ($model->periodo === 'hora') {
+                $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
+                $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+
+                if ($inicioReserva < $agora) {
+                    Yii::$app->session->setFlash('error', 'Não é permitido reservar horários que já passaram. Escolha um horário futuro.');
                     return $this->render('create', ['model' => $model, 'room' => $room]);
                 }
-
-                if ($dataSelecionada === $hoje) {
-                    $now     = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
-                    $opening = new \DateTime('today 09:00:00', new \DateTimeZone('Europe/Lisbon'));
-                    if ($now > $opening) {
-                        Yii::$app->session->setFlash('error', 'Reserva diária para hoje só é permitida antes das 09:00.');
-                        return $this->render('create', ['model' => $model, 'room' => $room]);
-                    }
-                }
             }
 
-            // TENTA SALVAR
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
                 return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
-            } else {
-                Yii::$app->session->setFlash('error', 'Erro ao salvar reserva: ' . implode(', ', $model->getFirstErrors()));
             }
+
+            Yii::$app->session->setFlash('error', 'Erro: ' . implode(', ', $model->getFirstErrors()));
         }
 
-        // Se chegou aqui: exibe o formulário
         return $this->render('create', [
             'model' => $model,
             'room'  => $room,
         ]);
     }
 
-    /**
-     * Ação GET: Obtém horários disponíveis para uma sala específica num dia.
-     * EndPoint: GET api/reservations/available-slots?date=YYYY-MM-DD&room_id=X
-     *
+    /*
      * @param string $date A data da consulta (YYYY-MM-DD)
      * @param int $room_id O ID da sala
      * @return array
@@ -200,7 +148,7 @@ class ReservationController extends Controller
         $startOfDay = $date . ' 00:00:00';
         $endOfDay = $date . ' 23:59:59';
 
-        $bookedReservations = Reservations::find()
+        $bookedReservations = Reservation::find()
             ->where(['room_id' => $room_id])
             ->andWhere(['<=', 'hora_inicio_agendada', $endOfDay])
             ->andWhere(['>=', 'hora_fim_agendada', $startOfDay])
@@ -279,33 +227,18 @@ class ReservationController extends Controller
             'access' => [
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [
-                    // Qualquer usuário logado pode criar
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['fazerReserva'],
-                    ],
-                    // Listar só as próprias
-                    [
-                        'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['listarMinhasReservas'],
-                    ],
-                    // Ver, editar, cancelar → só o dono da reserva
-                    [
-                        'actions' => ['view', 'update', 'cancel'],
-                        'allow' => true,
-                        'roles' => ['verReserva'], // a regra OwnerRule vai validar
-                        'matchCallback' => function ($rule, $action) {
-                            $id = Yii::$app->request->get('id');
-                            $model = \common\models\Reservation::findOne($id);
-                            return $model && Yii::$app->user->can('verReserva', ['model' => $model]);
-                        }
-                    ],
+                    ['actions' => ['create', 'escolher', 'select-hourly', 'select-daily', 'select-monthly'], 'allow' => true, 'roles' => ['fazerReserva']],
+                    ['actions' => ['index', 'view'], 'allow' => true, 'roles' => ['listarMinhasReservas']],
+                    ['actions' => ['update', 'cancel'], 'allow' => true, 'roles' => ['verReserva'], 'matchCallback' => function ($rule, $action) {
+                        $id = Yii::$app->request->get('id');
+                        $model = Reservation::findOne($id);
+                        return $model && Yii::$app->user->can('verReserva', ['model' => $model]);
+                    }],
+                    ['allow' => false],
                 ],
                 'denyCallback' => function () {
                     Yii::$app->session->setFlash('error', 'Não tens permissão para isso.');
-                    return Yii::$app->response->redirect(['index']);
+                    return Yii::$app->response->redirect(['site/index']);
                 },
             ],
         ];
@@ -313,7 +246,7 @@ class ReservationController extends Controller
     public function actionCancel($id)
     {
         //encontrar a reserva pelo id
-        $model = Reservations::findOne($id);
+        $model = Reservation::findOne($id);
 
         if (!$model) {
             throw new NotFoundHttpException('A reserva solicitada não existe.');
@@ -343,7 +276,7 @@ class ReservationController extends Controller
     {
         // ... (Coloque aqui TODA a lógica de Active Record que te passei antes) ...
 
-        $reservation = Reservations::findOne($reservationId);
+        $reservation = Reservation::findOne($reservationId);
 
         if ($reservation === null) {
             // Lógica de erro...
@@ -403,7 +336,7 @@ class ReservationController extends Controller
             }
         }
         // Verifica se já tem reserva nesse dia (simples e bruto)
-        $jaReservado = Reservations::find()
+        $jaReservado = Reservation::find()
             ->where(['room_id' => $room_id])
             ->andWhere(['<=', 'data_inicio', $date])
             ->andWhere(['>=', 'data_fim', $date])
@@ -423,7 +356,7 @@ class ReservationController extends Controller
         }
 
         // CRIA A RESERVA NA MARRA (sem validação chata)
-        $model = new Reservations();
+        $model = new Reservation();
         $model->room_id              = $room_id;
         $model->customer_id          = $customer->id;
         $model->data_reserva         = $date;
@@ -494,7 +427,7 @@ class ReservationController extends Controller
         }
 
         // Pega todas as datas já reservadas desta sala
-        $reserved = \frontend\models\Reservations::find()
+        $reserved = \frontend\models\Reservation::find()
             ->select(['data_reserva'])
             ->where(['room_id' => $room_id])
             ->andWhere(['>=', 'data_reserva', date('Y-m-d')])
@@ -509,78 +442,8 @@ class ReservationController extends Controller
             'reservedDates' => $reservedDates
         ]);
     }
-    /*
-    public function actionCheckoutMonthly()
-    {
-        // Aceita tanto POST quanto GET
-        $data_inicio = Yii::$app->request->post('data_inicio') ?: Yii::$app->request->get('inicio');
-        $room_id     = Yii::$app->request->post('room_id')     ?: Yii::$app->request->get('room_id');
 
-        if (!$data_inicio || !$room_id) {
-            Yii::$app->session->setFlash('error', 'Dados inválidos para reserva mensal.');
-            return $this->redirect(['dashboard/index']);
-        }
-        $inicio = date('Y-m-01', strtotime($data_inicio));
 
-        // BLOQUEIO: mês já passou ou é o atual mas já começou
-        $primeiroDiaDoMes = new \DateTime($inicio);
-        $hoje = new \DateTime('first day of this month');
-
-        if ($primeiroDiaDoMes < $hoje) {
-            Yii::$app->session->setFlash('error', 'Não é possível reservar um mês que já passou.');
-            return $this->redirect(['dashboard/index']);
-        }
-
-        // Se for este mês, só permite se ainda não começou (ex: dia 1º e ainda é dia 1 antes das 00:01)
-        if ($primeiroDiaDoMes->format('Y-m') === $hoje->format('Y-m')) {
-            $agora = new \DateTime('now');
-            if ($agora->format('d') > 1 || ($agora->format('d') == 1 && $agora->format('H') >= 1)) {
-                Yii::$app->session->setFlash('error', 'Não é mais possível reservar este mês. A reserva mensal inicia no dia 1º às 00:00.');
-                return $this->redirect(['dashboard/index']);
-            }
-        }
-        // Normaliza para o primeiro dia do mês
-        $inicio = date('Y-m-01', strtotime($data_inicio));
-        $fim    = date('Y-m-t', strtotime($inicio)); // último dia do mês
-
-        // Verifica conflito (qualquer reserva que sobreponha o mês inteiro)
-        $conflito = Reservations::find()
-            ->where(['room_id' => $room_id])
-            ->andWhere(['<>', 'status', 'cancelada'])
-            ->andWhere(['<', 'hora_fim_agendada', $fim . ' 23:59:59'])
-            ->andWhere(['>', 'hora_inicio_agendada', $inicio . ' 00:00:00'])
-            ->exists();
-
-        if ($conflito) {
-            Yii::$app->session->setFlash('error', 'Este mês já possui reserva ou conflito.');
-            return $this->redirect(['dashboard/index']);
-        }
-
-        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
-        if (!$customer) {
-            return $this->redirect(['site/index']);
-        }
-
-        $model = new Reservations();
-        $model->room_id              = $room_id;
-        $model->customer_id          = $customer->id;
-        $model->data_reserva         = $inicio;
-        $model->hora_inicio_agendada = $inicio . ' 00:00:00';
-        $model->hora_fim_agendada    = $fim . ' 23:59:59';
-        $model->total_estimado       = 800.00;  // ← valor real (não 225)
-        $model->status               = 'Pendente';
-        $model->periodo              = 'mes';   // ou 'mensal'
-        $model->tipo_reserva         = 'mensal';
-
-        if ($model->save(false)) {  // false = pula validação chata
-            return $this->redirect(['payment/checkout', 'reservation_id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('error', 'Erro ao criar reserva mensal.');
-        return $this->redirect(['dashboard/index']);
-    }
-
-    */
     public function actionCheckoutMonthly()
     {
         $model = new Reservation();
@@ -657,5 +520,16 @@ class ReservationController extends Controller
 
         $roomId = Yii::$app->request->post('Reservation')['room_id'] ?? null;
         return $this->redirect(['reservation/select-monthly', 'room_id' => $roomId]);
+    }
+    /**
+     * Escolher sala e data antes de criar reserva
+     */
+    public function actionEscolher()
+    {
+        $salas = Rooms::find()->orderBy('nome_sala')->all();
+
+        return $this->render('escolher', [
+            'salas' => $salas,
+        ]);
     }
 }

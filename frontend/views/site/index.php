@@ -17,7 +17,9 @@ $this->title = 'Minha Área - Cowork ILeiria';
     <div class="jumbotron text-center bg-transparent mb-5">
         <h1 class="display-4">Bem-vindo, <?= Html::encode(Yii::$app->user->identity->username) ?>!</h1>
         <p class="lead">Gerencie suas reservas e acompanhe seu saldo.</p>
-        <?= Html::a('Nova Reserva', ['reservation/create'], ['class' => 'btn btn-success btn-lg']) ?>
+        <?= // Html::a('Nova Reserva', ['dashboard/create'], ['class' => 'btn btn-success btn-lg']) 
+        Html::a('Nova Reserva', ['dashboard/index'], ['class' => 'btn btn-success btn-lg'])
+        ?>
     </div>
 
     <div class="body-content">
@@ -51,7 +53,7 @@ $this->title = 'Minha Área - Cowork ILeiria';
                                                 <td><?= Yii::$app->formatter->asTime($res->hora_inicio_agendada, 'HH:mm') ?> → <?= Yii::$app->formatter->asTime($res->hora_fim_agendada, 'HH:mm') ?></td>
                                                 <td><strong><?= Html::encode($res->room->nome_sala) ?></strong></td>
                                                 <td>
-                                                    <?php if ($res->isPaid()): ?>
+                                                    <?php if ($res->hasPaidPayment()): ?>
                                                         <span class="badge badge-success">Pago</span>
                                                     <?php else: ?>
                                                         <span class="badge badge-warning">Pendente</span>
@@ -67,11 +69,11 @@ $this->title = 'Minha Área - Cowork ILeiria';
                                 </table>
                             </div>
                         <?php else: ?>
-                            <p class="text-muted">Nenhuma reserva agendada.</p>
+                            <p class="text-muted">Nenhuma reserva agendada!!.</p>
                         <?php endif; ?>
 
                         <div class="text-right mt-3">
-                            <?= Html::a('Ver Todas as Minhas Reservas →', ['reservation/index'], ['class' => 'btn btn-outline-primary']) ?>
+                            <?= Html::a('Ver Todas as Minhas Reservas →', ['dashboard/index'], ['class' => 'btn btn-outline-primary']) ?>
                         </div>
                     </div>
                 </div>

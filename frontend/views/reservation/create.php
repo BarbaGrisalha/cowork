@@ -53,10 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'mask' => '99:99',
             'options' => [
                 'class' => 'form-control',
-                'placeholder' => 'Ex: 09:00',
+                'placeholder' => 'Ex: 17:00',
             ],
         ]) ?>
-
         <!-- HORA FIM -->
         <?= $form->field($model, 'hora_fim_agendada')->widget(MaskedInput::class, [
             'mask' => '99:99',

@@ -16,6 +16,9 @@ use Yii;
  *
  * @property PricingPlans $pricingPlan
  * @property Reservations[] $reservations
+ * @property float $preco_hora
+ * @property float $preco_dia
+ * @property float $preco_mes
  */
 class Room extends \yii\db\ActiveRecord
 {
