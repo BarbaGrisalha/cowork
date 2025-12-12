@@ -16,6 +16,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Reservation;
+use frontend\models\Customer;
 
 
 /**
@@ -76,34 +77,41 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // SE NÃO ESTIVER LOGADO → mostra página pública da empresa
+        // SE NÃO ESTIVER LOGADO → mostra página pública
         if (Yii::$app->user->isGuest) {
-            return $this->render('welcome'); // página bonita da empresa
+            return $this->render('welcome');
         }
 
-        // SE ESTIVER LOGADO → mostra o dashboard privado (o teu código foda)
-        $userId = Yii::$app->user->id;
+        // PEGA O ID DO CUSTOMER (não do user)
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
+        if (!$customer) {
+            // Se por algum motivo não tiver customer (impossível, mas seguro)
+            Yii::$app->session->setFlash('error', 'Perfil não encontrado.');
+            return $this->redirect(['site/complete-profile']);
+        }
 
-        // Próximas reservas
+        $customerId = $customer->id;
+
+        // PRÓXIMAS RESERVAS (hoje em diante)
         $proximasReservas = Reservation::find()
-            ->where(['customer_id' => $userId])
-            ->andWhere(['>=', 'hora_inicio_agendada', date('Y-m-d H:i:s')])
-            ->with('room')
-            ->orderBy('hora_inicio_agendada')
+            ->joinWith('room')
+            ->where(['reservations.customer_id' => $customerId])
+            ->andWhere(['>=', 'hora_inicio_agendada', date('Y-m-d 00:00:00')])
+            ->orderBy('hora_inicio_agendada ASC')
             ->limit(10)
             ->all();
 
-        // 
+        // SALDO PENDENTE
         $saldoPendente = Yii::$app->db->createCommand("
         SELECT COALESCE(SUM(r.total_estimado), 0)
         FROM reservations r
         LEFT JOIN payments p ON p.reservation_id = r.id AND LOWER(p.status) = 'aprovado'
-        WHERE r.customer_id = :userId
+        WHERE r.customer_id = :customerId
           AND r.status IN ('confirmada', 'pendente')
           AND p.id IS NULL
-        ")->bindValue(':userId', $userId)->queryScalar();
+    ")->bindValue(':customerId', $customerId)->queryScalar();
 
-        return $this->render('index', [ // esse 'index' é o teu dashboard privado
+        return $this->render('index', [
             'proximasReservas' => $proximasReservas,
             'saldoPendente'    => $saldoPendente,
         ]);
