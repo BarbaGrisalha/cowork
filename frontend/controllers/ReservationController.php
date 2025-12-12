@@ -272,6 +272,77 @@ class ReservationController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    public function actionCreate($room_id = null)
+    {
+        $model = new Reservation();
+        $room  = null;
+
+        if (!$room_id) {
+            Yii::$app->session->setFlash('warning', 'Por favor, escolha uma sala primeiro.');
+            return $this->redirect(['reservation/escolher']);
+        }
+
+        $room = Rooms::findOne($room_id);
+        if (!$room) {
+            Yii::$app->session->setFlash('error', 'Sala não encontrada.');
+            return $this->redirect(['site/index']);
+        }
+        $model->room_id = $room_id;
+
+        $userId   = Yii::$app->user->identity->getId();
+        $customer = Customer::findOne(['user_id' => $userId]);
+
+        if (!$customer) {
+            Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
+            return $this->redirect(['site/index']);
+        }
+        $model->customer_id = $customer->id;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            // RESERVA POR HORA
+            if ($model->periodo === 'hora') {
+                $data = $model->data_reserva ?: date('Y-m-d');
+                $horaInicio = $model->hora_inicio_temp ?: '09:00';
+                $horaFim    = $model->hora_fim_temp ?: '10:00';
+
+                $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
+                $model->hora_fim_agendada    = $data . ' ' . $horaFim . ':00';
+            }
+
+            // RESERVA DIÁRIA
+            if ($model->periodo === 'dia' && $model->data_reserva) {
+                $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
+                $model->hora_fim_agendada    = $model->data_reserva . ' 19:00:00';
+                $model->total_estimado       = 32.00;
+            }
+
+            // VALIDAÇÃO DE PASSADO
+            if ($model->periodo === 'hora') {
+                $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
+                $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+
+                if ($inicioReserva < $agora) {
+                    Yii::$app->session->setFlash('error', 'Horário já passou. Escolha um futuro.');
+                    return $this->render('create', ['model' => $model, 'room' => $room]);
+                }
+            }
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Reserva criada com sucesso!');
+                return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+            }
+
+            Yii::$app->session->setFlash('error', 'Erro ao salvar: ' . implode(', ', $model->getFirstErrors()));
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'room'  => $room,
+        ]);
+    }
+
     public function behaviors(): array
     {
         return [

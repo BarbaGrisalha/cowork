@@ -142,7 +142,7 @@ class SiteController extends Controller
             }
 
             // Já tem tudo → vai pro dashboard NOVO
-            return $this->redirect(['site/frontend-cowork']);
+            return $this->redirect(['site/index']);
         }
 
         $model->password = '';
