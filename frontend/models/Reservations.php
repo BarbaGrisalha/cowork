@@ -335,49 +335,6 @@ class Reservations extends \yii\db\ActiveRecord
      * beforeSave: Usado para manipulação final de dados, como o cálculo do preço.
      * @param bool $insert
      * @return bool
-     */
-
-    /*
-    public function beforeSave($insert)
-    {
-        if (!parent::beforeSave($insert)) {
-            return false;
-        }
-
-        // REGRAS ESPECIAIS PARA DIÁRIA E MENSAL
-        if ($this->tipo_reserva === 'diaria') {
-            $this->total_estimado = 32.00;
-            return true; // SAI AQUI, NÃO CALCULA NADA!
-        }
-
-        if ($this->tipo_reserva === 'mensal') {
-            $this->total_estimado = 800.00;
-            return true; // SAI AQUI TAMBÉM!
-        }
-
-        // SÓ CALCULA SE FOR POR HORA (comportamento antigo)
-        if ($this->tipo_reserva === 'hora' || $this->tipo_reserva === null) {
-            if ($insert || $this->total_estimado == 0.00) {
-                $HOURLY_RATE = 7.00;
-
-                try {
-                    $startTime = new DateTime($this->hora_inicio_agendada);
-                    $endTime   = new DateTime($this->hora_fim_agendada);
-                    $interval  = $startTime->diff($endTime);
-                    $totalHoursDecimal = $interval->h + ($interval->i / 60);
-                    $calculatedPrice = ceil($totalHoursDecimal) * $HOURLY_RATE;
-                    $this->total_estimado = round($calculatedPrice, 2);
-                } catch (\Exception $e) {
-                    Yii::error("Erro no cálculo do preço da Reserva #{$this->id}: " . $e->getMessage());
-                    $this->total_estimado = 0.00;
-                }
-            }
-        }
-
-        return true;
-    }
-        */
-    /**
      * beforeSave: Preenche datas/horas corretas e calcula preço
      */
     public function beforeSave($insert)

@@ -74,26 +74,17 @@ class ReservationController extends Controller
         $model->customer_id = $customer->id;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            // RESERVA POR HORA — usa os campos que tu realmente tens no form
-            // RESERVA POR HORA — VERSÃO INDESTRUTÍVEL
+            // RESERVA POR HORA — MONTA DATETIME COM CAMPO VIRTUAL
             if ($model->periodo === 'hora') {
                 $data = $model->data_reserva ?: date('Y-m-d');
 
-                // Pega a hora do campo datetime (hora_inicio_agendada) que veio do form
-                $horaInicioRaw = $model->hora_inicio_agendada;
-                $horaFimRaw    = $model->hora_fim_agendada;
-
-                // Extrai só HH:MM com segurança (se vazio, usa padrão)
-                $horaInicio = $horaInicioRaw ? substr($horaInicioRaw, 11, 5) : '09:00';
-                $horaFim    = $horaFimRaw    ? substr($horaFimRaw,    11, 5) : '10:00';
-
-                // Garante que tem :00 no final
-                if (strlen($horaInicio) !== 5) $horaInicio = '09:00';
-                if (strlen($horaFim) !== 5)    $horaFim    = '10:00';
+                $horaInicio = $model->hora_inicio_temp ?: '09:00';
+                $horaFim    = $model->hora_fim_temp ?: '10:00';
 
                 $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
-                $model->hora_fim_agendada    = $data . ' ' . $horaFim    . ':00';
+                $model->hora_fim_agendada    = $data . ' ' . $horaFim . ':00';
             }
+
             // RESERVA DIÁRIA
             if ($model->periodo === 'dia' && $model->data_reserva) {
                 $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
@@ -101,7 +92,7 @@ class ReservationController extends Controller
                 $model->total_estimado       = 32.00;
             }
 
-            // VALIDAÇÃO DE PASSADO
+            // VALIDAÇÃO DE PASSADO (só por hora)
             if ($model->periodo === 'hora') {
                 $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
                 $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
@@ -534,4 +525,3 @@ class ReservationController extends Controller
         ]);
     }
 }
-    

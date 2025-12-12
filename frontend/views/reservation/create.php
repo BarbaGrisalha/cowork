@@ -32,41 +32,43 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'room_id')->hiddenInput()->label(false) ?>
 
         <!-- DATA – BLOQUEADA PARA DATAS PASSADAS -->
+        <!-- DATA RESERVA (já tá bom) -->
         <?= $form->field($model, 'data_reserva')->widget(DatePicker::class, [
             'dateFormat' => 'yyyy-MM-dd',
             'options' => [
                 'class' => 'form-control',
                 'placeholder' => 'Selecione a data',
-                'readonly' => true, // impede digitar
+                'readonly' => true,
             ],
             'clientOptions' => [
                 'changeMonth' => true,
                 'changeYear'  => true,
-                'minDate'     => new \yii\web\JsExpression('new Date()'), // ← HOJE (bloqueia passado)
-                'maxDate'     => '+12M', // opcional: até 1 ano
+                'minDate'     => new \yii\web\JsExpression('new Date()'),
+                'maxDate'     => '+12M',
                 'showButtonPanel' => true,
             ],
         ]) ?>
 
         <!-- HORA INÍCIO -->
-        <?= $form->field($model, 'hora_inicio_agendada')->widget(MaskedInput::class, [
+        <?= $form->field($model, 'hora_inicio_temp')->widget(MaskedInput::class, [
             'mask' => '99:99',
             'options' => [
                 'class' => 'form-control',
-                'placeholder' => 'Ex: 17:00',
+                'placeholder' => 'Ex: 09:00',
             ],
-        ]) ?>
+        ])->hint('Horário de início (9h às 19h)') ?>
         <!-- HORA FIM -->
-        <?= $form->field($model, 'hora_fim_agendada')->widget(MaskedInput::class, [
+        <?= $form->field($model, 'hora_fim_temp')->widget(MaskedInput::class, [
             'mask' => '99:99',
             'options' => [
                 'class' => 'form-control',
-                'placeholder' => 'Ex: 18:00',
+                'placeholder' => 'Ex: 10:00',
             ],
-        ]) ?>
+        ])->hint('Horário de fim') ?>
 
         <!-- STATUS OCULTO -->
-        <?= $form->field($model, 'status')->hiddenInput(['value' => 'pendente'])->label(false) ?>
+        <?= $form->field($model, 'hora_inicio_agendada')->hiddenInput()->label(false) ?>
+        <?= $form->field($model, 'hora_fim_agendada')->hiddenInput()->label(false) ?>
 
         <div class="form-group mt-4">
             <?= Html::submitButton('Confirmar Reserva', ['class' => 'btn btn-success btn-lg px-5']) ?>
