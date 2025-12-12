@@ -13,7 +13,7 @@ $this->title = 'Painel do Cliente | Cowork';
 
 <div class="dashboard-index">
     <h1><?= Html::encode($this->title) ?></h1>
-    <p class="lead">Bem-vindo(a), <?= ucfirst(strtoupper(Yii::$app->user->identity->username)) ?>! Aqui está o resumo do seu Cowork.</p>
+    <p class="lead">Bem-vindo(a), <?= strtoupper(Yii::$app->user->identity->username) ?>! Aqui está o resumo do seu Cowork.</p>
 
     <div class="row mt-5">
 
