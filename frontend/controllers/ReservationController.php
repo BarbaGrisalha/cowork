@@ -47,75 +47,146 @@ class ReservationController extends Controller
     /**
      * Ação POST: Cria uma nova reserva (hourly, daily, monthly)
      */
-    public function actionCreate($room_id = null)
-    {
-        $model = new Reservation();
-        $room  = null;
+    // public function actionCreate($room_id = null)
+    // {
+    //     $model = new Reservation();
+    //     $room  = null;
 
-        if (!$room_id) {
-            Yii::$app->session->setFlash('warning', 'Por favor, escolha uma sala primeiro.');
-            return $this->redirect(['reservation/escolher']);
-        }
+    //     if (!$room_id) {
+    //         Yii::$app->session->setFlash('warning', 'Por favor, escolha uma sala primeiro.');
+    //         return $this->redirect(['reservation/escolher']);
+    //     }
 
-        $room = Rooms::findOne($room_id);
-        if (!$room) {
-            Yii::$app->session->setFlash('error', 'Sala não encontrada.');
-            return $this->redirect(['site/index']);
-        }
-        $model->room_id = $room_id;
+    //     $room = Rooms::findOne($room_id);
+    //     if (!$room) {
+    //         Yii::$app->session->setFlash('error', 'Sala não encontrada.');
+    //         return $this->redirect(['site/index']);
+    //     }
+    //     $model->room_id = $room_id;
 
-        $userId   = Yii::$app->user->identity->getId();
-        $customer = Customer::findOne(['user_id' => $userId]);
+    //     $userId   = Yii::$app->user->identity->getId();
+    //     $customer = Customer::findOne(['user_id' => $userId]);
 
-        if (!$customer) {
-            Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
-            return $this->redirect(['site/index']);
-        }
-        $model->customer_id = $customer->id;
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+    //     if (!$customer) {
+    //         Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
+    //         return $this->redirect(['site/index']);
+    //     }
+    //     $model->customer_id = $customer->id;
+    //     if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            // RESERVA POR HORA — MONTA DATETIME COM CAMPO VIRTUAL
-            if ($model->periodo === 'hora') {
-                $data = $model->data_reserva ?: date('Y-m-d');
+    //         // RESERVA POR HORA — MONTA DATETIME COM CAMPO VIRTUAL
+    //         if ($model->periodo === 'hora') {
+    //             $data = $model->data_reserva ?: date('Y-m-d');
 
-                $horaInicio = $model->hora_inicio_temp ?: '09:00';
-                $horaFim    = $model->hora_fim_temp ?: '10:00';
+    //             $horaInicio = $model->hora_inicio_temp ?: '09:00';
+    //             $horaFim    = $model->hora_fim_temp ?: '10:00';
 
-                $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
-                $model->hora_fim_agendada    = $data . ' ' . $horaFim . ':00';
-            }
+    //             $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
+    //             $model->hora_fim_agendada    = $data . ' ' . $horaFim . ':00';
+    //         }
 
-            // RESERVA DIÁRIA
-            if ($model->periodo === 'dia' && $model->data_reserva) {
-                $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
-                $model->hora_fim_agendada    = $model->data_reserva . ' 19:00:00';
-                $model->total_estimado       = 32.00;
-            }
+    //         // RESERVA DIÁRIA
+    //         if ($model->periodo === 'dia' && $model->data_reserva) {
+    //             $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
+    //             $model->hora_fim_agendada    = $model->data_reserva . ' 19:00:00';
+    //             $model->total_estimado       = 32.00;
+    //         }
 
-            // VALIDAÇÃO DE PASSADO (só por hora)
-            if ($model->periodo === 'hora') {
-                $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
-                $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+    //         // VALIDAÇÃO DE PASSADO (só por hora)
+    //         if ($model->periodo === 'hora') {
+    //             $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
+    //             $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
 
-                if ($inicioReserva < $agora) {
-                    Yii::$app->session->setFlash('error', 'Não é permitido reservar horários que já passaram. Escolha um horário futuro.');
-                    return $this->render('create', ['model' => $model, 'room' => $room]);
-                }
-            }
+    //             if ($inicioReserva < $agora) {
+    //                 Yii::$app->session->setFlash('error', 'Não é permitido reservar horários que já passaram. Escolha um horário futuro.');
+    //                 return $this->render('create', ['model' => $model, 'room' => $room]);
+    //             }
+    //         }
 
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
-                return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
-            }
+    //         if ($model->save()) {
+    //             Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
+    //             return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+    //         }
 
-            Yii::$app->session->setFlash('error', 'Erro: ' . implode(', ', $model->getFirstErrors()));
-        }
+    //         Yii::$app->session->setFlash('error', 'Erro: ' . implode(', ', $model->getFirstErrors()));
+    //     }
 
-        return $this->render('create', [
-            'model' => $model,
-            'room'  => $room,
-        ]);
-    }
+    //     return $this->render('create', [
+    //         'model' => $model,
+    //         'room'  => $room,
+    //     ]);
+    // }
+
+    // public function actionCreate($room_id = null)
+    // {
+    //     $model = new Reservation();
+    //     $room  = null;
+
+    //     if (!$room_id) {
+    //         Yii::$app->session->setFlash('warning', 'Por favor, escolha uma sala primeiro.');
+    //         return $this->redirect(['reservation/escolher']);
+    //     }
+
+    //     $room = Rooms::findOne($room_id);
+    //     if (!$room) {
+    //         Yii::$app->session->setFlash('error', 'Sala não encontrada.');
+    //         return $this->redirect(['site/index']);
+    //     }
+    //     $model->room_id = $room_id;
+
+    //     $userId   = Yii::$app->user->identity->getId();
+    //     $customer = Customer::findOne(['user_id' => $userId]);
+
+    //     if (!$customer) {
+    //         Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
+    //         return $this->redirect(['site/index']);
+    //     }
+    //     $model->customer_id = $customer->id;
+    //     if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+    //         // RESERVA POR HORA — MONTA DATETIME COM CAMPO VIRTUAL
+    //         if ($model->periodo === 'hora') {
+    //             $data = $model->data_reserva ?: date('Y-m-d');
+
+    //             $horaInicio = $model->hora_inicio_temp ?: '09:00';
+    //             $horaFim    = $model->hora_fim_temp ?: '10:00';
+
+    //             $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
+    //             $model->hora_fim_agendada    = $data . ' ' . $horaFim . ':00';
+    //         }
+
+    //         // RESERVA DIÁRIA
+    //         if ($model->periodo === 'dia' && $model->data_reserva) {
+    //             $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
+    //             $model->hora_fim_agendada    = $model->data_reserva . ' 19:00:00';
+    //             $model->total_estimado       = 32.00;
+    //         }
+
+    //         // VALIDAÇÃO DE PASSADO (só por hora)
+    //         if ($model->periodo === 'hora') {
+    //             $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
+    //             $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+
+    //             if ($inicioReserva < $agora) {
+    //                 Yii::$app->session->setFlash('error', 'Não é permitido reservar horários que já passaram. Escolha um horário futuro.');
+    //                 return $this->render('create', ['model' => $model, 'room' => $room]);
+    //             }
+    //         }
+
+    //         if ($model->save()) {
+    //             Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
+    //             return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+    //         }
+
+    //         Yii::$app->session->setFlash('error', 'Erro: ' . implode(', ', $model->getFirstErrors()));
+    //     }
+
+    //     return $this->render('create', [
+    //         'model' => $model,
+    //         'room'  => $room,
+    //     ]);
+    // }
+
 
     /*
      * @param string $date A data da consulta (YYYY-MM-DD)
@@ -180,32 +251,27 @@ class ReservationController extends Controller
 
     public function actionIndex()
     {
-        // 1. O CHECK CRÍTICO: Buscar o ID do usuário LOGADO
-        // O Yii2 Advanced Template tem o objeto user
-        $cliente_id = Yii::$app->user->identity->id;
-
-        if (!$cliente_id) {
-            // Se a paciência não for suficiente para tratar o erro, mande um 401
-            throw new \yii\web\UnauthorizedHttpException('Acesso negado. Você precisa se identificar.');
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
         }
 
-        // 2. BUSCA NO MODEL: Agora sim, buscando apenas as dele
-        $reservas = Reserva::find()
-            ->select(['data_hora_inicio', 'data_hora_fim'])
-            ->where(['cliente_id' => $cliente_id]) // FILTRAR PELO ID DO USUÁRIO LOGADO
-            ->andWhere(['>=', 'data_hora_fim', date('Y-m-d H:i:s')])
-            ->orderBy('data_hora_inicio ASC')
-            ->asArray()
-            ->all();
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
+        if (!$customer) {
+            return $this->redirect(['site/complete-profile']);
+        }
 
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => Reservation::find()
+                ->joinWith('room')
+                ->where(['reservations.customer_id' => $customer->id])
+                ->orderBy('hora_inicio_agendada DESC'),
+            'pagination' => ['pageSize' => 20],
+        ]);
 
-        return [
-            'status' => 'success',
-            'data' => $reservas
-        ];
+        return $this->render('historic', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
-
     public function behaviors(): array
     {
         return [
