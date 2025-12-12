@@ -31,9 +31,6 @@ class Reservation extends \yii\db\ActiveRecord
     public const STATUS_CANCELED = 'cancelado';
 
     public $periodo;
-    public $hora_inicio_temp;
-    public $hora_fim_temp;
-    public $hora;
 
 
     /**
@@ -49,80 +46,46 @@ class Reservation extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        // return [
-        //     [['hora_inicio_temp', 'hora_fim_temp'], 'string', 'max' => 5],
-        //     [['hora_inicio_temp', 'hora_fim_temp'], 'required', 'when' => fn($model) => $model->periodo === 'hora'],
-
-        //     [['total_estimado'], 'default', 'value' => 0.00],
-        //     [['status'], 'default', 'value' => self::STATUS_PENDING],
-
-        //     [['customer_id', 'room_id'], 'required'],
-        //     [['customer_id', 'room_id'], 'integer'],
-
-        //     [['periodo'], 'string'],
-        //     [['periodo'], 'default', 'value' => 'hora'],
-        //     [['periodo'], 'in', 'range' => ['hora', 'dia', 'mes']],
-
-        //     [['data_reserva'], 'required', 'when' => fn($model) => in_array($model->periodo, ['hora', 'dia', 'mes'])],
-
-        //     // tipo_reserva (hora, diaria, mensal)
-        //     [['tipo_reserva'], 'string', 'max' => 20],
-        //     [['tipo_reserva'], 'default', 'value' => 'hora'],
-
-        //     // Campos que realmente existem no banco
-        //     [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'safe'],
-
-        //     // Só exige horário completo quando for reserva por hora
-        //     // [
-        //     //     ['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'],
-        //     //     'required',
-        //     //     'when' => fn($model) => $model->periodo === 'hora'
-        //     // ],
-
-        //     // Só exige data_reserva quando for diária ou mensal
-        //     [
-        //         ['data_reserva'],
-        //         'required',
-        //         'when' => fn($model) => in_array($model->periodo, ['dia', 'mes'])
-        //     ],
-
-        //     // [['hora_inicio_agendada'], 'validateNotInPast'],
-
-        //     [['total_estimado'], 'number'],
-        //     [['status'], 'string', 'max' => 30],
-        //     [['status'], 'in', 'range' => [self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_CANCELED]],
-
-        //     // Relacionamentos corretos
-        //     [['customer_id'], 'exist', 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
-        //     [['room_id'],     'exist', 'targetClass' => Rooms::class,      'targetAttribute' => ['room_id' => 'id']],
-        // ];
         return [
-            // Campos virtuais (só hora)
-            [['hora_inicio_temp', 'hora_fim_temp'], 'string', 'max' => 5],
-            [['hora_inicio_temp', 'hora_fim_temp'], 'required', 'when' => fn($model) => $model->periodo === 'hora'],
+            [['total_estimado'], 'default', 'value' => 0.00],
+            [['status'], 'default', 'value' => self::STATUS_PENDING],
 
-            // Campos obrigatórios
             [['customer_id', 'room_id'], 'required'],
             [['customer_id', 'room_id'], 'integer'],
 
-            // Período
+            // periodo (hora, dia, mes)
             [['periodo'], 'string'],
             [['periodo'], 'default', 'value' => 'hora'],
             [['periodo'], 'in', 'range' => ['hora', 'dia', 'mes']],
 
-            // Data reserva obrigatória para todos os tipos
-            [['data_reserva'], 'required', 'when' => fn($model) => in_array($model->periodo, ['hora', 'dia', 'mes'])],
+            // tipo_reserva (hora, diaria, mensal)
+            [['tipo_reserva'], 'string', 'max' => 20],
+            [['tipo_reserva'], 'default', 'value' => 'hora'],
 
-            // Campos que o controller preenche — NÃO VALIDAR AQUI
-            [['hora_inicio_agendada', 'hora_fim_agendada'], 'safe'],
+            // Campos que realmente existem no banco
+            [['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'], 'safe'],
 
-            // Outros
+            // Só exige horário completo quando for reserva por hora
+            [
+                ['data_reserva', 'hora_inicio_agendada', 'hora_fim_agendada'],
+                'required',
+                'when' => fn($model) => $model->periodo === 'hora'
+            ],
+
+            // Só exige data_reserva quando for diária ou mensal
+            [
+                ['data_reserva'],
+                'required',
+                'when' => fn($model) => in_array($model->periodo, ['dia', 'mes'])
+            ],
+
+            [['hora_inicio_agendada'], 'validateNotInPast'],
+
             [['total_estimado'], 'number'],
-            [['total_estimado'], 'default', 'value' => 0.00],
-            [['status'], 'default', 'value' => self::STATUS_PENDING],
+            [['status'], 'string', 'max' => 30],
             [['status'], 'in', 'range' => [self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_CANCELED]],
 
-            // Relacionamentos
+            // Relacionamentos corretos
             [['customer_id'], 'exist', 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
             [['room_id'],     'exist', 'targetClass' => Rooms::class,      'targetAttribute' => ['room_id' => 'id']],
         ];
@@ -347,28 +310,20 @@ class Reservation extends \yii\db\ActiveRecord
 
         $this->periodo = $this->periodo ?: 'hora';
 
-        // GERA O CÓDIGO DE RESERVA AUTOMÁTICO (só na criação)
-        if ($insert && empty($this->reservation_code)) {
-            $datePart   = date('Ymd', strtotime($this->data_reserva ?: 'now'));
-            $roomPart   = strtoupper(str_replace([' ', '-'], '', $this->room->nome_sala ?? 'SALA'));
-            $roomPart   = substr(preg_replace('/[^A-Z0-9]/', '', $roomPart), 0, 15);
-            $randomPart = str_pad($this->id ?: mt_rand(10, 99), 2, '0', STR_PAD_LEFT);
-
-            $this->reservation_code = "RES-{$datePart}-{$roomPart}-{$randomPart}";
-        }
-
-        // RESERVA MENSAL
+        // RESERVA MENSAL — usa apenas data_reserva (que existe no banco)
         if ($this->tipo_reserva === 'mensal') {
             if (empty($this->data_reserva)) {
                 $this->addError('data_reserva', 'Data da reserva é obrigatória.');
                 return false;
             }
 
-            $dt = new \DateTime($this->data_reserva);
+            $dt = new \DateTime($this->data_reserva); // já vem como 2026-01-01
+
             $this->hora_inicio_agendada = $dt->format('Y-m-01 00:00:00');
-            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59.999');
+            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59.999'); // evita duplicate key
             $this->total_estimado       = 800.00;
             $this->status               = $this->status ?: 'Pendente';
+
             return true;
         }
 
@@ -383,10 +338,14 @@ class Reservation extends \yii\db\ActiveRecord
             $this->hora_fim_agendada    = $this->data_reserva . ' 19:00:00';
             $this->total_estimado       = 32.00;
             $this->tipo_reserva         = 'diaria';
+
             return true;
         }
 
-        // RESERVA POR HORA — nada muda (já tratado no controller)
+        // RESERVA POR HORA — nada muda
+        if ($this->periodo === 'hora') {
+            // se precisar, pode manter alguma lógica aqui
+        }
 
         return true;
     }
