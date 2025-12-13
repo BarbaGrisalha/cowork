@@ -25,7 +25,7 @@ use yii\grid\GridView;
                     <td>€ <?= number_format($r->total_estimado, 2) ?></td>
                     <td>
                         <?= Html::a('Ver Fatura', ['view', 'id' => $r->id], ['class' => 'btn btn-sm btn-primary']) ?>
-                        <?= Html::a('PDF', ['pdf', 'id' => $r->id], ['class' => 'btn btn-sm btn-outline-success', 'target' => '_blank']) ?>
+                     
                     </td>
                 </tr>
             <?php endforeach; ?>

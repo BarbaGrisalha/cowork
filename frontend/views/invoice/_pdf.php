@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt">
+<?php
+
+use yii\helpers\Html;
+use kartik\mpdf\Pdf;
+?>
 
 <head>
     <meta charset="utf-8">
