@@ -5,11 +5,10 @@
 
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
-// CORREÇÃO: Mudança para yii\bootstrap4 e yii\helpers\Html
-use yii\bootstrap4\Breadcrumbs; // CORRIGIDO
-use yii\helpers\Html;           // CORRIGIDO (O Helper Html não está no bootstrap4)
-use yii\bootstrap4\Nav;         // CORRIGIDO
-use yii\bootstrap4\NavBar;      // CORRIGIDO
+use yii\bootstrap4\Breadcrumbs;
+use yii\helpers\Html;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
 
 AppAsset::register($this);
 ?>
