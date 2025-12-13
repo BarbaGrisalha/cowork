@@ -110,7 +110,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -209,5 +210,36 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getJwt($generate = false)
+    {
+        if ($generate && !isset($this->_jwt)) {
+            $time = time();
+            $payload = [
+                'iss' => 'Cowork IPLeiria',
+                'aud' => 'Mobile App',
+                'iat' => $time,
+                'nbf' => $time,
+                'exp' => $time + (24 * 60 * 60), // 24h
+                'user_id' => $this->id,
+                'username' => $this->username,
+            ];
+            $this->_jwt = Yii::$app->jwt->getToken($payload);
+        }
+        return $this->_jwt ?? null;
+    }
+
+    public function validateJwt($token)
+    {
+        try {
+            $decoded = Yii::$app->jwt->getPayload($token);
+            if ($decoded['user_id'] == $this->id) {
+                return true;
+            }
+        } catch (\Exception $e) {
+            // Token inválido
+        }
+        return false;
     }
 }

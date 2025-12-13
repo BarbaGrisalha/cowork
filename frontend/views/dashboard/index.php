@@ -151,5 +151,41 @@ $this->title = 'Painel do Cliente | Cowork';
     </div>
 </div>
 
+<?php
+$this->registerJsFile('https://unpkg.com/mqtt/dist/mqtt.min.js', ['position' => \yii\web\View::POS_END]);
+$this->registerJs(
+    <<<JS
+const client = mqtt.connect('ws://localhost:8080/mqtt'); // se usar websockets, ou muda pra mosquitto com websocket
+
+client.on('connect', function () {
+    client.subscribe('cowork/reservas/nova');
+    console.log('MQTT conectado e inscrito!');
+});
+
+client.on('message', function (topic, message) {
+    const reserva = JSON.parse(message.toString());
+
+    // TOAST NOTIFICAÇÃO (Bootstrap toast)
+    const toastHtml = `
+<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="d-flex">
+        <div class="toast-body">
+            <strong>Nova reserva!</strong><br>
+            \${reserva.room} - \${reserva.date} \${reserva.time}<br>
+            Cliente: \${reserva.customer} (Código: \${reserva.code})
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>`; // <--- As barras invertidas foram adicionadas aqui
+
+    document.body.insertAdjacentHTML('beforeend', toastHtml);
+    const toastElement = document.querySelector('.toast:last-child');
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+});
+JS
+);
+?>
+
 <!-- Bootstrap Icons (se ainda não tiver) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">

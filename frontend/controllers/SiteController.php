@@ -363,4 +363,9 @@ class SiteController extends Controller
 
         return $this->render('complete-profile', ['model' => $model]);
     }
+
+    public function actionApiDocs()
+    {
+        return $this->render('api-docs');
+    }
 }

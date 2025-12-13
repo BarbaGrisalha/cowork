@@ -14,7 +14,7 @@ $this->title = 'Cowork ILeiria - Espaço de Trabalho';
     </p>
     <p>
         <?= Html::a('Fazer Login', ['site/login'], ['class' => 'btn btn-primary btn-lg mx-2']) ?>
-        <?= Html::a('Ver Disponibilidade', ['reservation/create'], ['class' => 'btn btn-outline-success btn-lg mx-2']) ?>
+
     </p>
 </div>
 

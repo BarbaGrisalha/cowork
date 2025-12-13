@@ -61,110 +61,79 @@ return [
         ],
 
 
-        // -------------------------------
-        // URL Manager: Rotas Bonitas + API
-        // -------------------------------
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-
+                // ROTAS DA API (v1)
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/reservation',
                     'pluralize' => false,
-                    // AQUI ESTÁ O REMÉDIO: DEFINIÇÃO DE TOKENS
-                    'tokens' => [
-                        // {resource} deve ser numérico (assumindo que é um ID)
-                        '{resource}' => '<resource:\d+>',
-                        // {date} deve aceitar o formato YYYY-MM-DD (dígitos e hífens)
-                        // O padrão é flexível o suficiente para lidar com a data
-                        '{date}' => '<date:\d{4}-\d{2}-\d{2}>',
-                    ],
-                    'patterns' => [
-                        // Esta é a sua regra. Ela se beneficia dos tokens definidos acima.
-                        'GET availability/{resource}/{date}' => 'availability',
-
-                        // CRUD Genéricas (sem ID)
-                        'GET' => 'index',
-                        'POST' => 'create',
-
-                        // CRUD Genéricas (com ID)
-                        'GET <id>' => 'view',
-                        'PUT <id>' => 'update',
-                        'DELETE <id>' => 'delete',
-                    ],
-                    'extraPatterns' => [],
-                ],
-
-                // 2. Rotas padrão do site (Estas vêm depois)
-                '' => 'site/index',
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
-            ],
-
-
-
-            /* 'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                // 1. ROTAS CUSTOMIZADAS (Usando a regra padrão para forçar o reconhecimento)
-                // O formato é: 'url' => 'controller/action'
-                'GET api/reservation/events' => 'api/reservation/events',
-                'GET api/reservation/availability/<resource:\w+>/<date:\w+>' => 'api/reservation/availability',
-
-                // 2. ROTAS REST PADRÃO (Usando o UrlRule, mas sem as customizações que estavam falhando)
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/reservation',
-                    'pluralize' => false,
-                    'except' => ['index', 'create', 'update', 'delete', 'view'], // Desativa tudo (ou deixe apenas 'view' se for mais simples)
-                ],
-
-                // 3. Rotas padrão do site
-                '' => 'site/index',
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
-            ],
-            /*Alterado para teste
-            'rules' => [
-                // Rotas REST da API versão 1
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    // CORRIGIDO: O ID REAL do seu Controller é 'api/v1/reservation'
-                    //'controller' => 'api/v1/reservation',
-                    'controller' => 'api/reservation',
-                    'pluralize' => false,
-                    'patterns' => [
-                        // 1. ROTAS COM PARÂMETROS DE CAMINHO NO TOPO (MAIS ESPECÍFICAS)
-                        //'GET availability/{resource}/{date}' => 'availability',
-
-                        // 2. ROTAS LITERAIS (ESPECÍFICAS, SEM PARÂMETROS)
-                        'GET events' => 'events',
-
-                        // 3. ROTAS DE RECURSOS (GENÉRICAS, SEM ID)
-                       //200 'GET' => 'index',
-                        //'POST' => 'create',
-
-                        // 4. ROTAS COM ID (GENÉRICAS, NO FINAL)
-                        'GET <id>' => 'view',
-                        //'PUT <id>' => 'update',
-                        //'DELETE <id>' => 'delete',
-
-                    ],
                     'extraPatterns' => [
-                        // CORRIGIDO: O nome da action é 'availability'
-                        'GET availability/{resource}/{date}' => 'availability'
+                        'GET availability/{room_id}/{date}' => 'availability',
+                        'GET events' => 'events',
                     ],
-                    'tokens' => [],
-                    'pluralize' => false,
                 ],
 
-                // Rotas padrão do site
+                // ROTAS NORMAIS DO SITE (as mais importantes primeiro)
+                'reservation/escolher' => 'reservation/escolher',
+                'reservation/create/<room_id:\d+>' => 'reservation/create',
+                'reservation/create' => 'reservation/create',
+                'reservation/index' => 'reservation/index',
+                'reservation/historic' => 'reservation/historic',
+                'invoice' => 'invoice/index',
+                'invoice/view/<id:\d+>' => 'invoice/view',
+                'invoice/pdf/<id:\d+>' => 'invoice/pdf',
+
+                // ROTA PADRÃO
                 '' => 'site/index',
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
-            ],*/
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+            ],
         ],
+        // -------------------------------
+        // URL Manager: Rotas Bonitas + API
+        // -------------------------------
+
+        // 'urlManager' => [
+        //     'enablePrettyUrl' => true,
+        //     'showScriptName' => false,
+        //     'rules' => [
+
+        //         [
+        //             'class' => 'yii\rest\UrlRule',
+        //             'controller' => 'api/reservation',
+        //             'pluralize' => false,
+        //             // AQUI ESTÁ O REMÉDIO: DEFINIÇÃO DE TOKENS
+        //             'tokens' => [
+        //                 // {resource} deve ser numérico (assumindo que é um ID)
+        //                 '{resource}' => '<resource:\d+>',
+        //                 // {date} deve aceitar o formato YYYY-MM-DD (dígitos e hífens)
+        //                 // O padrão é flexível o suficiente para lidar com a data
+        //                 '{date}' => '<date:\d{4}-\d{2}-\d{2}>',
+        //             ],
+        //             'patterns' => [
+        //                 // Esta é a sua regra. Ela se beneficia dos tokens definidos acima.
+        //                 'GET availability/{resource}/{date}' => 'availability',
+
+        //                 // CRUD Genéricas (sem ID)
+        //                 'GET' => 'index',
+        //                 'POST' => 'create',
+
+        //                 // CRUD Genéricas (com ID)
+        //                 'GET <id>' => 'view',
+        //                 'PUT <id>' => 'update',
+        //                 'DELETE <id>' => 'delete',
+        //             ],
+        //             'extraPatterns' => [],
+        //         ],
+
+        //         // 2. Rotas padrão do site (Estas vêm depois)
+        //         '' => 'site/index',
+        //         '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+        //     ],
+        // ],
     ],
     'params' => $params,
 ];
