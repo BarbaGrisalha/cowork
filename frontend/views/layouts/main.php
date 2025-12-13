@@ -50,13 +50,17 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About!!!', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Faturas', 'url' => ['/invoice/index']],
+
 
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         } else {
+            // Primeiro item
             $menuItems[] = ['label' => 'Dashboard/Agenda', 'url' => ['dashboard/index']];
+
+            // Segundo item (Faturas), agora adicionado corretamente
+            $menuItems[] = ['label' => 'Faturas', 'url' => ['/invoice/index']];
         }
 
 

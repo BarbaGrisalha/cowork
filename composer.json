@@ -25,7 +25,8 @@
     "hail812/yii2-adminlte3": "~1.1",
     "yiisoft/yii2-bootstrap5": "^2.0",
     "yiisoft/yii2-jui": "^2.0",
-    "chillerlan/php-qrcode": "^5.0"
+    "chillerlan/php-qrcode": "^5.0",
+    "kartik-v/yii2-mpdf": "^1.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
