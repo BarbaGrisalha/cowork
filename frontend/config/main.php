@@ -65,6 +65,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // ROTA ESPECÍFICA PARA LOGIN NA API
+                'POST api/login' => 'api/login/login', // módulo 'api' / controller 'login' / action 'login'
                 // ROTAS DA API (v1)
                 [
                     'class' => 'yii\rest\UrlRule',

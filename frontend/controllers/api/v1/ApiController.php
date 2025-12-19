@@ -3,12 +3,12 @@
 namespace frontend\controllers\api\v1;
 
 use Yii;
-use yii\web\Controller;
+use yii\rest\Controller;
 use yii\web\Response;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimitInterface;
-use yii\base\RateLimit;
+//use yii\base\RateLimit;
 use common\models\Reservation;
 use common\models\Rooms;
 use common\models\Payment;
@@ -16,33 +16,26 @@ use common\models\User;
 use common\models\Customer;
 use yii\data\ActiveDataProvider;
 
-class ApiController extends Controller implements RateLimitInterface
+class ApiController extends Controller
 {
     public $enableSession = false;
 
     public function behaviors()
     {
-        return [
-            'authenticator' => [
-                'class' => CompositeAuth::class,
-                'authMethods' => [
-                    HttpBearerAuth::class,
-                ],
-            ],
-            'rateLimit' => [
-                'class' => RateLimit::class,
-                'allowance' => 100,
-                'rate' => 50,
-            ],
-            'cors' => [
-                'class' => \yii\filters\Cors::class,
-                'cors' => [
-                    'Origin' => ['*'],
-                    'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'OPTIONS'],
-                    'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization'],
-                ],
-            ],
+        $behaviors = parent::behaviors();
+
+        // Configuração do CORS para permitir o Insomnia/Frontend
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::class,
         ];
+
+        // Autenticação: Protege tudo, EXCETO o login
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+            'optional' => ['login'], // Essencial para conseguir logar!
+        ];
+
+        return $behaviors;
     }
 
     public function actions()
@@ -51,29 +44,32 @@ class ApiController extends Controller implements RateLimitInterface
         return parent::actions();
     }
 
+    // O método actionLogin permanece quase igual, mas certifique-se do seguinte:
     public function actionLogin()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        // O Yii rest\Controller já define o formato como JSON automaticamente
 
         $username = Yii::$app->request->post('username');
         $password = Yii::$app->request->post('password');
 
         $user = User::findByUsername($username);
+
         if ($user && $user->validatePassword($password)) {
-            $jwt = $user->getJwt(true);
+            // Se você não tiver JWT configurado, use o auth_key para testar primeiro
             return [
                 'success' => true,
-                'token' => $jwt,
+                'token' => $user->auth_key,
                 'user' => [
                     'id' => $user->id,
                     'username' => $user->username,
                 ],
-                'complete_profile' => empty($user->customer->nif ?? ''),
             ];
         }
 
+        Yii::$app->response->statusCode = 401;
         return ['success' => false, 'message' => 'Credenciais inválidas.'];
     }
+
 
     public function actionCompleteProfile()
     {
@@ -183,5 +179,20 @@ class ApiController extends Controller implements RateLimitInterface
             return $user;
         }
         return null;
+    }
+
+    // Dentro da classe ApiController
+
+    public function loadAllowance($request, $action)
+    {
+        return [Yii::$app->user->identity->allowance, Yii::$app->user->identity->allowance_updated_at];
+    }
+
+    public function saveAllowance($request, $action, $allowance, $timestamp)
+    {
+        $user = Yii::$app->user->identity;
+        $user->allowance = $allowance;
+        $user->allowance_updated_at = $timestamp;
+        $user->save(false);
     }
 }
