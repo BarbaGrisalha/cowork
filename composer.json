@@ -24,7 +24,7 @@
     "yiisoft/yii2-symfonymailer": "~2.0.3",
     "hail812/yii2-adminlte3": "~1.1",
     "yiisoft/yii2-bootstrap5": "^2.0",
-    "yiisoft/yii2-jui": "^2.0",
+   
     "chillerlan/php-qrcode": "^5.0",
     "kartik-v/yii2-mpdf": "^1.0",
     "sizeg/yii2-jwt": "^1.2",
