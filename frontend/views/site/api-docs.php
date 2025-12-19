@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td>POST</td>
                             <td>/login</td>
                             <td>Login e obtém JWT</td>
-                            <td>JSON: {"username": "altamir", "password": "altamir123"}</td>
+                            <td>JSON: {"username": "altamir", "password": "vinho123"}</td>
                         </tr>
                         <tr>
                             <td>GET</td>
@@ -84,7 +84,7 @@ Content-Type: application/json
 
 {
     "username": "altamir",
-    "password": "123456"
+    "password": "vinho123"
 }
 
 Resposta:
