@@ -51,9 +51,7 @@ $this->title = 'Checkout de Pagamento FAKE (Completo)';
         <p class="text-muted small">
             **Regras de Simulação FAKE:**
         <ul>
-            <li>Para **SUCESSO** (APROVADO), use um número que comece com o dígito **4**.</li>
-            <li>Para **PENDENTE**, use um número que comece com o dígito **5**.</li>
-            <li>Para **FALHA** (NEGADO), use qualquer outro dígito inicial.</li>
+            <li>Para **SUCESSO** (APROVADO), use '4111111111111111', Visa teste clássico.</li>
         </ul>
         *O número também deve passar no Algoritmo de Luhn.*
         </p>
