@@ -55,7 +55,19 @@ class DashboardController extends Controller
                         // CORREÇÃO CRÍTICA: 'roles' deve ser um array de strings.
                         // O Yii estava lendo o array de roles como se fossem propriedades
                         'roles' => ['@'], // ['@'] significa: usuários autenticados
-                        'actions' => ['index'], // Adicionamos 'actions' para maior clareza
+                        'actions' => [
+                            'index',
+                            'create',
+                            'reservar',
+                            'view',
+                            'atualizarReserva',
+                            'cancelarReserva',
+                            'deletarReserva',
+                            'fazerReserva',
+                            'gerenciarTudo',
+                            'listarMinhasReservas',
+                            'verReserva'
+                        ], // Adicionamos 'actions' para maior clareza
                     ],
                 ],
             ],

@@ -228,18 +228,38 @@ class ReservationController extends Controller
             'access' => [
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [
-                    ['actions' => ['create', 'escolher', 'select-hourly', 'select-daily', 'select-monthly'], 'allow' => true, 'roles' => ['fazerReserva']],
-                    ['actions' => ['index', 'view'], 'allow' => true, 'roles' => ['listarMinhasReservas']],
-                    ['actions' => ['update', 'cancel'], 'allow' => true, 'roles' => ['verReserva'], 'matchCallback' => function ($rule, $action) {
-                        $id = Yii::$app->request->get('id');
-                        $model = Reservation::findOne($id);
-                        return $model && Yii::$app->user->can('verReserva', ['model' => $model]);
-                    }],
-                    ['allow' => false],
+                    [
+                        'actions' => [
+                            'escolher',
+                            'create',
+                            'select-hourly',
+                            'select-daily',
+                            'select-monthly',
+                            'available-slots',
+                            'calendar-events',
+                            'checkout-daily',
+                            'checkout-monthly',
+                            'select-hourly'
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'], // Apenas usuários logados
+                    ],
+                    [
+                        'actions' => ['index', 'view', 'cancel'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
-                'denyCallback' => function () {
-                    Yii::$app->session->setFlash('error', 'Não tens permissão para isso.');
-                    return Yii::$app->response->redirect(['site/index']);
+                'denyCallback' => function ($rule, $action) {
+                    if (Yii::$app->user->isGuest) {
+                        // Se não estiver logado, manda para login
+                        Yii::$app->session->setFlash('warning', 'Precisas estar logado para fazer uma reserva.');
+                        return Yii::$app->response->redirect(['site/login']);
+                    } else {
+                        // Se estiver logado mas ação não permitida (raro agora)
+                        Yii::$app->session->setFlash('error', 'Ação não permitida.');
+                        return Yii::$app->response->redirect(['site/index']);
+                    }
                 },
             ],
         ];
@@ -534,4 +554,3 @@ class ReservationController extends Controller
         ]);
     }
 }
-    
