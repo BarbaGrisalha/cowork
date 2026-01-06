@@ -278,26 +278,48 @@ class Reservation extends \yii\db\ActiveRecord
     // Nova função de validação
     public function validateNotInPast($attribute, $params)
     {
-        if ($this->periodo === 'hora') {
-            $inicio = new \DateTime($this->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
-            $agora  = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
-
-            if ($inicio <= $agora) {
-                $this->addError($attribute, 'Não é permitido reservar horários no passado. Escolha uma data/hora futura.');
-            }
+        // Se ainda não sabemos o tipo de reserva, não valida nada ainda
+        if (empty($this->periodo)) {
+            return;
         }
 
-        // Para reservas diárias e mensais (usam data_inicio ou data_reserva)
-        if (in_array($this->periodo, ['dia', 'mes'])) {
-            $dataInicio = $this->data_inicio ?? $this->data_reserva;
-            if ($dataInicio) {
-                $data = new \DateTime($dataInicio . ' 00:00:00', new \DateTimeZone('Europe/Lisbon'));
-                $hoje = new \DateTime('today', new \DateTimeZone('Europe/Lisbon'));
+        $timezone = new \DateTimeZone('Europe/Lisbon');
+        $agora = new \DateTime('now', $timezone);
+        $agora->modify('+5 minutes'); // tolerância de 5 minutos
 
-                if ($data < $hoje) {
-                    $this->addError('data_inicio', 'Não é permitido reservar em datas passadas.');
-                    $this->addError('data_reserva', 'Não é permitido reservar em datas passadas.');
+        // RESERVA POR HORA
+        if ($this->periodo === 'hora') {
+            // Se ainda não tem hora completa, pula validação (vai ser preenchida depois)
+            if (empty($this->hora_inicio_agendada) || strlen($this->hora_inicio_agendada) <= 8) {
+                return;
+            }
+
+            try {
+                $inicio = new \DateTime($this->hora_inicio_agendada, $timezone);
+                if ($inicio < $agora) {
+                    $this->addError('hora_inicio_agendada', 'Não é permitido reservar horários que já passaram. Escolha um horário futuro.');
                 }
+            } catch (\Exception $e) {
+                $this->addError('hora_inicio_agendada', 'Formato de horário inválido.');
+            }
+
+            // RESERVA DIÁRIA OU MENSAL
+        } elseif (in_array($this->periodo, ['dia', 'mes'])) {
+            $data = $this->data_reserva ?? $this->data_inicio ?? null;
+
+            if (empty($data)) {
+                return; // ainda não tem data, pula
+            }
+
+            try {
+                $inicioDia = new \DateTime($data . ' 00:00:00', $timezone);
+                $hoje = new \DateTime('today', $timezone);
+
+                if ($inicioDia < $hoje) {
+                    $this->addError('data_reserva', 'Não é permitido reservar em datas passadas. Escolha uma data futura.');
+                }
+            } catch (\Exception $e) {
+                $this->addError('data_reserva', 'Formato de data inválido.');
             }
         }
     }
