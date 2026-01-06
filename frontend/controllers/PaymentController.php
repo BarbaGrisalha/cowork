@@ -20,21 +20,7 @@ class PaymentController extends Controller
      */
     protected function saveReservationInTransaction(Reservations $reservation, ?Payments $payment = null)
     {
-        /*
-        $transaction = Yii::$app->db->beginTransaction(Transaction::READ_COMMITTED);
-        try {
-            if (!$reservation->save(false)) {
-                $transaction->rollBack();
-                throw new \Exception('Falha crítica ao salvar a reserva.');
-            }
 
-            $transaction->commit();
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            Yii::error($e->getMessage(), __METHOD__);
-            throw $e;
-        }
-            */
         // Crie a transação
         $transaction = Yii::$app->db->beginTransaction(Transaction::READ_COMMITTED);
         try {
@@ -60,72 +46,6 @@ class PaymentController extends Controller
             throw $e;
         }
     }
-    /*
-    public function actionCheckout($reservation_id)
-    {
-
-        $reservation = Reservations::findOne($reservation_id);
-        if (!$reservation) {
-            throw new NotFoundHttpException('Reserva não encontrada, cara.');
-        }
-
-        // 🚨 Instanciação do Form Model completo para a View
-        $model = new FakeCardForm();
-
-        if (Yii::$app->request->isPost) {
-
-            // 🚨 Carrega e valida TODOS os campos (Luhn, data, CVC)
-            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-                $cardNumber = $model->card_number;
-
-                try {
-                    $gateway = Yii::$app->paymentGatewayService;
-                    // 🚨 CORREÇÃO DO ERRO room_name: Simplificando a descrição
-                    $description = "Reserva #{$reservation->id} (Simulação Acadêmica)";
-
-                    // $response = $gateway->processPayment($cardNumber, $reservation->amount, $description);
-                    $response = $gateway->processPayment($cardNumber, $reservation->total_estimado, $description);
-
-                    // 3. ATUALIZA O STATUS BASEADO NA RESPOSTA FAKE
-                    if ($response->isApproved()) {
-                        $reservation->status = 'APROVADO';
-                    } elseif ($response->isPending()) {
-                        $reservation->status = 'AGUARDANDO_GATEWAY';
-                    } else {
-                        $reservation->status = 'NEGADO';
-                        // AQUI não precisamos lançar uma Exception, apenas exibir o erro.
-                        Yii::$app->session->setFlash('error', 'Pagamento negado: ' . $response->getReason());
-                        $reservation->status = 'FALHA';
-                        $reservation->save(false);
-                        return $this->redirect(['falha', 'id' => $reservation->id]);
-                    }
-
-                    // $reservation->transaction_id = $response->getTransactionId();
-
-                    // 4. Salva a Reserva atomicamente (aprovada ou pendente)
-                    $this->saveReservationInTransaction($reservation);
-
-                    Yii::$app->session->setFlash('success', 'Simulação de Pagamento APROVADA!');
-                    return $this->redirect(['sucesso', 'id' => $reservation->id]);
-                } catch (\Exception $e) {
-                    // Captura erro de API ou de DB
-                    Yii::error($e->getMessage(), __METHOD__);
-                    $reservation->status = 'ERRO';
-                    $reservation->save(false);
-                    Yii::$app->session->setFlash('error', 'Falha crítica: ' . $e->getMessage());
-                    return $this->redirect(['falha', 'id' => $reservation->id]);
-                }
-            } // Fim do if ($model->load && $model->validate)
-        }
-
-        // Renderiza passando o $model completo
-        return $this->render('checkout', [
-            'reservation' => $reservation,
-            'model' => $model, // 🚨 Variável $model agora existe para a View
-        ]);
-    }
-    */
 
     public function actionCheckout($reservation_id)
     {
@@ -162,7 +82,7 @@ class PaymentController extends Controller
                     $reservation->status = 'Confirmado';
 
                     $this->saveReservationInTransaction($reservation, $payment);
-
+                    $reservation->refresh();
                     Yii::$app->session->setFlash('success', 'Pagamento simulado com sucesso! Reserva confirmada.');
                     return $this->redirect(['sucesso', 'id' => $reservation->id]);
                 } else {
@@ -214,52 +134,6 @@ class PaymentController extends Controller
     /**
      * NOVA ACTION: Recebe a reserva diária e redireciona pro checkout normal
      */
-    /*
-    public function actionCheckoutDaily()
-    {
-        $date    = Yii::$app->request->post('date');
-        $room_id = Yii::$app->request->post('room_id');
-
-        if (!$date || !$room_id || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
-            Yii::$app->session->setFlash('error', 'Dados inválidos.');
-            return $this->redirect(['reservation/select-daily', 'room_id' => $room_id]);
-        }
-
-        $room = \common\models\Rooms::findOne($room_id);
-        if (!$room) throw new \yii\web\NotFoundHttpException('Sala não encontrada.');
-
-        $exists = \frontend\models\Reservations::find()
-            ->where(['room_id' => $room_id, 'data_reserva' => $date])
-            ->exists();
-        if ($exists) {
-            Yii::$app->session->setFlash('error', 'Esta data já está reservada!');
-            return $this->redirect(['reservation/select-daily', 'room_id' => $room_id]);
-        }
-
-        $customer = \frontend\models\Customer::findOne(['user_id' => Yii::$app->user->id]);
-        if (!$customer) {
-            Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
-            return $this->redirect(['site/index']);
-        }
-
-        $model = new \frontend\models\Reservations();
-        $model->room_id              = $room_id;
-        $model->customer_id          = $customer->id;
-        $model->data_reserva         = $date;
-        $model->hora_inicio_agendada = $date . ' 09:00:00';  // ← CORRETO
-        // $model->hora_fim_agendada    = $date . ' 19:00:00';  // ← CORRETO
-        $model->total_estimado       = 32.00;
-        $model->status               = 'Pendente';
-        $model->tipo_reserva         = 'diaria';
-
-        if ($model->save()) {
-            return $this->redirect(['checkout', 'reservation_id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('error', 'Erro fatal: ' . implode(' | ', $model->firstErrors));
-        return $this->redirect(['reservation/select-daily', 'room_id' => $room_id]);
-    }*/
-
 
     public function actionCheckoutDaily()
     {
@@ -314,6 +188,7 @@ class PaymentController extends Controller
         Yii::$app->session->setFlash('error', 'Erro ao criar reserva. Tente novamente.');
         return $this->redirect(['dashboard/index']);
     }
+
     public function actionCheckoutMonthly()
     {
         $date    = Yii::$app->request->post('date');
