@@ -139,80 +139,41 @@ class PaymentController extends Controller
         if (Yii::$app->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-                $cardNumber = $model->card_number;
+                $cardNumber = preg_replace('/\D/', '', $model->card_number); // limpa o número
 
-                try {
-                    $gateway = Yii::$app->paymentGatewayService;
-                    $description = "Reserva #{$reservation->id} (Simulação Acadêmica)";
-                    $response = $gateway->processPayment($cardNumber, $reservation->total_estimado, $description);
+                // === SIMULAÇÃO ACADÊMICA CONTROLADA ===
+                // Cartões de teste conhecidos (padrão em projetos acadêmicos e gateways reais de teste)
+                $approvedCards = [
+                    '4111111111111111', // Visa teste clássico
+                    '4242424242424242', // Visa teste Stripe
+                    '5555555555554444', // Mastercard teste
+                    '378282246310005',  // Amex teste
+                ];
 
-                    // ----------------------------
-                    // PAGAMENTO APROVADO
-                    // ----------------------------
-                    if ($response->isApproved()) {
+                if (in_array($cardNumber, $approvedCards)) {
+                    // ---------------------------- PAGAMENTO APROVADO (simulado) ----------------------------
+                    $payment = new Payments();
+                    $payment->reservation_id = $reservation->id;
+                    $payment->valor = $reservation->total_estimado;
+                    $payment->metodo = 'CARTAO_SIMULADO';
+                    $payment->status = 'aprovado';
+                    $payment->data_pagamento = date('Y-m-d H:i:s');
 
-                        // Criar o registo de pagamento
-                        $payment = new Payments();
-                        $payment->reservation_id = $reservation->id;
-                        $payment->valor = $reservation->total_estimado;
-                        $payment->metodo = 'CARTAO_SIMULADO';
-                        $payment->status = 'aprovado';
+                    $reservation->status = 'Confirmado';
 
-                        // campos opcionais (NULL)
-                        $payment->customer_card_token_id = null;
-                        $payment->mbway_account_id = null;
-                        $payment->paypal_account_id = null;
+                    $this->saveReservationInTransaction($reservation, $payment);
 
-                        // data de pagamento
-                        $payment->data_pagamento = date('Y-m-d H:i:s');
+                    Yii::$app->session->setFlash('success', 'Pagamento simulado com sucesso! Reserva confirmada.');
+                    return $this->redirect(['sucesso', 'id' => $reservation->id]);
+                } else {
+                    // ---------------------------- PAGAMENTO NEGADO (simulado) ----------------------------
+                    $reservation->status = 'FALHA';
+                    $this->saveReservationInTransaction($reservation);
 
-                        // Validar antes de salvar
-                        if (!$payment->validate()) {
-                            Yii::error("Falha de validação do Payments: " . json_encode($payment->getErrors()));
-                            Yii::$app->session->setFlash('error', 'Erro interno ao processar o pagamento.');
-                            return $this->redirect(['falha', 'id' => $reservation->id]);
-                        }
-
-                        // atualizar status da reserva
-                        $reservation->status = 'Confirmado';
-
-                        // SALVAR TUDO ATOMICAMENTE
-                        $this->saveReservationInTransaction($reservation, $payment);
-
-                        Yii::$app->session->setFlash('success', 'Pagamento confirmado!');
-                        return $this->redirect(['sucesso', 'id' => $reservation->id]);
-                    }
-
-                    // ----------------------------
-                    // PAGAMENTO PENDENTE
-                    // ----------------------------
-                    elseif ($response->isPending()) {
-
-                        $reservation->status = 'AGUARDANDO_GATEWAY';
-                        $this->saveReservationInTransaction($reservation);
-
-                        Yii::$app->session->setFlash('warning', 'Pagamento pendente');
-                        return $this->redirect(['sucesso', 'id' => $reservation->id]);
-                    }
-
-                    // ----------------------------
-                    // PAGAMENTO NEGADO
-                    // ----------------------------
-                    else {
-                        $reservation->status = 'FALHA';
-                        $this->saveReservationInTransaction($reservation);
-                        Yii::$app->session->setFlash('error', 'Pagamento negado');
-                        return $this->redirect(['falha', 'id' => $reservation->id]);
-                    }
-                } catch (\Exception $e) {
-
-                    Yii::error('Falha crítica na transação: ' . $e->getMessage(), __METHOD__);
-                    $reservation->status = 'ERRO';
-                    $reservation->save(false);
-                    Yii::$app->session->setFlash('error', 'Erro interno no pagamento');
-
+                    Yii::$app->session->setFlash('error', 'Pagamento negado: Cartão não aprovado na simulação.');
                     return $this->redirect(['falha', 'id' => $reservation->id]);
                 }
+                // === FIM DA SIMULAÇÃO ===
             }
         }
 
