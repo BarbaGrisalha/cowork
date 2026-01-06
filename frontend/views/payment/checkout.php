@@ -53,7 +53,7 @@ $this->title = 'Checkout de Pagamento FAKE (Completo)';
         <ul>
             <li>Para **SUCESSO** (APROVADO), use '4111111111111111', Visa teste clássico.</li>
         </ul>
-        *O número também deve passar no Algoritmo de Luhn.*
+
         </p>
 
         <div class="form-group">
