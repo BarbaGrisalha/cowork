@@ -61,6 +61,8 @@ AppAsset::register($this);
             // Segundo item (Faturas), agora adicionado corretamente
             $menuItems[] = ['label' => 'Faturas', 'url' => ['/invoice/index']];
 
+            $menuItems[] = ['label' => 'Reservas', 'url' => ['/reservation/my-reservations']];
+
             if (in_array(Yii::$app->user->identity->username, ['altamir', 'professor'])) {
                 $menuItems[] = ['label' => 'API Docs', 'url' => ['/site/api-docs']];
             }

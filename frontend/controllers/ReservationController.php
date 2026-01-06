@@ -239,7 +239,8 @@ class ReservationController extends Controller
                             'calendar-events',
                             'checkout-daily',
                             'checkout-monthly',
-                            'select-hourly'
+                            'select-hourly',
+                            'my-reservations'
                         ],
                         'allow' => true,
                         'roles' => ['@'], // Apenas usuários logados
@@ -551,6 +552,45 @@ class ReservationController extends Controller
 
         return $this->render('escolher', [
             'salas' => $salas,
+        ]);
+    }
+
+    /**
+     * Mostra todas as reservas do usuário logado
+     */
+    /**
+     * Mostra todas as reservas do usuário logado com filtro por status
+     */
+    public function actionMyReservations($status = 'todas')
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        $userId = Yii::$app->user->id;
+        $customer = Customer::findOne(['user_id' => $userId]);
+
+        if (!$customer) {
+            throw new NotFoundHttpException('Perfil de cliente não encontrado.');
+        }
+
+        $query = Reservation::find()
+            ->where(['customer_id' => $customer->id])
+            ->orderBy(['hora_inicio_agendada' => SORT_DESC]);
+
+        // Filtro por status
+        $allowedStatuses = ['todas', 'Confirmado', 'Pendente', 'cancelada', 'FALHA'];
+        $status = in_array($status, $allowedStatuses) ? $status : 'todas';
+
+        if ($status !== 'todas') {
+            $query->andWhere(['status' => $status]);
+        }
+
+        $reservations = $query->all();
+
+        return $this->render('my-reservations', [
+            'reservations' => $reservations,
+            'currentStatus' => $status,
         ]);
     }
 }
