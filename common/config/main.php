@@ -57,4 +57,14 @@ return [
             ],
         ],
     ],
+    'components' => [
+        'i18n' => [
+            'translations' => [
+                'yii/bootstrap5' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@vendor/yiisoft/yii2-bootstrap5/src/messages',
+                ],
+            ],
+        ],
+    ],
 ];
