@@ -318,6 +318,7 @@ class Reservations extends \yii\db\ActiveRecord
         return $fields;
     }
 
+    /*
     public function beforeValidate()
     {
         // A Lógica de Concatenação SÓ DEVE RODAR NA CRIAÇÃO DE NOVOS REGISTROS.
@@ -333,6 +334,7 @@ class Reservations extends \yii\db\ActiveRecord
 
         return parent::beforeValidate();
     }
+        */
 
     /**
      * beforeSave: Usado para manipulação final de dados, como o cálculo do preço.
