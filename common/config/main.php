@@ -20,16 +20,19 @@ return [
         'cache' => [
             'class' => FileCache::class,
         ],
+        /*
         'paymentGatewayService' => [
             'class' => 'common\components\PaymentGatewayService',
             'secretKey' => getenv('GATEWAY_SECRET_KEY'), // Use variáveis de ambiente!
-        ],
+        ],*/
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             // uncomment if you want to cache RBAC items hierarchy
             // 'cache' => 'cache',
         ],
     ],
+
+    /*
 
     // =======================================================
     // 🚀 NOVO BLOCO: DI CONTAINER (Injeção de Dependência)
@@ -57,6 +60,7 @@ return [
             ],
         ],
     ],
+    */
     'components' => [
         'i18n' => [
             'translations' => [

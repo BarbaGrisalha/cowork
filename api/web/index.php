@@ -11,7 +11,7 @@ require __DIR__ . '/../config/bootstrap.php';
 
 // TEMPORÁRIO: PULA O common/config/main.php PARA TESTAR
 $config = yii\helpers\ArrayHelper::merge(
-    // require __DIR__ . '/../../common/config/main.php',  // ← COMENTE ESSA LINHA
+    require __DIR__ . '/../../common/config/main.php',  // ← COMENTE ESSA LINHA
     require __DIR__ . '/../../common/config/main-local.php',
     require __DIR__ . '/../config/main.php',
     require __DIR__ . '/../config/main-local.php'

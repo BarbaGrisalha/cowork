@@ -88,6 +88,7 @@ class Reservation extends \yii\db\ActiveRecord
             // Relacionamentos corretos
             [['customer_id'], 'exist', 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
             [['room_id'],     'exist', 'targetClass' => Rooms::class,      'targetAttribute' => ['room_id' => 'id']],
+            [['status', 'total_estimado'], 'safe', 'on' => 'update'],
         ];
     }
 
@@ -382,5 +383,12 @@ class Reservation extends \yii\db\ActiveRecord
             ->where(['reservation_id' => $this->id])
             ->andWhere(['status' => 'aprovado'])
             ->exists();
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['update'] = ['status', 'total_estimado'];  // só permite alterar esses fields no PUT
+        return $scenarios;
     }
 }

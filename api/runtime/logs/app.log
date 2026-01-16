@@ -1,0 +1,2103 @@
+2026-01-16 12:58:32 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 12:58:32 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWon6MPre0aZ4-nZBstKWQAAAAE'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWon6MPre0aZ4-nZBstKWQAAAAE'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_SEC_PURPOSE' => 'prefetch;prerender'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '62765'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768564712.8796
+    'REQUEST_TIME' => 1768564712
+]
+2026-01-16 12:58:33 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 12:58:33 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWon6cPre0aZ4-nZBstKWgAAAAE'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWon6cPre0aZ4-nZBstKWgAAAAE'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '62765'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768564713.1541
+    'REQUEST_TIME' => 1768564713
+]
+2026-01-16 12:58:55 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 12:58:55 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 12:58:55 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWon_9i_xdMnZzAg3alovgAAAAY'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWon_9i_xdMnZzAg3alovgAAAAY'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_SEC_PURPOSE' => 'prefetch;prerender'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '62792'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768564735.1218
+    'REQUEST_TIME' => 1768564735
+]
+2026-01-16 12:58:55 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 12:58:55 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 12:58:55 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWon_1Q8wnVAJA5hIWnAxAAAAAU'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWon_1Q8wnVAJA5hIWnAxAAAAAU'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '62793'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768564735.5999
+    'REQUEST_TIME' => 1768564735
+]
+2026-01-16 13:03:25 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:03:25 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:03:25 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWopDRsce-fioGX9AdZWvwAAAAU'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWopDRsce-fioGX9AdZWvwAAAAU'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63035'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565005.2576
+    'REQUEST_TIME' => 1768565005
+]
+2026-01-16 13:05:54 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:05:54 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:05:54 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWopohpAvx5Ii4BYGzeLlwAAAAI'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWopohpAvx5Ii4BYGzeLlwAAAAI'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63153'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565154.1455
+    'REQUEST_TIME' => 1768565154
+]
+2026-01-16 13:07:35 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:07:35 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoqB21s5amnOu6byXM-qwAAAAM'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoqB21s5amnOu6byXM-qwAAAAM'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63236'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565255.8016
+    'REQUEST_TIME' => 1768565255
+]
+2026-01-16 13:09:41 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:09:41 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:09:41 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoqhfR4t8RUMtD5zTFkowAAAAY'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoqhfR4t8RUMtD5zTFkowAAAAY'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63313'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565381.3379
+    'REQUEST_TIME' => 1768565381
+]
+2026-01-16 13:09:42 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:09:42 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:09:42 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoqho0IkVDJZHf-8M9_UgAAAAg'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoqho0IkVDJZHf-8M9_UgAAAAg'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63314'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565382.2786
+    'REQUEST_TIME' => 1768565382
+]
+2026-01-16 13:09:43 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:09:43 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:09:43 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoqhzN6HjbfSG4Gag0CcgAAAAk'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoqhzN6HjbfSG4Gag0CcgAAAAk'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63317'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565383.0069
+    'REQUEST_TIME' => 1768565383
+]
+2026-01-16 13:10:23 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:10:23 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:10:23 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoqrxpAvx5Ii4BYGzeLmAAAAAI'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoqrxpAvx5Ii4BYGzeLmAAAAAI'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63348'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565423.5779
+    'REQUEST_TIME' => 1768565423
+]
+2026-01-16 13:16:41 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:16:41 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWosKRsce-fioGX9AdZWxAAAAAU'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWosKRsce-fioGX9AdZWxAAAAAU'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63671'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565801.886
+    'REQUEST_TIME' => 1768565801
+]
+2026-01-16 13:16:48 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:16:48 [::1][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: User::identityClass must be set. in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/User.php:176
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/BaseObject.php(112): yii\web\User->init()
+#1 [internal function]: yii\base\BaseObject->__construct(Array)
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(425): ReflectionClass->newInstanceArgs(Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/Container.php(176): yii\di\Container->build('yii\\web\\User', Array, Array)
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/BaseYii.php(374): yii\di\Container->get('yii\\web\\User', Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/di/ServiceLocator.php(137): yii\BaseYii::createObject(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(769): yii\di\ServiceLocator->get('user', true)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(187): yii\base\Module->get('user')
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/filters/RateLimiter.php(90): yii\web\Application->getUser()
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/ActionFilter.php(77): yii\filters\RateLimiter->beforeAction(Object(yii\rest\IndexAction))
+#10 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#11 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php(648): call_user_func(Array, Object(yii\base\ActionEvent))
+#12 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(303): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#13 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Controller.php(318): yii\base\Controller->beforeAction(Object(yii\rest\IndexAction))
+#14 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(182): yii\web\Controller->beforeAction(Object(yii\rest\IndexAction))
+#15 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('index', Array)
+#16 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/ind...', Array)
+#17 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#18 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#19 {main}
+2026-01-16 13:16:48 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWosMBpAvx5Ii4BYGzeLmQAAAAI'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWosMBpAvx5Ii4BYGzeLmQAAAAI'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63679'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768565808.4077
+    'REQUEST_TIME' => 1768565808
+]
+2026-01-16 13:21:21 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:21:21 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWotQcwh24PRLUE-8-5KPgAAAAQ'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWotQcwh24PRLUE-8-5KPgAAAAQ'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63934'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566081.5499
+    'REQUEST_TIME' => 1768566081
+]
+2026-01-16 13:21:22 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:21:22 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWotQswh24PRLUE-8-5KPwAAAAQ'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWotQswh24PRLUE-8-5KPwAAAAQ'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63934'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566082.5976
+    'REQUEST_TIME' => 1768566082
+]
+2026-01-16 13:21:26 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:21:26 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWotRvR4t8RUMtD5zTFkpQAAAAY'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWotRvR4t8RUMtD5zTFkpQAAAAY'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '63939'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566086.8992
+    'REQUEST_TIME' => 1768566086
+]
+2026-01-16 13:23:57 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:23:57 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWot3dS7pQIFhltS6nESggAAAAA'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWot3dS7pQIFhltS6nESggAAAAA'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => 'ae764585-c8bc-482a-827e-3fe450112101'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '209'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64081'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566237.1975
+    'REQUEST_TIME' => 1768566237
+]
+2026-01-16 13:26:11 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:26:11 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWouY0tFgP-xHy1MIvd-WgAAAAE'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWouY0tFgP-xHy1MIvd-WgAAAAE'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '6c7f3037-d687-4035-8531-581b0752960e'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '250'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64183'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566371.3272
+    'REQUEST_TIME' => 1768566371
+]
+2026-01-16 13:26:51 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:26:51 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWouixpAvx5Ii4BYGzeLmgAAAAI'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWouixpAvx5Ii4BYGzeLmgAAAAI'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64227'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566411.7785
+    'REQUEST_TIME' => 1768566411
+]
+2026-01-16 13:30:36 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:30:36 [::1][-][-][info][application] $_GET = [
+    'id' => '123'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWovbDN6HjbfSG4Gag0CdAAAAAk'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWovbDN6HjbfSG4Gag0CdAAAAAk'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '84840149-7c98-46bb-be33-ee5850af19d5'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64458'
+    'REDIRECT_URL' => '/cowork/api/web/reservation/123'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'DELETE'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation/123'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566636.1051
+    'REQUEST_TIME' => 1768566636
+]
+2026-01-16 13:32:04 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:32:04 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWovxPR4t8RUMtD5zTFkqAAAAAY'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWovxPR4t8RUMtD5zTFkqAAAAAY'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '12b03d96-7e7a-4f4f-8845-26f0c3e23702'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64565'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566724.4831
+    'REQUEST_TIME' => 1768566724
+]
+2026-01-16 13:32:28 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:32:28 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWov3DN6HjbfSG4Gag0CdQAAAAk'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWov3DN6HjbfSG4Gag0CdQAAAAk'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '6e7e6534-1bf6-41ce-83cb-a814d585ed5b'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64587'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566748.6737
+    'REQUEST_TIME' => 1768566748
+]
+2026-01-16 13:33:03 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:33:03 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWov_9S7pQIFhltS6nEShQAAAAA'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWov_9S7pQIFhltS6nEShQAAAAA'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '5735f2a0-1d68-4020-a472-dd3229d02dc8'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '250'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64635'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566783.4125
+    'REQUEST_TIME' => 1768566783
+]
+2026-01-16 13:33:41 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:33:41 [::1][-][-][info][application] $_GET = [
+    'id' => '124'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWowJRpAvx5Ii4BYGzeLnQAAAAI'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWowJRpAvx5Ii4BYGzeLnQAAAAI'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '3cd6e20c-882a-4fc1-be0a-5d092ab27f89'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '55'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '64697'
+    'REDIRECT_URL' => '/cowork/api/web/reservation/124'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'PUT'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation/124'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768566821.5723
+    'REQUEST_TIME' => 1768566821
+]
+2026-01-16 13:44:13 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:44:13 [::1][-][-][error][yii\base\UnknownMethodException] yii\base\UnknownMethodException: Calling unknown method: api\controllers\ReservationController::findModel() in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php:312
+Stack trace:
+#0 [internal function]: yii\base\Component->__call('findModel', Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/Action.php(84): call_user_func(Array, '124', Object(yii\rest\UpdateAction))
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/UpdateAction.php(40): yii\rest\Action->findModel('124')
+#3 [internal function]: yii\rest\UpdateAction->run('124')
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Action.php(102): call_user_func_array(Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(184): yii\base\Action->runWithParams(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('update', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/upd...', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#10 {main}
+2026-01-16 13:44:13 [::1][-][-][info][application] $_GET = [
+    'id' => '124'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoyncwh24PRLUE-8-5KRAAAAAQ'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoyncwh24PRLUE-8-5KRAAAAAQ'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => 'ca401ab9-45aa-41e9-b2d9-e5e0cf3d8cfa'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '55'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '65185'
+    'REDIRECT_URL' => '/cowork/api/web/reservation/124'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'PUT'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation/124'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768567453.7415
+    'REQUEST_TIME' => 1768567453
+]
+2026-01-16 13:45:11 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:45:11 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWoy1_R4t8RUMtD5zTFkqQAAAAY'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWoy1_R4t8RUMtD5zTFkqQAAAAY'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '2d2469aa-786a-4484-bf53-81bf26fb6cf2'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '65257'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768567511.6018
+    'REQUEST_TIME' => 1768567511
+]
+2026-01-16 13:47:01 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:47:01 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWozRY0IkVDJZHf-8M9_UwAAAAg'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWozRY0IkVDJZHf-8M9_UwAAAAg'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '65358'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768567621.7658
+    'REQUEST_TIME' => 1768567621
+]
+2026-01-16 13:54:19 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:54:19 [::1][-][-][error][yii\base\UnknownMethodException] yii\base\UnknownMethodException: Calling unknown method: api\controllers\ReservationController::findModel() in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php:312
+Stack trace:
+#0 [internal function]: yii\base\Component->__call('findModel', Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/Action.php(84): call_user_func(Array, '124', Object(yii\rest\UpdateAction))
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/UpdateAction.php(40): yii\rest\Action->findModel('124')
+#3 [internal function]: yii\rest\UpdateAction->run('124')
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Action.php(102): call_user_func_array(Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(184): yii\base\Action->runWithParams(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('update', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/upd...', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#10 {main}
+2026-01-16 13:54:19 [::1][-][-][info][application] $_GET = [
+    'id' => '124'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWo0-9S7pQIFhltS6nEShgAAAAA'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWo0-9S7pQIFhltS6nEShgAAAAA'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => 'd5047ee2-5485-4ab9-bc76-cdc8ba77d229'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '55'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '49323'
+    'REDIRECT_URL' => '/cowork/api/web/reservation/124'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'PUT'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation/124'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768568059.1963
+    'REQUEST_TIME' => 1768568059
+]
+2026-01-16 13:57:23 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:57:23 [::1][-][-][error][yii\base\UnknownMethodException] yii\base\UnknownMethodException: Calling unknown method: api\controllers\ReservationController::findModel() in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php:312
+Stack trace:
+#0 [internal function]: yii\base\Component->__call('findModel', Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/Action.php(84): call_user_func(Array, '124', Object(yii\rest\UpdateAction))
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/UpdateAction.php(40): yii\rest\Action->findModel('124')
+#3 [internal function]: yii\rest\UpdateAction->run('124')
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Action.php(102): call_user_func_array(Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(184): yii\base\Action->runWithParams(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('update', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/upd...', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#10 {main}
+2026-01-16 13:57:23 [::1][-][-][info][application] $_GET = [
+    'id' => '124'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWo1s21s5amnOu6byXM-rwAAAAM'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWo1s21s5amnOu6byXM-rwAAAAM'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => '5418854f-6851-4a78-898e-9b3fb47b39ad'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '55'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '49528'
+    'REDIRECT_URL' => '/cowork/api/web/reservation/124'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'PUT'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation/124'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768568243.4322
+    'REQUEST_TIME' => 1768568243
+]
+2026-01-16 13:57:30 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 13:57:30 [::1][-][-][error][yii\base\UnknownMethodException] yii\base\UnknownMethodException: Calling unknown method: api\controllers\ReservationController::findModel() in /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Component.php:312
+Stack trace:
+#0 [internal function]: yii\base\Component->__call('findModel', Array)
+#1 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/Action.php(84): call_user_func(Array, '124', Object(yii\rest\UpdateAction))
+#2 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/rest/UpdateAction.php(40): yii\rest\Action->findModel('124')
+#3 [internal function]: yii\rest\UpdateAction->run('124')
+#4 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Action.php(102): call_user_func_array(Array, Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Controller.php(184): yii\base\Action->runWithParams(Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Module.php(555): yii\base\Controller->runAction('update', Array)
+#7 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('reservation/upd...', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/cowork/vendor/yiisoft/yii2/base/Application.php(387): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php(23): yii\base\Application->run()
+#10 {main}
+2026-01-16 13:57:29 [::1][-][-][info][application] $_GET = [
+    'id' => '124'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWo1uTN6HjbfSG4Gag0CdgAAAAk'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWo1uTN6HjbfSG4Gag0CdgAAAAk'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_USER_AGENT' => 'PostmanRuntime/7.51.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_POSTMAN_TOKEN' => 'c9380dee-710b-410a-8721-bae11ad4738d'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '55'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '49538'
+    'REDIRECT_URL' => '/cowork/api/web/reservation/124'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'PUT'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation/124'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768568249.9632
+    'REQUEST_TIME' => 1768568249
+]
+2026-01-16 15:04:47 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 15:04:47 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWpFf_R4t8RUMtD5zTFkqgAAAAY'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWpFf_R4t8RUMtD5zTFkqgAAAAY'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '51299'
+    'REDIRECT_URL' => '/cowork/api/web/reservation'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/reservation'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768572287.7194
+    'REQUEST_TIME' => 1768572287
+]
+2026-01-16 15:04:50 [::1][-][-][warning][application] Unable to use cache for URL manager: Failed to instantiate component or class "cache".
+2026-01-16 15:04:50 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'debug-bar-tab' => 'ci-vars'
+    'debug-bar-state' => 'minimized'
+    'sidebar-collapse' => 'true'
+    '_identity-backend' => '8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[2,\"SvQXIFd5l5ctFxbCs9j03Ubo62BY2may\",2592000]\";}'
+    'advanced-backend' => 'hhnn5soco9t6qi30lob5kkgt53'
+    '_csrf-backend' => 'a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1\";}'
+    '_csrf-frontend' => 'd74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"-GXZzkyCF732bTdrla5Q0irBlIVlSk0M\";}'
+    'advanced-frontend' => '6k4obrqgtq40qi9uadb63imfcs'
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'aWpFghsce-fioGX9AdZWyAAAAAU'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'aWpFghsce-fioGX9AdZWyAAAAAU'
+    'HTTP_HOST' => 'localhost:8080'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Opera\";v=\"125\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 OPR/125.0.0.0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,pt-BR;q=0.6,fr;q=0.5,es;q=0.4'
+    'HTTP_COOKIE' => 'debug-bar-tab=ci-vars; debug-bar-state=minimized; sidebar-collapse=true; _identity-backend=8fc8501def8a461d3ece076992237f2cbfeebca324f95e06777f1daaede1c074a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B2%2C%22SvQXIFd5l5ctFxbCs9j03Ubo62BY2may%22%2C2592000%5D%22%3B%7D; advanced-backend=hhnn5soco9t6qi30lob5kkgt53; _csrf-backend=a3619c5708a3e01ea34299fb12849d4ecf852a53bd087e970d698371fe210148a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22fVsBzaNBpRD0GGSE-6Ofcq3ibRGUZlq1%22%3B%7D; _csrf-frontend=d74ac0ac6ae424136c4aefef7a4e13308f2aad788f3bfcd0540936f4b3883b3da%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22-GXZzkyCF732bTdrla5Q0irBlIVlSk0M%22%3B%7D; advanced-frontend=6k4obrqgtq40qi9uadb63imfcs'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.56 (Unix) OpenSSL/1.1.1t PHP/8.2.4'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '8080'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Applications/XAMPP/xamppfiles/htdocs'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Applications/XAMPP/xamppfiles/htdocs/cowork/api/web/index.php'
+    'REMOTE_PORT' => '51304'
+    'REDIRECT_URL' => '/cowork/api/web/site/index'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/cowork/api/web/site/index'
+    'SCRIPT_NAME' => '/cowork/api/web/index.php'
+    'PHP_SELF' => '/cowork/api/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1768572290.7483
+    'REQUEST_TIME' => 1768572290
+]
