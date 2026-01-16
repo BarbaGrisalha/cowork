@@ -4,9 +4,12 @@ namespace api\controllers;
 
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
+use yii\filters\auth\HttpBearerAuth;
 
 class ReservationController extends ActiveController
 {
+
+
     /*
     public $modelClass = 'common\models\Reservation';
 
@@ -84,7 +87,11 @@ class ReservationController extends ActiveController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        unset($behaviors['authenticator']);
+
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+        ];
+
         return $behaviors;
     }
 
@@ -142,5 +149,27 @@ class ReservationController extends ActiveController
             'totalAvailable' => count($availableSlots),
             'message' => 'Disponibilidade carregada (dados simulados – em breve consulta real ao banco)',
         ];
+    }
+    public function actionMy()
+    {
+        $userId = Yii::$app->user->id;
+
+        return \common\models\Reservation::find()
+            ->where(['user_id' => $userId])
+            ->all();
+    }
+
+    public function actions()
+    {
+        $actions = parent::actions();
+
+        // Desabilita TODAS as ações padrão que tocam no banco
+        unset($actions['index']);
+        unset($actions['view']);
+        unset($actions['create']);
+        unset($actions['update']);
+        unset($actions['delete']);
+
+        return $actions;
     }
 }

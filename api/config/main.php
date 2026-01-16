@@ -44,6 +44,8 @@ return [
                         'GET availability/{resourceType}/{date:\d{4}-\d{2}-\d{2}}' => 'availability',
                     ],
                 ],
+                // Essa linha aqui embaixo é a mágica
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
 
