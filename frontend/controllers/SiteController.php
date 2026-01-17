@@ -368,4 +368,29 @@ class SiteController extends Controller
     {
         return $this->render('api-docs');
     }
+    public function actionTestLogin()
+    {
+        if (Yii::$app->request->isPost) {
+            $email = Yii::$app->request->post('email');
+            $password = Yii::$app->request->post('password');
+
+            // Chama o backend via Guzzle ou curl interno
+            $client = new \GuzzleHttp\Client();
+            try {
+                $response = $client->post('http://localhost:8080/cowork/api/auth/login', [
+                    'json' => [
+                        'email' => $email,
+                        'password' => $password,
+                    ],
+                ]);
+
+                $body = $response->getBody()->getContents();
+                Yii::$app->session->setFlash('result', $body);
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('result', 'Erro: ' . $e->getMessage());
+            }
+        }
+
+        return $this->redirect(['site/test-login']);
+    }
 }

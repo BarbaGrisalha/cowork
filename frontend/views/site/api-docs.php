@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h3>Cowork IPLeiria API v1</h3>
             </div>
             <div class="card-body">
-                <p><strong>Base URL:</strong> <code>http://localhost:8080/cowork/frontend/web/api</code></p>
+                <p><strong>Base URL:</strong> <code>http://localhost:8080/cowork/api/web/</code></p>
                 <p><strong>Autenticação:</strong> Bearer Token no header <code>Authorization</code></p>
 
                 <h4 class="mt-4">Endpoints Disponíveis</h4>
@@ -35,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <tr>
                             <td>POST</td>
                             <td>/login</td>
-                            <td>Login e obtém JWT</td>
-                            <td>JSON: {"username": "altamir", "password": "vinho123"}</td>
+                            <td>Login</td>
+                            <td>JSON: {"username": "altamir", "password": "altamir1972"}</td>
                         </tr>
                         <tr>
                             <td>GET</td>
@@ -48,49 +48,40 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td>POST</td>
                             <td>/reservation</td>
                             <td>Cria uma nova reserva</td>
-                            <td>JSON com data_reserva, hora_inicio_temp, hora_fim_temp, room_id, periodo</td>
+                            <td>JSON {
+                                "customer_id": 1,
+                                "room_id": 4,
+                                "data_reserva": "2026-01-16 13:30:00",
+                                "hora_inicio_agendada": "2026-01-19 09:00:00",
+                                "hora_fim_agendada": "2026-01-19 10:00:00",
+                                "total_estimado": 7.00,
+                                "status": "pendente",
+                                "tipo_reserva": "hora"
+                                }</td>
                         </tr>
                         <tr>
                             <td>GET</td>
                             <td>/reservation</td>
-                            <td>Lista reservas do usuário</td>
+                            <td>Lista reservas dos usuários</td>
                             <td>Nenhum</td>
-                        </tr>
-                        <tr>
-                            <td>POST</td>
-                            <td>/pay/{id}</td>
-                            <td>Paga uma reserva</td>
-                            <td>ID da reserva</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>/invoice/{id}</td>
-                            <td>Mostra fatura</td>
-                            <td>ID da reserva</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>/invoice/pdf/{id}</td>
-                            <td>Download PDF da fatura</td>
-                            <td>ID da reserva</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <h4 class="mt-5">Exemplo de Uso (Postman ou Volley)</h4>
                 <pre class="bg-dark text-white p-3 rounded">
-POST http://localhost:8080/cowork/frontend/web/api/login
+POST http://localhost:8080/cowork/web/api/login
 Content-Type: application/json
 
 {
     "username": "altamir",
-    "password": "vinho123"
+    "password": "altamir1972"
 }
 
 Resposta:
 {
     "success": true,
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+    
 }
                 </pre>
 

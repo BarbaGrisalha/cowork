@@ -1,4 +1,5 @@
 <?php
+
 // Carrega parâmetros globais e locais
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
@@ -12,14 +13,14 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'debug'],
 
+    'controllerNamespace' => 'api\controllers',
+
     'modules' => [
         'debug' => [
             'class' => 'yii\debug\Module',
             'allowedIPs' => ['127.0.0.1', '::1', '*'],
         ],
     ],
-
-    'controllerNamespace' => 'api\controllers',
 
     'components' => [
         'request' => [
@@ -33,8 +34,16 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => true,
+            'enableStrictParsing' => false,  // <--- DESLIGA ISTO AGORA
             'rules' => [
+                'auth/login' => 'auth/login',
+                // auth simples e sem restrição
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'auth',
+                    'pluralize' => false,
+                ],
+                // reservation
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'reservation',
@@ -43,15 +52,16 @@ return [
                         'GET availability/{resourceType}/{date:\d{4}-\d{2}-\d{2}}' => 'availability',
                     ],
                 ],
+                // rooms
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'rooms',
                     'pluralize' => false,
                 ],
+                // genérico no final
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
-
         'response' => [
             'format' => \yii\web\Response::FORMAT_JSON,
             'charset' => 'UTF-8',
@@ -70,17 +80,16 @@ return [
 
         'user' => [
             'class' => 'yii\web\User',
-            'identityClass' => 'yii\base\BaseObject',  // Classe dummy que NÃO existe, mas não crasha o init() – truque para desativar validação
+            'identityClass' => 'yii\base\BaseObject',
             'enableAutoLogin' => false,
             'enableSession' => false,
             'loginUrl' => null,
-            'idParam' => '__api_user_id',  // Nome diferente para não conflitar
+            'idParam' => '__api_user_id',
         ],
 
-        // RateLimiter desativado corretamente (não boolean, mas configuração vazia)
         'rateLimiter' => [
             'class' => 'yii\filters\RateLimiter',
-            'enabled' => false,  // Desativa o filter
+            'enabled' => false,
         ],
     ],
 
