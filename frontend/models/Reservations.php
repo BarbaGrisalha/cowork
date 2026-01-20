@@ -66,7 +66,7 @@ class Reservations extends \yii\db\ActiveRecord
 
             // <<< ADICIONADO: Validação customizada para sobreposição
             // CORRIGIDO: Chamando o validador com o nome da coluna real
-            ['hora_inicio_agendada', 'validateOverlap'],
+            [['hora_inicio_agendada', 'hora_fim_agendada'], 'validateOverlap'],
 
             // <<< CORRIGIDO: O targetClass deve ser 'Customer::class' (singular), como nos seus 'use' e 'get'
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
@@ -110,45 +110,34 @@ class Reservations extends \yii\db\ActiveRecord
      */
     public function validateOverlap($attribute, $params)
     {
-        if ($this->hasErrors()) {
-            // Não vamos validar se outros erros (ex: 'required') já falharam
+        if ($this->hasErrors() || empty($this->room_id) || empty($this->hora_inicio_agendada) || empty($this->hora_fim_agendada)) {
             return;
         }
 
-        // Datas da *nova* reserva
         $newStart = $this->hora_inicio_agendada;
-        $newEnd = $this->hora_fim_agendada;
+        $newEnd   = $this->hora_fim_agendada;
 
-        // Garantir que a data final é depois da inicial
         if ($newStart >= $newEnd) {
-            $this->addError($attribute, 'A hora de fim deve ser posterior à hora de início.');
+            $this->addError('hora_inicio_agendada', 'Início deve ser antes do fim.');
+            $this->addError('hora_fim_agendada', 'Fim deve ser após o início.');
             return;
         }
 
-        // A lógica de sobreposição:
-        // Encontrar qualquer reserva na MESMA SALA onde:
-        // O início (existente) é ANTES do fim (novo) E
-        // O fim (existente) é DEPOIS do início (novo)
-        $query = Reservations::find()
+        $query = self::find()
             ->where(['room_id' => $this->room_id])
             ->andWhere(['<', 'hora_inicio_agendada', $newEnd])
-            ->andWhere(['>', 'hora_fim_agendada', $newStart])
-            ->andWhere(['>=', 'hora_fim_agendada', date('Y-m-d H:i:s')]);
+            ->andWhere(['>', 'hora_fim_agendada', $newStart]);
 
-        // Se estivermos a *atualizar* uma reserva (isNewRecord é false),
-        // temos que excluir o ID dela da verificação,
-        // senão ela vai conflitar consigo mesma.
         if (!$this->isNewRecord) {
             $query->andWhere(['!=', 'id', $this->id]);
         }
 
-        // Se a query retornar *qualquer coisa*, temos um conflito.
         if ($query->exists()) {
-            $this->addError($attribute, 'Este horário está em conflito com uma reserva existente para esta sala.');
-            $this->addError('hora_fim_agendada', 'Conflito de horário detectado.');
+            $this->addError('hora_inicio_agendada', 'Horário já reservado para esta sala.');
+            $this->addError('hora_fim_agendada', 'Conflito de horário.');
+            Yii::error("Conflito detectado para sala {$this->room_id}: {$newStart} - {$newEnd}");
         }
     }
-
     // --- MÉTODOS DE EVENTOS (HOOKS) ---
 
     /**
@@ -347,7 +336,10 @@ class Reservations extends \yii\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
-
+        if (!$this->validate()) {
+            Yii::error("Validação falhou antes do save: " . print_r($this->getErrors(), true));
+            return false;
+        }
         // Garantir que sempre tenha um valor
         $this->tipo_reserva = $this->tipo_reserva ?: 'hora';
 

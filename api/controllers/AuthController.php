@@ -5,6 +5,7 @@ namespace api\controllers;
 use Yii;
 use yii\rest\Controller;
 use common\models\User;
+use common\models\Customers;
 use yii\web\BadRequestHttpException;
 
 class AuthController extends Controller
@@ -21,6 +22,40 @@ class AuthController extends Controller
         ];
         // $behaviors['authenticator'] = false;
         return $behaviors;
+    }
+    
+    public function actionRegister()
+    {
+        $data = Yii::$app->request->post();
+
+        $user = new User();
+        $user->username = $data['email']; // ou campo username se separado
+        $user->email = $data['email'];
+        $user->setPassword($data['password']);
+        $user->generateAuthKey();
+
+        if ($user->save()) {
+            // Crie customer associado se necessário
+            $customer = new Customers();
+            $customer->user_id = $user->id;
+            $customer->nome = $data['nome'];
+            // outros campos
+            $customer->save();
+
+            return [
+                'success' => true,
+                'message' => 'Cadastro realizado',
+                'user' => [
+                    'id' => $user->id,
+                    'nome' => $data['nome'],
+                    'email' => $user->email,
+                    'customer_id' => $customer->id
+                ]
+            ];
+        }
+
+        Yii::$app->response->statusCode = 422;
+        return ['success' => false, 'errors' => $user->getErrors()];
     }
 
     public function actionLogin()
@@ -41,14 +76,20 @@ class AuthController extends Controller
             return ['success' => false, 'message' => 'Credenciais inválidas'];
         }
 
-        Yii::$app->response->statusCode = 200;
+        $customer = Customers::findOne(['user_id' => $user->id]);
+
+        // Após validar usuário
+        $token = Yii::$app->security->generateRandomString(64); // token simples para teste
+
         return [
             'success' => true,
             'user' => [
                 'id' => $user->id,
                 'nome' => $user->nome ?? $user->username,
-                'email' => $user->email
-            ]
+                'email' => $user->email,
+                'customer_id' => $customer ? $customer->id : null
+            ],
+            'token' => $token  // Retorne token
         ];
     }
 }

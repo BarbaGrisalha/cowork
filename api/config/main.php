@@ -34,7 +34,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => false,  // <--- DESLIGA ISTO AGORA
+            'enableStrictParsing' => false,
             'rules' => [
                 'auth/login' => 'auth/login',
                 // auth simples e sem restrição
@@ -58,6 +58,7 @@ return [
                     'controller' => 'rooms',
                     'pluralize' => false,
                 ],
+                'faturas/my' => 'fatura/my',
                 // genérico no final
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
