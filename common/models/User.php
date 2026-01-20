@@ -72,7 +72,26 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        Yii::info("findIdentityByAccessToken chamado | Token recebido (length " . strlen($token) . "): '$token'", __METHOD__);
+
+        if (empty($token)) {
+            Yii::info("Token vazio → retorna null", __METHOD__);
+            return null;
+        }
+
+        $user = static::findOne([
+            'access_token' => $token,
+            'status' => self::STATUS_ACTIVE
+        ]);
+
+        if ($user) {
+            Yii::info("User encontrado: ID {$user->id} | Username {$user->username}", __METHOD__);
+        } else {
+            Yii::info("User NÃO encontrado | Token BD para ID 2: " . (self::findOne(2)->access_token ?? 'NULL'), __METHOD__);
+            Yii::info("Token recebido vs BD: " . ($token === self::findOne(2)->access_token ? 'IGUAL' : 'DIFERENTE'), __METHOD__);
+        }
+
+        return $user;
     }
 
     /**

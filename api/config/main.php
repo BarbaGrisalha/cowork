@@ -37,13 +37,13 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 'auth/login' => 'auth/login',
-                // auth simples e sem restrição
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'auth',
                     'pluralize' => false,
                 ],
-                // reservation
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'reservation',
@@ -52,17 +52,30 @@ return [
                         'GET availability/{resourceType}/{date:\d{4}-\d{2}-\d{2}}' => 'availability',
                     ],
                 ],
-                // rooms
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'rooms',
                     'pluralize' => false,
                 ],
+
                 'faturas/my' => 'fatura/my',
-                // genérico no final
+
+                // Customers - rota customizada para update do próprio perfil
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'customers',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'PUT update' => 'update',  // PUT /customers/update chama actionUpdate
+                        'GET my' => 'my',          // opcional: GET /customers/my para ver perfil
+                    ],
+                ],
+
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
+
         'response' => [
             'format' => \yii\web\Response::FORMAT_JSON,
             'charset' => 'UTF-8',
@@ -73,7 +86,7 @@ return [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning', 'info'],
                     'logFile' => '@api/runtime/logs/app.log',
                 ],
             ],
@@ -81,7 +94,7 @@ return [
 
         'user' => [
             'class' => 'yii\web\User',
-            'identityClass' => 'yii\base\BaseObject',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
             'enableSession' => false,
             'loginUrl' => null,
