@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use chillerlan\QRCode\QRCode;
 
+
 $this->title = 'Fatura da Reserva ' . $reserva->id;
 
 // --- Mapeamento de Dados da Reserva para a Fatura ---

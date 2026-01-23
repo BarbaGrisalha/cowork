@@ -11,7 +11,7 @@ use yii\db\Transaction;
 use frontend\models\PaymentMockForm;
 use frontend\models\Payments;
 use common\models\Rooms;
-use frontend\models\Customer;
+use common\models\Customer;
 
 class PaymentController extends Controller
 {

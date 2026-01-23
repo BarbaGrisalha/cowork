@@ -5,7 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\Reservation;
-use common\models\Customers;
+use common\models\Customer;
 use common\models\Rooms;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
@@ -26,7 +26,7 @@ class InvoiceController extends Controller
 
     public function actionIndex()
     {
-        $customer = Customers::findOne(['user_id' => Yii::$app->user->id]);
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
 
         if (!$customer) {
             throw new NotFoundHttpException('Perfil não encontrado.');
@@ -46,7 +46,7 @@ class InvoiceController extends Controller
 
     public function actionView($id)
     {
-        $customer = Customers::findOne(['user_id' => Yii::$app->user->id]);
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
         if (!$customer) {
             throw new NotFoundHttpException('Perfil não encontrado.');
         }
@@ -68,7 +68,7 @@ class InvoiceController extends Controller
 
     public function actionPdf($id)
     {
-        $customer = Customers::findOne(['user_id' => Yii::$app->user->id]);
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
         if (!$customer) {
             throw new NotFoundHttpException('Perfil não encontrado.');
         }

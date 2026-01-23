@@ -23,10 +23,8 @@ use Yii;
  * @property Reservations[] $reservations
  * @property User $user
  */
-class Customers extends \yii\db\ActiveRecord
+class Customer extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -54,9 +52,6 @@ class Customers extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -71,64 +66,61 @@ class Customers extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[CustomerCardTokens]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
+    // Relações
     public function getCustomerCardTokens()
     {
         return $this->hasMany(CustomerCardTokens::class, ['customer_id' => 'id']);
     }
-
-    /**
-     * Gets query for [[Invoices]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getInvoices()
     {
         return $this->hasMany(Invoices::class, ['customer_id' => 'id']);
     }
-
-    /**
-     * Gets query for [[MbwayAccounts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getMbwayAccounts()
     {
         return $this->hasMany(MbwayAccounts::class, ['customer_id' => 'id']);
     }
-
-    /**
-     * Gets query for [[PaypalAccounts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getPaypalAccounts()
     {
         return $this->hasMany(PaypalAccounts::class, ['customer_id' => 'id']);
     }
-
-    /**
-     * Gets query for [[Reservations]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getReservations()
     {
-        return $this->hasMany(Reservations::class, ['customer_id' => 'id']);
+        return $this->hasMany(Reservation::class, ['customer_id' => 'id']);
     }
-
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
+    // Método signup (mova do frontend para aqui)
+    public function signup($username, $email, $password)
+    {
+        $user = new User();
+        $user->username = $username;
+        $user->email    = $email;
+        $user->setPassword($password);
+        $user->generateAuthKey();
+        $user->generateEmailVerificationToken();
+
+        if ($user->save()) {
+            $this->user_id        = $user->id;
+            $this->nome           = $username; // inicial
+            $this->nif            = '';
+            $this->morada         = '';
+            $this->telefone       = '';
+            $this->data_registro  = date('Y-m-d H:i:s');
+            $this->save(false);
+
+            // Permissões
+            $auth = Yii::$app->authManager;
+            $auth->assign($auth->getRole('cliente'), $user->id); // ou permissões específicas
+
+            // Envio de email (ajuste conforme teu código)
+            // $this->sendEmail($user);
+
+            return $user;
+        }
+
+        return null;
+    }
 }

@@ -51,8 +51,11 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => \yii\log\FileTarget::class,
-                    'levels' => ['error', 'warning'],
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'info', 'trace'],  // ← adicione 'info' e 'trace'
+                    'except' => ['yii\web\HttpException:*'],
+                    'logFile' => '@runtime/logs/app.log',
+                    'logVars' => ['_GET', '_POST', '_FILES'],  // útil para ver POST
                 ],
             ],
         ],

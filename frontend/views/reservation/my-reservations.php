@@ -24,7 +24,7 @@ $statusOptions = [
 <div class="my-reservations py-5">
     <div class="container">
         <h1 class="text-center mb-4 fw-bold text-primary">
-            <i class="fas fa-calendar-check me-3"></i> Minhas Reservas
+            <i class="fas fa-calendar-check me-3"></i> Minhas Reservas !
         </h1>
 
         <!-- TABS DE FILTRO -->

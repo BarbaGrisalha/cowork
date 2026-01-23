@@ -10,18 +10,18 @@ class FakeCardForm extends Model
     public $card_number;
     public $expiry_month;
     public $expiry_year;
-    public $cvc;
+    public $cvv;
     public $card_name;
     public $bandeira; // Apenas para debug/erro
 
     public function rules()
     {
         return [
-            [['card_number', 'expiry_month', 'expiry_year', 'cvc', 'card_name'], 'required', 'message' => 'Eu preciso deste dado, não sou adivinho.'],
+            [['card_number', 'expiry_month', 'expiry_year', 'cvv', 'card_name'], 'required', 'message' => 'Eu preciso deste dado, não sou adivinho.'],
 
-            // Validação do CVC
-            ['cvc', 'string', 'min' => 3, 'max' => 4],
-            ['cvc', 'match', 'pattern' => '/^[0-9]+$/', 'message' => 'CVC é numérico.'],
+            // Validação do CVV
+            ['cvv', 'string', 'min' => 3, 'max' => 4],
+            ['cvv', 'match', 'pattern' => '/^[0-9]+$/', 'message' => 'CVV é numérico.'],
 
             // Validação de Vencimento
             [['expiry_month', 'expiry_year'], 'integer'],

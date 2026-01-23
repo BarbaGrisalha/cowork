@@ -336,65 +336,69 @@ class Reservations extends \yii\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
-        if (!$this->validate()) {
-            Yii::error("Validação falhou antes do save: " . print_r($this->getErrors(), true));
-            return false;
-        }
-        // Garantir que sempre tenha um valor
-        $this->tipo_reserva = $this->tipo_reserva ?: 'hora';
 
-        // RESERVA MENSAL — 100% compatível com seu banco atual
+        $this->periodo = $this->periodo ?: 'hora';
+
+        if ($this->periodo === 'hora') {
+            if (empty($this->data_reserva)) {
+                $this->addError('data_reserva', 'Data da reserva é obrigatória.');
+                return false;
+            }
+
+            $data = trim($this->data_reserva);
+
+            // Hora início
+            if (!empty($this->hora_inicio_agendada)) {
+                $horaInicioLimpa = trim($this->hora_inicio_agendada);
+                if (preg_match('/^(\d{2}):(\d{2})$/', $horaInicioLimpa)) {
+                    $this->hora_inicio_agendada = $data . ' ' . $horaInicioLimpa . ':00';
+                } else {
+                    // Se já for datetime completo, mantém (fallback)
+                    if (!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $this->hora_inicio_agendada)) {
+                        Yii::error("Formato inválido em hora_inicio_agendada: " . $this->hora_inicio_agendada);
+                    }
+                }
+            }
+
+            // Hora fim (mesma lógica)
+            if (!empty($this->hora_fim_agendada)) {
+                $horaFimLimpa = trim($this->hora_fim_agendada);
+                if (preg_match('/^(\d{2}):(\d{2})$/', $horaFimLimpa)) {
+                    $this->hora_fim_agendada = $data . ' ' . $horaFimLimpa . ':00';
+                } else {
+                    if (!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $this->hora_fim_agendada)) {
+                        Yii::error("Formato inválido em hora_fim_agendada: " . $this->hora_fim_agendada);
+                    }
+                }
+            }
+
+            $this->tipo_reserva = 'hora';
+        }
+
+        // Reserva por dia
+        if ($this->periodo === 'dia' && $this->data_reserva) {
+            $this->hora_inicio_agendada = $this->data_reserva . ' 09:00:00';
+            $this->hora_fim_agendada    = $this->data_reserva . ' 19:00:00';
+            $this->total_estimado       = 32.00;
+            $this->tipo_reserva         = 'diaria';
+        }
+
+        // Reserva mensal (mantém o que já tinha)
         if ($this->tipo_reserva === 'mensal') {
-            // Recebemos data_reserva no formato 2026-01-01 (vem do hidden input)
             if (empty($this->data_reserva)) {
                 $this->addError('data_reserva', 'Data da reserva mensal é obrigatória.');
                 return false;
             }
-
-            $dt = new \DateTime($this->data_reserva); // já vem como 2026-01-01
-
-            // Preenche os campos que EXISTEM no banco
+            $dt = new \DateTime($this->data_reserva);
             $this->hora_inicio_agendada = $dt->format('Y-m-01 00:00:00');
-            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59.999'); // .999 evita duplicate key
-
-            $this->total_estimado = 800.00;
-            $this->status         = $this->status ?: 'Pendente';
-
-            return true;
+            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59');
+            $this->total_estimado       = 800.00;
+            $this->status               = $this->status ?: self::STATUS_PENDING;
         }
 
-        // RESERVA DIÁRIA
-        if ($this->tipo_reserva === 'diaria') {
-            if (empty($this->data_inicio)) {
-                $this->addError('data_inicio', 'Data é obrigatória para reserva diária.');
-                return false;
-            }
-
-            $this->hora_inicio_agendada = $this->data_inicio . ' 09:00:00';
-            $this->hora_fim_agendada    = $this->data_inicio . ' 19:00:00';
-            $this->total_estimado = 32.00;
-
-            return true;
-        }
-
-        // RESERVA POR HORA → cálculo normal (seu código antigo)
-        if ($this->tipo_reserva === 'hora') {
-            if ($insert || $this->total_estimado == 0.00) {
-                $HOURLY_RATE = 7.00;
-                try {
-                    $startTime = new DateTime($this->hora_inicio_agendada);
-                    $endTime   = new DateTime($this->hora_fim_agendada);
-                    $interval  = $startTime->diff($endTime);
-                    $totalHoursDecimal = $interval->h + ($interval->i / 60);
-                    $calculatedPrice = ceil($totalHoursDecimal) * $HOURLY_RATE;
-                    $this->total_estimado = round($calculatedPrice, 2);
-                } catch (\Exception $e) {
-                    Yii::error("Erro no cálculo do preço da Reserva #{$this->id}: " . $e->getMessage());
-                    $this->total_estimado = 0.00;
-                }
-            }
-            return true;
-        }
+        // Debug temporário (remova depois de testar)
+        Yii::info("beforeSave - hora_inicio_agendada final: " . $this->hora_inicio_agendada, __METHOD__);
+        Yii::info("beforeSave - hora_fim_agendada final: " . $this->hora_fim_agendada, __METHOD__);
 
         return true;
     }

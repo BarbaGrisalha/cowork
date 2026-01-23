@@ -216,4 +216,13 @@ class ReservationController extends ActiveController
 
         throw new NotFoundHttpException('Reserva não encontrada.');
     }
+
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        $model->delete();
+
+        Yii::$app->response->setStatusCode(204);
+        return null;
+    }
 }

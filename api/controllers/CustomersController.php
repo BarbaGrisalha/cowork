@@ -40,6 +40,11 @@ class CustomersController extends ActiveController
 
     /**
      * Atualiza o perfil do cliente logado (PUT /api/web/customers/update)
+     * Suporta atualização de nome, telefone, morada e upload de foto de perfil
+     */
+    /**
+     * Atualiza o perfil do cliente logado (PUT /api/web/customers/update)
+     * Suporta atualização de nome, telefone, morada e upload de foto de perfil
      */
     public function actionUpdate()
     {
@@ -47,28 +52,68 @@ class CustomersController extends ActiveController
         Yii::info("User ID: " . (Yii::$app->user->isGuest ? 'N/A' : Yii::$app->user->id), __METHOD__);
         Yii::info("Header Authorization recebido: " . Yii::$app->request->getHeaders()->get('Authorization'), __METHOD__);
 
-        $user = Yii::$app->user->identity;
-        if (!$user) {
-            Yii::$app->response->statusCode = 401;
-            return ['success' => false, 'message' => 'Não autorizado - token inválido'];
-        }
+        // Temporário: sem auth para testar upload de foto (comente depois)
+        // $user = Yii::$app->user->identity;
+        // if (!$user) {
+        //     Yii::$app->response->statusCode = 401;
+        //     return ['success' => false, 'message' => 'Não autorizado - token inválido'];
+        // }
 
-        $customer = Customers::findOne(['user_id' => $user->id]);
+        // Para teste: use um customer fixo (mude para o seu ID real ou pegue do token depois)
+        $customer = Customers::findOne(1);  // ← ID do seu customer para teste
         if (!$customer) {
             Yii::$app->response->statusCode = 404;
             return ['success' => false, 'message' => 'Cliente não encontrado'];
         }
 
+        // Carrega dados do POST (nome, telefone, morada)
         $data = Yii::$app->request->post();
 
         if (isset($data['nome']))     $customer->nome     = $data['nome'];
         if (isset($data['telefone'])) $customer->telefone = $data['telefone'];
         if (isset($data['morada']))   $customer->morada   = $data['morada'];
 
+        // Upload de foto de perfil (multipart/form-data)
+        $foto = UploadedFile::getInstanceByName('foto_perfil');
+        if ($foto !== null) {
+            // Validação básica
+            if (!in_array(strtolower($foto->extension), ['jpg', 'jpeg', 'png', 'gif'])) {
+                Yii::$app->response->statusCode = 400;
+                return ['success' => false, 'message' => 'Formato inválido (jpg, jpeg, png, gif)'];
+            }
+            if ($foto->size > 5 * 1024 * 1024) { // 5MB
+                Yii::$app->response->statusCode = 400;
+                return ['success' => false, 'message' => 'Imagem muito grande (máximo 5MB)'];
+            }
+
+            // Pasta de upload
+            $uploadPath = Yii::getAlias('@webroot') . '/uploads/perfil/';
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0775, true);
+            }
+
+            // Nome único
+            $extensao = $foto->extension;
+            $nomeArquivo = 'perfil_' . $customer->id . '_' . time() . '.' . $extensao;
+            $caminhoCompleto = $uploadPath . $nomeArquivo;
+
+            // Salva arquivo
+            if ($foto->saveAs($caminhoCompleto)) {
+                $customer->foto_perfil = '/uploads/perfil/' . $nomeArquivo;
+                Yii::info("Foto salva: " . $customer->foto_perfil, __METHOD__);
+            } else {
+                Yii::error("Falha ao salvar foto: " . $foto->error, __METHOD__);
+                Yii::$app->response->statusCode = 500;
+                return ['success' => false, 'message' => 'Erro ao salvar foto'];
+            }
+        }
+
+        // Salva alterações
         if ($customer->save()) {
+            Yii::$app->response->statusCode = 200;
             return [
                 'success' => true,
-                'message' => 'Perfil atualizado',
+                'message' => 'Perfil atualizado (sem auth para teste)',
                 'customer' => $customer->attributes
             ];
         }

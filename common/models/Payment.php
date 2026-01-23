@@ -55,8 +55,6 @@ class Payment extends \yii\db\ActiveRecord
             [['data_pagamento'], 'safe'],
             [['metodo', 'status'], 'string', 'max' => 30],
             [['customer_card_token_id'], 'exist', 'skipOnError' => true, 'targetClass' => CustomerCardTokens::class, 'targetAttribute' => ['customer_card_token_id' => 'id']],
-            [['mbway_account_id'], 'exist', 'skipOnError' => true, 'targetClass' => MbwayAccounts::class, 'targetAttribute' => ['mbway_account_id' => 'id']],
-            [['paypal_account_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaypalAccounts::class, 'targetAttribute' => ['paypal_account_id' => 'id']],
             [['reservation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Reservation::class, 'targetAttribute' => ['reservation_id' => 'id']],
         ];
     }
@@ -89,25 +87,7 @@ class Payment extends \yii\db\ActiveRecord
         return $this->hasOne(CustomerCardTokens::class, ['id' => 'customer_card_token_id']);
     }
 
-    /**
-     * Gets query for [[MbwayAccount]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMbwayAccount()
-    {
-        return $this->hasOne(MbwayAccounts::class, ['id' => 'mbway_account_id']);
-    }
 
-    /**
-     * Gets query for [[PaypalAccount]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPaypalAccount()
-    {
-        return $this->hasOne(PaypalAccounts::class, ['id' => 'paypal_account_id']);
-    }
 
     /**
      * Gets query for [[Reservation]].

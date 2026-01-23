@@ -2,48 +2,19 @@
 
 namespace frontend\controllers;
 
-use app\models\Room;
+use Yii;
+use yii\web\Controller;
+use yii\filters\AccessControl;
+
+// Models corretos
+use common\models\Rooms;
+use common\models\Reservation;
+use common\models\Customer;
 use common\models\Economato;
 use common\models\RoomItems;
-use yii\filters\AccessControl;
-use Yii; // Necessário para acessar o ID do usuário logado
-
-// Assumindo que os Models estão em common ou frontend e se chamam Room e Reservation.
-// Você pode precisar ajustar os 'use' statements.
-use common\models\Rooms;
-use frontend\models\Reservations;
-use yii\web\Controller;
 
 class DashboardController extends Controller
 {
-    public function actionIndex()
-    {
-        $userId = Yii::$app->user->id;
-        // 1. Locais disponíveis (Salas, etc.)
-        // Assumindo que a tabela é 'rooms' ou 'locations'
-        // Se o Model Room for 'common\models\Room'
-        $locations = Rooms::find()->all(); //no Room aparece isso Undefined type 'common\models\Room'.intelephense(P1009) No quick fixes available
-
-        // 2. Reservas do usuário logado
-        // Assumindo que o Model Reservations tem a coluna 'customer_id'
-        $userReservations = Reservations::find()
-            ->where(['customer_id' => $userId])
-            ->with('room')
-            ->orderBy(['data_reserva' => SORT_ASC, 'hora_inicio_agendada' => SORT_ASC])
-            ->all();
-
-
-        $barItems = Economato::find()->all();
-
-        $equipment = RoomItems::find()->all();
-        // Passa todas as variáveis necessárias para a View
-        return $this->render('index', [
-            'locations' => $locations,
-            'barItems' => $barItems,
-            'equipment' => $equipment,
-            'userReservations' => $userReservations,
-        ]);
-    }
     public function behaviors(): array
     {
         return [
@@ -52,25 +23,55 @@ class DashboardController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        // CORREÇÃO CRÍTICA: 'roles' deve ser um array de strings.
-                        // O Yii estava lendo o array de roles como se fossem propriedades
-                        'roles' => ['@'], // ['@'] significa: usuários autenticados
-                        'actions' => [
-                            'index',
-                            'create',
-                            'reservar',
-                            'view',
-                            'atualizarReserva',
-                            'cancelarReserva',
-                            'deletarReserva',
-                            'fazerReserva',
-                            'gerenciarTudo',
-                            'listarMinhasReservas',
-                            'verReserva'
-                        ], // Adicionamos 'actions' para maior clareza
+                        'roles' => ['@'],  // Apenas usuários logados
                     ],
                 ],
             ],
         ];
+    }
+
+    public function actionIndex()
+    {
+        $userId = Yii::$app->user->id;
+
+        // Busca o customer do usuário logado
+        $customer = Customer::findOne(['user_id' => $userId]);
+
+        if (!$customer) {
+            Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
+            return $this->redirect(['site/index']);
+        }
+
+        // 1. Salas disponíveis (ativas)
+        $locations = Rooms::find()
+            ->where(['status' => 'ativa'])
+            ->orderBy('nome_sala')
+            ->all();
+
+        // 2. Próximas reservas do usuário (futuras, não canceladas)
+        $userReservations = Reservation::find()
+            ->where(['customer_id' => $customer->id])
+            ->andWhere(['>=', 'hora_inicio_agendada', date('Y-m-d H:i:s')])
+            ->andWhere(['!=', 'status', 'cancelada'])
+            ->with('room')
+            ->orderBy(['hora_inicio_agendada' => SORT_ASC])
+            ->all();
+
+        // 3. Itens do bar / economato
+        $barItems = Economato::find()
+            ->orderBy('nome_item')
+            ->all();
+
+        // 4. Equipamentos extras
+        $equipment = RoomItems::find()
+            ->orderBy('nome_item')
+            ->all();
+
+        return $this->render('index', [
+            'locations'        => $locations,
+            'barItems'         => $barItems,
+            'equipment'        => $equipment,
+            'userReservations' => $userReservations,
+        ]);
     }
 }

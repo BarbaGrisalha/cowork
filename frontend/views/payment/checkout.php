@@ -44,14 +44,17 @@ $this->title = 'Checkout de Pagamento FAKE (Completo)';
                 <?= $form->field($model, 'expiry_year')->textInput(['maxlength' => 4, 'placeholder' => 'Ano (AAAA)']) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'cvc')->passwordInput(['maxlength' => 4, 'placeholder' => 'CVC']) ?>
+                <?= $form->field($model, 'cvv')->passwordInput(['maxlength' => 4, 'placeholder' => 'CVV']) ?>
             </div>
         </div>
 
         <p class="text-muted small">
             **Regras de Simulação FAKE:**
         <ul>
-            <li>Para **SUCESSO** (APROVADO), use '4111111111111111', Visa teste clássico.</li>
+            <li>Para **SUCESSO** (APROVADO), use '4111111111111111', Visa Fake.</li>
+            <li>Mês 10 </li>
+            <li>Ano 2030 </li>
+            <li>CVV 123 </li>
         </ul>
 
         </p>

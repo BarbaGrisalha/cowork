@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\AccessCodes;
-use common\models\Customers;
+use common\models\Customer;
 use common\models\HorariosControle;
 use common\models\Invoices;
 use common\models\Economato;
@@ -96,7 +96,7 @@ class Reservation extends \yii\db\ActiveRecord
             ]],
 
             // Relações
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
             [['room_id'],     'exist', 'skipOnError' => true, 'targetClass' => Rooms::class,      'targetAttribute' => ['room_id' => 'id']],
         ];
     }
@@ -127,7 +127,7 @@ class Reservation extends \yii\db\ActiveRecord
     }
     public function getCustomer()
     {
-        return $this->hasOne(Customers::class, ['id' => 'customer_id']);
+        return $this->hasOne(Customer::class, ['id' => 'customer_id']);
     }
     public function getHorariosControles()
     {
@@ -173,20 +173,35 @@ class Reservation extends \yii\db\ActiveRecord
 
         $timezone = new \DateTimeZone('Europe/Lisbon');
         $agora = new \DateTime('now', $timezone);
-        $agora->modify('+5 minutes');
+        $agora->modify('+5 minutes'); // tolerância de 5 minutos
 
         if ($this->periodo === 'hora') {
+            Yii::info("=== VALIDATE NOT IN PAST ===", __METHOD__);
+            Yii::info("data_reserva         = " . var_export($this->data_reserva, true), __METHOD__);
+            Yii::info("hora_inicio_agendada = " . var_export($this->hora_inicio_agendada, true), __METHOD__);
             if (empty($this->hora_inicio_agendada)) {
                 return;
             }
 
+            if (empty($this->data_reserva)) {
+                $this->addError('data_reserva', 'Data da reserva é obrigatória para reservas por hora.');
+                return;
+            }
+
             try {
-                $inicio = new \DateTime($this->hora_inicio_agendada, $timezone);
+                // Combina data + hora corretamente para evitar que DateTime use a data atual
+                $dataHora = trim($this->data_reserva) . ' ' . trim($this->hora_inicio_agendada) . ':00';
+                Yii::info("String montada para DateTime: " . $dataHora, __METHOD__);
+                $inicio = new \DateTime($dataHora, $timezone);
+
                 if ($inicio < $agora) {
                     $this->addError('hora_inicio_agendada', 'Não é permitido reservar horários passados.');
+                    // Opcional: pode ativar se quiser destacar a data também
+                    // $this->addError('data_reserva', 'Data/horário já passou.');
                 }
             } catch (\Exception $e) {
-                $this->addError('hora_inicio_agendada', 'Formato de horário inválido.');
+                $this->addError('hora_inicio_agendada', 'Formato de horário ou data inválido.');
+                $this->addError('data_reserva', 'Formato de data inválido.');
             }
         } elseif (in_array($this->periodo, ['dia', 'mes'])) {
             $data = $this->data_reserva ?? null;
@@ -215,6 +230,70 @@ class Reservation extends \yii\db\ActiveRecord
 
         $this->periodo = $this->periodo ?: 'hora';
 
+        if ($this->periodo === 'hora') {
+            if (empty($this->data_reserva)) {
+                $this->addError('data_reserva', 'Data da reserva é obrigatória.');
+                return false;
+            }
+
+            $data = trim($this->data_reserva);
+
+            // Converter para datetime completo
+            if (!empty($this->hora_inicio_agendada)) {
+                $hora = trim($this->hora_inicio_agendada);
+                if (preg_match('/^\d{2}:\d{2}$/', $hora)) {
+                    $this->hora_inicio_agendada = $data . ' ' . $hora . ':00';
+                }
+            }
+
+            if (!empty($this->hora_fim_agendada)) {
+                $hora = trim($this->hora_fim_agendada);
+                if (preg_match('/^\d{2}:\d{2}$/', $hora)) {
+                    $this->hora_fim_agendada = $data . ' ' . $hora . ':00';
+                }
+            }
+
+            // CÁLCULO DO VALOR POR HORA
+            if (!empty($this->hora_inicio_agendada) && !empty($this->hora_fim_agendada)) {
+                try {
+                    $inicio = new \DateTime($this->hora_inicio_agendada);
+                    $fim    = new \DateTime($this->hora_fim_agendada);
+
+                    // Diferença em horas (com decimais)
+                    $intervalo = $inicio->diff($fim);
+                    $horas     = $intervalo->h + ($intervalo->i / 60) + ($intervalo->s / 3600);
+
+                    // Preço fixo por hora
+                    $precoPorHora = 7.00;
+
+                    // Total (pode arredondar para cima se quiser cobrar hora cheia)
+                    // Opção 1: valor exato (com decimais)
+                    $this->total_estimado = round($horas * $precoPorHora, 2);
+
+                    // Opção 2: arredondar para cima (hora iniciada = hora cobrada)
+                    // $this->total_estimado = ceil($horas) * $precoPorHora;
+
+                    Yii::info("Cálculo total_estimado: {$horas} horas × {$precoPorHora}€ = {$this->total_estimado}€", __METHOD__);
+                } catch (\Exception $e) {
+                    Yii::error("Erro ao calcular total_estimado: " . $e->getMessage(), __METHOD__);
+                    $this->total_estimado = 0.00;
+                }
+            } else {
+                $this->total_estimado = 0.00;
+            }
+
+            $this->tipo_reserva = 'hora';
+        }
+
+        // Reserva por dia (mantém fixo)
+        if ($this->periodo === 'dia' && $this->data_reserva) {
+            $this->hora_inicio_agendada = $this->data_reserva . ' 09:00:00';
+            $this->hora_fim_agendada    = $this->data_reserva . ' 19:00:00';
+            $this->total_estimado       = 32.00;
+            $this->tipo_reserva         = 'diaria';
+        }
+
+        // Reserva mensal (mantém fixo)
         if ($this->tipo_reserva === 'mensal') {
             if (empty($this->data_reserva)) {
                 $this->addError('data_reserva', 'Data da reserva mensal é obrigatória.');
@@ -223,28 +302,15 @@ class Reservation extends \yii\db\ActiveRecord
 
             $dt = new \DateTime($this->data_reserva);
             $this->hora_inicio_agendada = $dt->format('Y-m-01 00:00:00');
-            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59.999');
+            $this->hora_fim_agendada    = $dt->format('Y-m-t 23:59:59');
             $this->total_estimado       = 800.00;
             $this->status               = $this->status ?: self::STATUS_PENDING;
-
-            return true;
         }
 
-        if ($this->periodo === 'dia') {
-            if (empty($this->data_reserva)) {
-                $this->addError('data_reserva', 'Data é obrigatória para reserva diária.');
-                return false;
-            }
+        // Debug final
+        Yii::info("beforeSave FINAL - total_estimado: " . $this->total_estimado, __METHOD__);
+        Yii::info("beforeSave FINAL - hora_inicio_agendada: " . $this->hora_inicio_agendada, __METHOD__);
 
-            $this->hora_inicio_agendada = $this->data_reserva . ' 09:00:00';
-            $this->hora_fim_agendada    = $this->data_reserva . ' 19:00:00';
-            $this->total_estimado       = 32.00;
-            $this->tipo_reserva         = 'diaria';
-
-            return true;
-        }
-
-        // Reserva por hora - nada especial
         return true;
     }
 

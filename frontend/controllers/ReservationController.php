@@ -13,7 +13,7 @@ use common\models\Rooms;
 use common\models\Reservation;
 
 
-use frontend\models\Customer;
+use common\models\Customer;
 
 class ReservationController extends Controller
 {
@@ -62,6 +62,7 @@ class ReservationController extends Controller
             Yii::$app->session->setFlash('error', 'Sala não encontrada.');
             return $this->redirect(['site/index']);
         }
+
         $model->room_id = $room_id;
 
         $userId   = Yii::$app->user->identity->getId();
@@ -71,68 +72,83 @@ class ReservationController extends Controller
             Yii::$app->session->setFlash('error', 'Perfil de cliente não encontrado.');
             return $this->redirect(['site/index']);
         }
+
         $model->customer_id = $customer->id;
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->request->post())) {
 
-            // RESERVA POR HORA
-            if ($model->periodo === 'hora') {
-                $data = $model->data_reserva ?: date('Y-m-d');
+            Yii::info("=== POST RAW RECEBIDO ===", __METHOD__);
+            Yii::info("POST completo: " . print_r(Yii::$app->request->post(), true), __METHOD__);
 
-                $horaInicioRaw = $model->hora_inicio_agendada;
-                $horaFimRaw    = $model->hora_fim_agendada;
-
-                $horaInicio = $horaInicioRaw ? substr($horaInicioRaw, 11, 5) : '09:00';
-                $horaFim    = $horaFimRaw    ? substr($horaFimRaw,    11, 5) : '10:00';
-
-                if (strlen($horaInicio) !== 5) $horaInicio = '09:00';
-                if (strlen($horaFim) !== 5)    $horaFim    = '10:00';
-
-                $model->hora_inicio_agendada = $data . ' ' . $horaInicio . ':00';
-                $model->hora_fim_agendada    = $data . ' ' . $horaFim    . ':00';
+            Yii::info("Valores no model APÓS load:", __METHOD__);
+            Yii::info("data_reserva         → " . var_export($model->data_reserva, true), __METHOD__);
+            Yii::info("hora_inicio_agendada → " . var_export($model->hora_inicio_agendada, true), __METHOD__);
+            Yii::info("hora_fim_agendada    → " . var_export($model->hora_fim_agendada, true), __METHOD__);
+            Yii::info("periodo              → " . var_export($model->periodo, true), __METHOD__);
+            // Definir período se não veio (fallback – ajuste conforme sua lógica real)
+            if (empty($model->periodo)) {
+                $model->periodo = 'hora'; // ou outro default que faça sentido no seu sistema
             }
 
-            // RESERVA DIÁRIA
+            // Processamento específico por tipo de reserva
+            if ($model->periodo === 'hora') {
+                if (empty($model->data_reserva) || empty($model->hora_inicio_agendada) || empty($model->hora_fim_agendada)) {
+                    Yii::$app->session->setFlash('error', 'Data e horários de início e fim são obrigatórios.');
+                    return $this->render('create', ['model' => $model, 'room' => $room]);
+                }
+
+                // Validação simples de ordem lógica
+                try {
+                    $inicioStr = $model->data_reserva . ' ' . trim($model->hora_inicio_agendada) . ':00';
+                    $fimStr    = $model->data_reserva . ' ' . trim($model->hora_fim_agendada)    . ':00';
+
+                    $inicio = new \DateTime($inicioStr);
+                    $fim    = new \DateTime($fimStr);
+
+                    if ($inicio >= $fim) {
+                        $this->addError('hora_inicio_agendada', 'Início deve ser anterior ao fim.');
+                        Yii::$app->session->setFlash('error', 'O horário de início deve ser anterior ao de fim.');
+                        return $this->render('create', ['model' => $model, 'room' => $room]);
+                    }
+                } catch (\Exception $e) {
+                    Yii::$app->session->setFlash('error', 'Formato de horário inválido.');
+                    return $this->render('create', ['model' => $model, 'room' => $room]);
+                }
+
+                // NÃO sobrescreva aqui! Deixe o model guardar como está ou faça no beforeSave
+            }
+
             if ($model->periodo === 'dia' && $model->data_reserva) {
                 $model->hora_inicio_agendada = $model->data_reserva . ' 09:00:00';
                 $model->hora_fim_agendada    = $model->data_reserva . ' 19:00:00';
                 $model->total_estimado       = 32.00;
             }
 
-            // VALIDAÇÃO DE PASSADO
-            if ($model->periodo === 'hora') {
-                $inicioReserva = new \DateTime($model->hora_inicio_agendada, new \DateTimeZone('Europe/Lisbon'));
-                $agora = new \DateTime('now', new \DateTimeZone('Europe/Lisbon'));
+            // Validação completa do model (inclui validateNotInPast, conflitos, etc.)
+            if ($model->validate()) {
 
-                if ($inicioReserva < $agora) {
-                    Yii::$app->session->setFlash('error', 'Não é permitido reservar horários que já passaram. Escolha um horário futuro.');
+                // Verificação extra de conflito exato (mantida, mas pode ser movida para o model no futuro)
+                $conflitoExiste = Reservation::find()
+                    ->where(['room_id' => $model->room_id])
+                    ->andWhere(['hora_inicio_agendada' => $model->hora_inicio_agendada])
+                    ->andWhere(['hora_fim_agendada' => $model->hora_fim_agendada])
+                    ->andWhere(['in', 'status', ['Confirmado', 'pendente']])
+                    ->exists();
+
+                if ($conflitoExiste) {
+                    Yii::$app->session->setFlash('error', 'Este horário já está reservado (Confirmado ou pendente).');
                     return $this->render('create', ['model' => $model, 'room' => $room]);
                 }
+
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
+                    return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+                }
+
+                Yii::$app->session->setFlash('error', 'Erro ao salvar: ' . implode(', ', $model->getFirstErrors()));
+            } else {
+                Yii::$app->session->setFlash('error', 'Por favor, corrija os erros no formulário.');
             }
-
-            // ←─── ADIÇÃO: VERIFICAÇÃO DE CONFLITO EXATO ANTES DO SAVE
-            $conflitoExiste = Reservation::find()
-                ->where(['room_id' => $model->room_id])
-                ->andWhere(['hora_inicio_agendada' => $model->hora_inicio_agendada])
-                ->andWhere(['hora_fim_agendada' => $model->hora_fim_agendada])
-                ->andWhere(['in', 'status', ['Confirmado', 'pendente']])
-                ->exists();
-
-            if ($conflitoExiste) {
-                Yii::$app->session->setFlash('error', 'Este bloco já está reservado (Confirmado ou pendente). Tente outro horário e/ou dia.');
-                return $this->render('create', [
-                    'model' => $model,
-                    'room'  => $room,
-                ]);
-            }
-            // ─── FIM DA ADIÇÃO
-
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
-                return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
-            }
-
-            Yii::$app->session->setFlash('error', 'Erro: ' . implode(', ', $model->getFirstErrors()));
         }
 
         return $this->render('create', [
@@ -282,26 +298,28 @@ class ReservationController extends Controller
     }
     public function actionCancel($id)
     {
-        //encontrar a reserva pelo id
         $model = Reservation::findOne($id);
 
         if (!$model) {
             throw new NotFoundHttpException('A reserva solicitada não existe.');
         }
-        //Vê se o logado tem ou não permissão para cancelar - segurança
-        if ($model->customer_id !== Yii::$app->user->id) {
-            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para cancelar esta reserva');
+
+        // Correção: Busque customer_id do logado
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
+
+        if (!$customer || $model->customer_id !== $customer->id) {
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para cancelar esta reserva.');
         }
-        // Lógica de Cancelamento:
+
+        // Lógica de Cancelamento
         $model->status = 'cancelada';
 
-        if ($model->save()) {
+        if ($model->save(false)) {  // false = sem validação
             Yii::$app->session->setFlash('success', 'A reserva foi cancelada com sucesso.');
         } else {
-            Yii::$app->session->setFlash('error', 'Não foi possível cancelar a reserva.');
+            Yii::$app->session->setFlash('error', 'Não foi possível cancelar a reserva. Erros: ' . implode(', ', $model->getErrors()));
         }
 
-        // Redireciona de volta para o Dashboard
         return $this->redirect(['/dashboard/index']);
     }
     /**
@@ -607,5 +625,33 @@ class ReservationController extends Controller
             'reservations' => $reservations,
             'currentStatus' => $status,
         ]);
+    }
+
+    // ... código existente da classe ReservationController ...
+
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
+    protected function findModel($id)
+    {
+        $model = Reservation::findOne($id);
+
+        if (!$model) {
+            throw new NotFoundHttpException('Reserva não encontrada.');
+        }
+
+        $customer = Customer::findOne(['user_id' => Yii::$app->user->id]);
+
+        if (!$customer || $model->customer_id !== $customer->id) {
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para ver esta reserva.');
+        }
+
+        return $model;
     }
 }

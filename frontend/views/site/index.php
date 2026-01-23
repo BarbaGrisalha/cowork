@@ -18,7 +18,7 @@ $this->title = 'Minha Área - Cowork ILeiria';
         <h1 class="display-4">Bem-vindo, <?= Html::encode(Yii::$app->user->identity->username) ?>!</h1>
         <p class="lead">Gerencie suas reservas e acompanhe seu saldo.</p>
         <?= // Html::a('Nova Reserva', ['dashboard/create'], ['class' => 'btn btn-success btn-lg']) 
-        Html::a('Nova Reserva', ['dashboard/index'], ['class' => 'btn btn-success btn-lg'])
+        Html::a('Nova Reserva', ['reservation/escolher'], ['class' => 'btn btn-success btn-lg'])
         ?>
     </div>
 

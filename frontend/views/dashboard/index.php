@@ -16,105 +16,79 @@ $this->title = 'Painel do Cliente | Cowork';
     <p class="lead">Bem-vindo(a), <?= strtoupper(Yii::$app->user->identity->username) ?>! Aqui está o resumo do seu Cowork.</p>
 
     <div class="row mt-5">
+        <!-- Minhas Próximas Reservas -->
+        <h3 class="mt-5">Minhas Próximas Reservas</h3>
 
-        <!-- ==================== SALAS ==================== -->
-        <div class="col-lg-8">
-            <h2>Escolha sua Sala</h2>
-            <p class="text-muted">Selecione o tipo de reserva que deseja fazer:</p>
-
-            <?php if (empty($locations)): ?>
-                <div class="alert alert-info">Nenhuma sala disponível no momento.</div>
-            <?php else: ?>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <?php foreach ($locations as $room): ?>
-                        <?php if ($room->status !== 'ativa') continue; ?>
-
-                        <div class="col">
-                            <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
-
-                                <!-- FOTO PADRÃO (ou individual no futuro) -->
-                                <?php
-                                $defaultImage = Yii::getAlias('@frontend/web/uploads/rooms/1.jpeg');
-                                if (file_exists($defaultImage)):
-                                ?>
-                                    <img src="<?= Yii::getAlias('@web') ?>/uploads/rooms/1.jpeg?v=<?= filemtime($defaultImage) ?>"
-                                        class="card-img-top"
-                                        alt="<?= Html::encode($room->nome_sala) ?>"
-                                        style="height: 200px; object-fit: cover;">
-                                <?php else: ?>
-                                    <div class="card-img-top bg-gradient d-flex align-items-center justify-content-center text-white" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                        <div class="text-center">
-                                            <i class="bi bi-building fs-1"></i>
-                                            <p class="mb-0 mt-2 fw-bold"><?= Html::encode($room->nome_sala) ?></p>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title fw-bold"><?= Html::encode($room->nome_sala) ?></h5>
-                                    <p class="text-muted small">
-                                        <i class="bi bi-people"></i> Até <?= $room->capacidade ?> pessoas
-                                    </p>
-
-                                    <div class="mt-auto">
-                                        <?= Html::a('<i class="bi bi-clock"></i> Por Hora', [
-                                            //'/reservation/create',
-                                            'reservation/escolher',
-                                            'room_id' => $room->id
-                                        ], ['class' => 'btn btn-outline-primary btn-sm w-100 mb-2']) ?>
-
-                                        <?= Html::a('<i class="bi bi-calendar-day"></i> Diária R$ 32', [
-                                            //'/reservation/select-daily',
-                                            'reservation/escolher',
-                                            'room_id' => $room->id
-                                        ], ['class' => 'btn btn-success btn-sm w-100 mb-2']) ?>
-
-                                        <?= Html::a('<i class="bi bi-calendar-month"></i> Mensal R$ 225', [
-                                            //'/reservation/select-monthly',
-                                            'reservation/escolher',
-                                            'room_id' => $room->id
-                                        ], ['class' => 'btn btn-warning text-white btn-sm w-100']) ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+        <?php if (empty($userReservations)): ?>
+            <div class="alert alert-info text-center py-4">
+                <i class="bi bi-calendar-x fs-4 me-2"></i>
+                Você ainda não tem reservas agendadas.
+                <div class="mt-3">
+                    <?= Html::a('Fazer Nova Reserva', ['reservation/escolher'], ['class' => 'btn btn-primary']) ?>
                 </div>
-            <?php endif; ?>
-
-            <!-- Minhas Reservas -->
-            <h3 class="mt-5">Minhas Próximas Reservas</h3>
-            <?php if (empty($userReservations)): ?>
-                <p class="text-muted">Você ainda não tem reservas. Escolha uma sala acima!!!</p>
-            <?php else: ?>
-                <div class="row">
-                    <?php foreach ($userReservations as $res):
-                        $roomName = $res->room ? Html::encode($res->room->nome_sala) : 'Sala removida';
-                    ?>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-start border-success border-4">
-                                <div class="card-body">
-                                    <h6 class="card-title fw-bold"><?= $roomName ?></h6>
-                                    <p class="small text-muted mb-1">
-                                        <i class="bi bi-calendar"></i> <?= Yii::$app->formatter->asDate($res->hora_inicio_agendada) ?>
-                                        <i class="bi bi-clock ms-3"></i> <?= Yii::$app->formatter->asTime($res->hora_inicio_agendada) ?> - <?= Yii::$app->formatter->asTime($res->hora_fim_agendada) ?>
-                                    </p>
-                                    <span class="badge bg-<?= $res->status === 'Confirmado' ? 'success' : 'warning' ?>">
-                                        <?= ucfirst($res->status) ?>
+            </div>
+        <?php else: ?>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($userReservations as $reserva): ?>
+                            <?php
+                            $inicio = Yii::$app->formatter->asDatetime($reserva->hora_inicio_agendada, 'php:d/m/Y H:i');
+                            $fim    = Yii::$app->formatter->asTime($reserva->hora_fim_agendada, 'php:H:i');
+                            $data   = Yii::$app->formatter->asDate($reserva->hora_inicio_agendada, 'php:d/m/Y');
+                            $sala   = $reserva->room ? Html::encode($reserva->room->nome_sala) : '—';
+                            $statusClass = match ($reserva->status) {
+                                'pendente'   => 'warning',
+                                'Confirmado' => 'success',
+                                'cancelada'  => 'danger',
+                                default      => 'secondary',
+                            };
+                            ?>
+                            <tr>
+                                <td><?= Html::encode($reserva->id) ?></td>
+                                <td>
+                                    <strong><?= Html::encode($reserva->reservation_code ?? '—') ?></strong>
+                                    <br><small class="text-muted"><?= $sala ?></small>
+                                </td>
+                                <td><?= $data ?></td>
+                                <td><?= $inicio ?> – <?= $fim ?></td>
+                                <td>
+                                    <span class="badge bg-<?= $statusClass ?>">
+                                        <?= ucfirst($reserva->status) ?>
                                     </span>
-                                    <?php if ($res->status !== 'cancelada'): ?>
-                                        <?= Html::a('Cancelar', ['/reservation/cancel', 'id' => $res->id], [
-                                            'class' => 'btn btn-sm btn-outline-danger float-end',
-                                            'data' => ['confirm' => 'Tem certeza?', 'method' => 'post']
+                                </td>
+                                <td class="text-end">
+                                    <?= Html::a('<i class="bi bi-eye"></i> Ver', ['reservation/view', 'id' => $reserva->id], [
+                                        'class' => 'btn btn-sm btn-outline-primary me-1'
+                                    ]) ?>
+                                    <?php if ($reserva->status !== 'cancelada'): ?>
+                                        <?= Html::a('<i class="bi bi-trash"></i> Cancelar', ['reservation/cancel', 'id' => $reserva->id], [
+                                            'class' => 'btn btn-sm btn-outline-danger',
+                                            'data' => [
+                                                'confirm' => 'Tem certeza que deseja cancelar esta reserva?',
+                                                'method' => 'post',
+                                            ]
                                         ]) ?>
                                     <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+
+        <?php endif; ?>
 
         <!-- ==================== LATERAL DIREITA ==================== -->
         <div class="col-lg-4">

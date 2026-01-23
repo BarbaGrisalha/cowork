@@ -26,6 +26,7 @@ return [
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
+                'multipart/form-data' => 'yii\web\MultipartFormDataParser',
             ],
             'enableCsrfValidation' => false,
             'cookieValidationKey' => 'chave_secreta_para_a_api_aqui',
@@ -73,6 +74,7 @@ return [
                 ],
 
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'PUT customers/update-profile' => 'customers/update-profile',
             ],
         ],
 
