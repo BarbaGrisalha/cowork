@@ -12,14 +12,13 @@ $this->title = 'Minha Área - Cowork ILeiria';
 ?>
 
 <div class="site-index">
-
     <!-- CABEÇALHO DE BOAS-VINDAS -->
     <div class="jumbotron text-center bg-transparent mb-5">
-        <h1 class="display-4">Bem-vindo, <?= Html::encode(Yii::$app->user->identity->username) ?>!</h1>
+        <h1 class="display-4">
+            Bem-vindo, <?= Html::encode(ucfirst(Yii::$app->user->identity->username ?? 'Usuário')) ?>!
+        </h1>
         <p class="lead">Gerencie suas reservas e acompanhe seu saldo.</p>
-        <?= // Html::a('Nova Reserva', ['dashboard/create'], ['class' => 'btn btn-success btn-lg']) 
-        Html::a('Nova Reserva', ['reservation/escolher'], ['class' => 'btn btn-success btn-lg'])
-        ?>
+        <?= Html::a('Nova Reserva', ['reservation/escolher'], ['class' => 'btn btn-success btn-lg']) ?>
     </div>
 
     <div class="body-content">

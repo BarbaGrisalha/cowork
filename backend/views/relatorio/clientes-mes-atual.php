@@ -13,14 +13,15 @@ $this->title = "Clientes – Faturamento de $mesBonito";
 
     <p class="lead">
         Período: <strong><?= $mesBonito ?></strong>
-        <?= Html::a('← Mês anterior', ['clientes-mes-atual', 'mes' => date('Y-m', strtotime($mes . '-01 -1 month'))], ['class' => 'btn btn-sm btn-default']) ?>
-        <?= Html::a('Próximo mês →', ['clientes-mes-atual', 'mes' => date('Y-m', strtotime($mes . '-01 +1 month'))], ['class' => 'btn btn-sm btn-default']) ?>
+        <?= Html::a('← Mês anterior', ['clientes-mes-atual', 'mes' => date('Y-m', strtotime($mes . '-01 -1 month'))], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
+        <?= Html::a('Próximo mês →', ['clientes-mes-atual', 'mes' => date('Y-m', strtotime($mes . '-01 +1 month'))], ['class' => 'btn btn-sm btn-outline-secondary ms-2']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => 'Total de <b>{totalCount}</b> clientes com movimento neste mês',
-        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover'],
+        'emptyText' => '<div class="alert alert-warning text-center"><h4>Nenhum cliente com reserva ou pagamento neste mês.</h4></div>',
+        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover align-middle'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -32,8 +33,15 @@ $this->title = "Clientes – Faturamento de $mesBonito";
             ],
 
             [
+                'attribute' => 'num_reservas',
+                'label' => 'Nº Reservas',
+                'headerOptions' => ['class' => 'text-center'],
+                'contentOptions' => ['class' => 'text-center'],
+            ],
+
+            [
                 'attribute' => 'salas_ocupadas',
-                'label' => 'Salas/Mesas Ocupadas',
+                'label' => 'Salas Ocupadas',
                 'format' => 'raw',
                 'value' => function ($m) {
                     if (!$m['salas_ocupadas']) {
@@ -42,25 +50,21 @@ $this->title = "Clientes – Faturamento de $mesBonito";
                     $salas = explode(', ', $m['salas_ocupadas']);
                     $html = '';
                     foreach ($salas as $sala) {
-                        $html .= '<span class="label label-info" style="margin:1px;">' . Html::encode($sala) . '</span> ';
+                        $html .= '<span class="badge bg-info me-1">' . Html::encode(trim($sala)) . '</span>';
                     }
                     return $html;
                 },
             ],
 
+
             [
-                'label' => 'Total Pago (€)',
-                'format' => 'raw',
-                'contentOptions' => ['class' => 'text-right text-success font-weight-bold'],
-                'value' => fn($m) => Yii::$app->formatter->asCurrency($m['total_pago'], 'EUR'),
+                'attribute' => 'total_pago',
+                'label' => 'Pago (€)',
+                'format' => ['currency', 'EUR'],
+                'contentOptions' => ['class' => 'text-end fw-bold text-success'],
             ],
+
         ],
     ]); ?>
-
-    <?php if (empty($dataProvider->getModels())): ?>
-        <div class="alert alert-warning text-center">
-            <h4>Nenhum cliente com pagamento ou reserva neste mês.</h4>
-        </div>
-    <?php endif; ?>
 
 </div>

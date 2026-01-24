@@ -1,81 +1,53 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
-$this->title = 'Clientes com Reservas Futuras';
+$this->title = 'Reservas Futuras (Mês Seguinte em Diante)';
 ?>
 
-<div class="relatorio-clientes-futuros">
+<div class="clientes-futuros-index">
+
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <!-- FORMULÁRIO DE FILTROS (versão 100% funcional) -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                Filtros
-                <small class="pull-right">
-                    <?= Html::a('Limpar tudo', ['clientes-futuros'], ['class' => 'text-danger']) ?>
-                </small>
-            </h4>
-        </div>
-        <div class="panel-body">
-            <form method="get" class="form-inline">
-                <!-- todos os inputs acima aqui -->
-                <!-- (copie o bloco grande que mandei acima) -->
-            </form>
-        </div>
-    </div>
+    <p class="lead">Reservas a partir do próximo mês.</p>
 
-    <!-- GRID -->
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'tableOptions' => ['class' => 'table table-striped table-bordered'],
-        'layout' => "{summary}\n<div class='table-responsive'>{items}</div>\n{pager}",
+        'summary' => 'Total de <b>{totalCount}</b> reservas futuras',
+        'emptyText' => '<div class="alert alert-info text-center"><h4>Nenhuma reserva futura agendada.</h4></div>',
+        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover align-middle'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => 'nome',
+                'attribute' => 'cliente_nome',
                 'label' => 'Cliente',
-                'value' => fn($m) => '<strong>' . Html::encode($m['nome']) . '</strong>',
-                'format' => 'raw'
+                'format' => 'raw',
+                'value' => fn($m) => '<strong>' . Html::encode($m['cliente_nome']) . '</strong>',
+            ],
+
+            [
+                'attribute' => 'reservation_code',
+                'label' => 'Código Reserva',
+                'format' => 'raw',
+                'value' => fn($m) => '<code class="bg-success text-white px-2 py-1 rounded">' . Html::encode($m['reservation_code'] ?? '—') . '</code>',
             ],
 
             [
                 'attribute' => 'nome_sala',
-                'label' => 'Sala/Mesa',
-                'value' => fn($m) => '<span class="label label-primary">' . Html::encode($m['nome_sala']) . '</span>',
-                'format' => 'raw'
+                'label' => 'Sala',
+                'format' => 'raw',
+                'value' => fn($m) => '<span class="badge bg-primary">' . Html::encode($m['nome_sala']) . '</span>',
             ],
 
             [
-                'label' => 'Período',
+                'label' => 'Horário',
                 'format' => 'raw',
                 'value' => fn($m) => Yii::$app->formatter->asDatetime($m['inicio'], 'dd/MM/yyyy HH:mm') . ' → ' .
-                    Yii::$app->formatter->asDatetime($m['fim'], 'HH:mm')
-            ],
-
-            [
-                'attribute' => 'tipo_reserva',
-                'label' => 'Tipo',
-                'format' => 'raw',
-                'value' => fn($m) => '<span class="label label-' .
-                    ($m['tipo_reserva'] == 'hora' ? 'info' : ($m['tipo_reserva'] == 'diaria' ? 'success' : 'warning')) .
-                    '">' . ucfirst($m['tipo_reserva']) . '</span>'
-            ],
-
-            [
-                'attribute' => 'status',
-                'label' => 'Status',
-                'format' => 'raw',
-                'value' => function ($m) {
-                    $cores = ['pendente' => 'warning', 'confirmada' => 'success', 'concluida' => 'primary'];
-                    $cor = $cores[$m['status']] ?? 'default';
-                    $texto = ['pendente' => 'Pendente', 'confirmada' => 'Confirmada', 'concluida' => 'Concluída'][$m['status']] ?? $m['status'];
-                    return '<span class="label label-' . $cor . '">' . $texto . '</span>';
-                }
+                    Yii::$app->formatter->asTime($m['fim'], 'HH:mm'),
             ],
         ],
     ]); ?>
+
 </div>

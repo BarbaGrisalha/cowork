@@ -14,13 +14,10 @@ use Yii;
  * @property int|null $pricing_plan_id
  * @property string $status
  *
- * @property PricingPlans $pricingPlan
  * @property Reservations[] $reservations
  */
 class Rooms extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -42,7 +39,7 @@ class Rooms extends \yii\db\ActiveRecord
             [['descricao'], 'string'],
             [['nome_sala'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 30],
-            [['pricing_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => PricingPlans::class, 'targetAttribute' => ['pricing_plan_id' => 'id']],
+            // Removido validator para pricing_plan_id (classe inexistente)
         ];
     }
 
@@ -55,20 +52,10 @@ class Rooms extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nome_sala' => 'Nome Sala',
             'capacidade' => 'Capacidade',
-            'descricao' => 'Descricao',
-            'pricing_plan_id' => 'Pricing Plan ID',
+            'descricao' => 'Descrição',
+            'pricing_plan_id' => 'Plano de Preços ID',
             'status' => 'Status',
         ];
-    }
-
-    /**
-     * Gets query for [[PricingPlan]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPricingPlan()
-    {
-        return $this->hasOne(PricingPlans::class, ['id' => 'pricing_plan_id']);
     }
 
     /**
@@ -80,5 +67,4 @@ class Rooms extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Reservations::class, ['room_id' => 'id']);
     }
-
 }

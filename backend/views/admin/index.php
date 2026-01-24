@@ -87,19 +87,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ) ?>
         </div>
 
-        <!-- RESERVAS PLANEJADAS -->
-        <div class="col-lg-6 col-12 mb-4">
-            <?= Html::a(
-                \hail812\adminlte\widgets\InfoBox::widget([
-                    'text' => 'Reservas Planejadas',
-                    'number' => $totalReservasMes ?? 0,
-                    'theme' => 'gradient-info',
-                    'icon' => 'fas fa-calendar-check',
-                ]),
-                ['relatorio/reservas-mes-planejado'],
-                ['class' => 'text-decoration-none']
-            ) ?>
-        </div>
 
     </div>
 

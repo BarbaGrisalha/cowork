@@ -1,8 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
 
 $mesBonito = Yii::$app->formatter->asDate($mes . '-01', 'MMMM yyyy');
 $this->title = "Reservas por Sala/Mesa – $mesBonito";
@@ -10,112 +8,104 @@ $this->title = "Reservas por Sala/Mesa – $mesBonito";
 
 <div class="reservas-salas-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <!-- FILTROS -->
-    <div class="panel panel-primary">
-        <div class="panel-heading"><strong>Filtros</strong></div>
-        <div class="panel-body">
-            <form method="get" class="form-inline">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <strong>Filtros</strong>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
                 <input type="hidden" name="mes" value="<?= $mes ?>">
 
-                <?= Html::dropDownList('sala', $filters['sala'], $salasList, [
-                    'class' => 'form-control input-sm',
-                    'prompt' => 'Todas as salas'
-                ]) ?>
+                <div class="col-md-3">
+                    <?= Html::dropDownList('sala', $filters['sala'], $salasList, [
+                        'class' => 'form-select',
+                        'prompt' => 'Todas as salas'
+                    ]) ?>
+                </div>
 
-                <?= Html::dropDownList('tipo', $filters['tipo'], [
-                    'hora' => 'Hora',
-                    'diaria' => 'Diária',
-                    'mensal' => 'Mensal'
-                ], ['class' => 'form-control input-sm', 'prompt' => 'Todos os tipos']) ?>
-
-                <?= Html::dropDownList('status_reserva', $filters['status_reserva'], [
-                    'pendente' => 'Pendente',
-                    'confirmada' => 'Confirmada',
-                    'concluida' => 'Concluída'
-                ], ['class' => 'form-control input-sm', 'prompt' => 'Todos os status']) ?>
-
-                <?= Html::dropDownList('faturado', $filters['faturado'], [
-                    '' => 'Todos',
-                    'pago' => 'Pago',
-                    'pendente' => 'Pendente'
-                ], ['class' => 'form-control input-sm']) ?>
-
-                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
-                <?= Html::a('Limpar', ['reservas-salas', 'mes' => $mes], ['class' => 'btn btn-default btn-sm']) ?>
+                <div class="col-md-3">
+                    <?= Html::dropDownList('tipo', $filters['tipo'], [
+                        '' => 'Todos os tipos',
+                        'hora' => 'Hora',
+                        'diaria' => 'Diária',
+                        'mensal' => 'Mensal'
+                    ], ['class' => 'form-select']) ?>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <?= Html::a('Limpar', ['reservas-salas', 'mes' => $mes], ['class' => 'btn btn-secondary ms-2']) ?>
+                </div>
             </form>
         </div>
     </div>
 
     <!-- NAVEGAÇÃO DE MÊS -->
-    <p class="text-center">
-        <?= Html::a('← Mês anterior', ['reservas-salas', 'mes' => date('Y-m', strtotime($mes . '-01 -1 month'))], ['class' => 'btn btn-default']) ?>
-        <strong><?= $mesBonito ?></strong>
-        <?= Html::a('Próximo mês →', ['reservas-salas', 'mes' => date('Y-m', strtotime($mes . '-01 +1 month'))], ['class' => 'btn btn-default']) ?>
-    </p>
+    <div class="text-center mb-4">
+        <?= Html::a('← Mês anterior', ['reservas-salas', 'mes' => date('Y-m', strtotime($mes . '-01 -1 month'))], ['class' => 'btn btn-outline-secondary']) ?>
+        <strong class="mx-4 fs-4"><?= $mesBonito ?></strong>
+        <?= Html::a('Próximo mês →', ['reservas-salas', 'mes' => date('Y-m', strtotime($mes . '-01 +1 month'))], ['class' => 'btn btn-outline-secondary']) ?>
+    </div>
 
-    <!-- DADOS COM TOTAL POR SALA -->
     <?php if (empty($porSala)): ?>
-        <div class="alert alert-info text-center">
+        <div class="alert alert-info text-center py-5">
             <h4>Nenhuma reserva encontrada com os filtros atuais.</h4>
         </div>
     <?php else: ?>
+        <?php $totalGeral = 0; ?>
         <?php foreach ($porSala as $sala => $reservas):
             $totalSala = $totaisPorSala[$sala] ?? 0;
+            $totalGeral += $totalSala;
         ?>
-            <div class="panel panel-default mb-4">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
                         <strong><?= Html::encode($sala) ?></strong>
-                        <span class="badge"><?= count($reservas) ?> reserva(s)</span>
-                        <span class="pull-right text-success">
-                            <strong>Total no Mês: <?= Yii::$app->formatter->asCurrency($totalSala, 'EUR') ?></strong>
-                        </span>
-                    </h3>
+                        <span class="badge bg-secondary ms-2"><?= count($reservas) ?> reserva(s)</span>
+                    </h5>
+                    <span class="text-success fw-bold fs-5">
+                        Total: <?= Yii::$app->formatter->asCurrency($totalSala, 'EUR') ?>
+                    </span>
                 </div>
-                <div class="panel-body p-0">
-                    <table class="table table-condensed table-hover mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Data/Hora</th>
-                                <th>Cliente</th>
-                                <th>Tipo</th>
-                                <th>Situação</th>
-                                <th class="text-right">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($reservas as $res): ?>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
                                 <tr>
-                                    <td>
-                                        <?= Yii::$app->formatter->asDate($res['hora_inicio_agendada'], 'dd/MM') ?>
-                                        <small class="text-muted">
-                                            <?= Yii::$app->formatter->asTime($res['hora_inicio_agendada'], 'HH:mm') ?> →
-                                            <?= Yii::$app->formatter->asTime($res['hora_fim_agendada'], 'HH:mm') ?>
-                                        </small>
-                                    </td>
-                                    <td><?= Html::encode($res['cliente_nome'] ?? '—') ?></td>
-                                    <td>
-                                        <span class="label label-<?= $res['tipo_reserva'] == 'hora' ? 'info' : ($res['tipo_reserva'] == 'diaria' ? 'success' : 'warning') ?>">
-                                            <?= ucfirst($res['tipo_reserva']) ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <?php if ($res['situacao_pagamento'] == 'pago'): ?>
-                                            <span class="label label-success">Pago</span>
-                                        <?php else: ?>
-                                            <span class="label label-danger">Pendente</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="text-right text-<?= $res['valor_pago'] > 0 ? 'success' : 'muted' ?>">
-                                        <strong><?= Yii::$app->formatter->asCurrency($res['valor_pago'], 'EUR') ?></strong>
-                                    </td>
+                                    <th>Data/Hora</th>
+                                    <th>Cliente</th>
+                                    <th class="text-end">Valor</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reservas as $res): ?>
+                                    <tr>
+                                        <td>
+                                            <?= Yii::$app->formatter->asDate($res['hora_inicio_agendada'], 'dd/MM') ?>
+                                            <small class="text-muted d-block">
+                                                <?= Yii::$app->formatter->asTime($res['hora_inicio_agendada'], 'HH:mm') ?> –
+                                                <?= Yii::$app->formatter->asTime($res['hora_fim_agendada'], 'HH:mm') ?>
+                                            </small>
+                                        </td>
+                                        <td><?= Html::encode($res['cliente_nome'] ?? '—') ?></td>
+                                        <td class="text-end fw-bold text-<?= $res['valor_pago'] > 0 ? 'success' : 'muted' ?>">
+                                            <?= Yii::$app->formatter->asCurrency($res['valor_pago'], 'EUR') ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
+
+        <!-- TOTAL GERAL DO MÊS -->
+        <div class="alert alert-success text-center py-4">
+            <h3>Total Geral do Mês: <?= Yii::$app->formatter->asCurrency($totalGeral, 'EUR') ?></h3>
+        </div>
     <?php endif; ?>
 
 </div>

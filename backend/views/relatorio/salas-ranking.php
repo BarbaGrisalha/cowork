@@ -9,54 +9,62 @@ $this->title = "Ranking de Salas/Mesas – $mesBonito";
 
 <div class="salas-ranking-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
 
-
-    <p class="lead text-muted">
+    <p class="lead">
         Período: <strong><?= $mesBonito ?></strong>
-        <?= Html::a('← Mês anterior', ['salas-ranking', 'mes' => date('Y-m', strtotime($mes . '-01 -1 month')), 'ordem' => $ordem], ['class' => 'btn btn-xs btn-default']) ?>
-        <?= Html::a('Próximo mês →', ['salas-ranking', 'mes' => date('Y-m', strtotime($mes . '-01 +1 month')), 'ordem' => $ordem], ['class' => 'btn btn-xs btn-default']) ?>
-
-        <!-- BOTÃO DE ORDEM -->
-        <span class="pull-right">
-            <?php if ($ordem === 'desc'): ?>
-                <?= Html::a('<i class="fa fa-sort-amount-desc"></i> Maior → Menor', ['salas-ranking', 'mes' => $mes, 'ordem' => 'desc'], ['class' => 'btn btn-primary btn-xs']) ?>
-                <?= Html::a('<i class="fa fa-sort-amount-asc"></i> Menor → Maior', ['salas-ranking', 'mes' => $mes, 'ordem' => 'asc'], ['class' => 'btn btn-default btn-xs']) ?>
-            <?php else: ?>
-                <?= Html::a('<i class="fa fa-sort-amount-desc"></i> Maior → Menor', ['salas-ranking', 'mes' => $mes, 'ordem' => 'desc'], ['class' => 'btn btn-default btn-xs']) ?>
-                <?= Html::a('<i class="fa fa-sort-amount-asc"></i> Menor → Maior', ['salas-ranking', 'mes' => $mes, 'ordem' => 'asc'], ['class' => 'btn btn-primary btn-xs']) ?>
-            <?php endif; ?>
-        </span>
+        <?= Html::a('← Mês anterior', ['salas-ranking', 'mes' => date('Y-m', strtotime($mes . '-01 -1 month'))], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
+        <?= Html::a('Próximo mês →', ['salas-ranking', 'mes' => date('Y-m', strtotime($mes . '-01 +1 month'))], ['class' => 'btn btn-sm btn-outline-secondary ms-2']) ?>
     </p>
 
-    <!-- resto da view igual -->
+    <?php
+    $totalReservas = 0;
+    $totalFaturado = 0;
+    foreach ($dataProvider->getModels() as $model) {
+        $totalReservas += $model['total_reservas'];
+        $totalFaturado += $model['valor_total'];
+    }
+    ?>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <div>
+                <strong>Total de Reservas: <?= $totalReservas ?></strong>
+            </div>
+            <div>
+                <strong class="text-success">Total Faturado: <?= Yii::$app->formatter->asCurrency($totalFaturado, 'EUR') ?></strong>
+            </div>
+        </div>
+    </div>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => false,
-        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover'],
+        'emptyText' => '<div class="alert alert-info text-center py-5"><h4>Nenhum movimento registrado em ' . $mesBonito . '.</h4></div>',
+        'tableOptions' => ['class' => 'table table-bordered table-striped table-hover align-middle'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             [
                 'attribute' => 'nome_sala',
                 'label' => 'Sala/Mesa',
+                'format' => 'raw',
                 'value' => fn($m) => '<strong>' . Html::encode($m['nome_sala']) . '</strong>',
-                'format' => 'raw'
             ],
 
-            ['attribute' => 'total_reservas', 'label' => 'Reservas', 'contentOptions' => ['class' => 'text-center']],
+            [
+                'attribute' => 'total_reservas',
+                'label' => 'Nº Reservas',
+                'contentOptions' => ['class' => 'text-center fw-bold'],
+            ],
 
             [
+                'attribute' => 'valor_total',
                 'label' => 'Faturado (€)',
-                'format' => 'raw',
-                'contentOptions' => ['class' => 'text-right text-success font-weight-bold'],
-                'value' => fn($m) => Yii::$app->formatter->asCurrency($m['valor_total'], 'EUR')
+                'format' => ['currency', 'EUR'],
+                'contentOptions' => ['class' => 'text-end fw-bold text-success'],
             ],
         ],
     ]); ?>
 
-    <?php if (empty($dataProvider->getModels())): ?>
-        <div class="alert alert-info text-center">
-            <h4>Nenhum movimento registrado em <?= $mesBonito ?> ainda.</h4>
-        </div>
-    <?php endif; ?>
 </div>

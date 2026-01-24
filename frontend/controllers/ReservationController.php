@@ -76,37 +76,24 @@ class ReservationController extends Controller
         $model->customer_id = $customer->id;
 
         if ($model->load(Yii::$app->request->post())) {
-
-            Yii::info("=== POST RAW RECEBIDO ===", __METHOD__);
-            Yii::info("POST completo: " . print_r(Yii::$app->request->post(), true), __METHOD__);
-
-            Yii::info("Valores no model APÓS load:", __METHOD__);
-            Yii::info("data_reserva         → " . var_export($model->data_reserva, true), __METHOD__);
-            Yii::info("hora_inicio_agendada → " . var_export($model->hora_inicio_agendada, true), __METHOD__);
-            Yii::info("hora_fim_agendada    → " . var_export($model->hora_fim_agendada, true), __METHOD__);
-            Yii::info("periodo              → " . var_export($model->periodo, true), __METHOD__);
-            // Definir período se não veio (fallback – ajuste conforme sua lógica real)
             if (empty($model->periodo)) {
-                $model->periodo = 'hora'; // ou outro default que faça sentido no seu sistema
+                $model->periodo = 'hora';
             }
 
-            // Processamento específico por tipo de reserva
             if ($model->periodo === 'hora') {
                 if (empty($model->data_reserva) || empty($model->hora_inicio_agendada) || empty($model->hora_fim_agendada)) {
                     Yii::$app->session->setFlash('error', 'Data e horários de início e fim são obrigatórios.');
                     return $this->render('create', ['model' => $model, 'room' => $room]);
                 }
 
-                // Validação simples de ordem lógica
                 try {
                     $inicioStr = $model->data_reserva . ' ' . trim($model->hora_inicio_agendada) . ':00';
-                    $fimStr    = $model->data_reserva . ' ' . trim($model->hora_fim_agendada)    . ':00';
+                    $fimStr    = $model->data_reserva . ' ' . trim($model->hora_fim_agendada) . ':00';
 
                     $inicio = new \DateTime($inicioStr);
                     $fim    = new \DateTime($fimStr);
 
                     if ($inicio >= $fim) {
-                        $this->addError('hora_inicio_agendada', 'Início deve ser anterior ao fim.');
                         Yii::$app->session->setFlash('error', 'O horário de início deve ser anterior ao de fim.');
                         return $this->render('create', ['model' => $model, 'room' => $room]);
                     }
@@ -114,8 +101,6 @@ class ReservationController extends Controller
                     Yii::$app->session->setFlash('error', 'Formato de horário inválido.');
                     return $this->render('create', ['model' => $model, 'room' => $room]);
                 }
-
-                // NÃO sobrescreva aqui! Deixe o model guardar como está ou faça no beforeSave
             }
 
             if ($model->periodo === 'dia' && $model->data_reserva) {
@@ -124,10 +109,7 @@ class ReservationController extends Controller
                 $model->total_estimado       = 32.00;
             }
 
-            // Validação completa do model (inclui validateNotInPast, conflitos, etc.)
             if ($model->validate()) {
-
-                // Verificação extra de conflito exato (mantida, mas pode ser movida para o model no futuro)
                 $conflitoExiste = Reservation::find()
                     ->where(['room_id' => $model->room_id])
                     ->andWhere(['hora_inicio_agendada' => $model->hora_inicio_agendada])
@@ -136,16 +118,25 @@ class ReservationController extends Controller
                     ->exists();
 
                 if ($conflitoExiste) {
-                    Yii::$app->session->setFlash('error', 'Este horário já está reservado (Confirmado ou pendente).');
+                    Yii::$app->session->setFlash('error', 'Sala/mesa já ocupada nesse período. Por favor, escolha outra.');
                     return $this->render('create', ['model' => $model, 'room' => $room]);
                 }
 
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
-                    return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+                try {
+                    if ($model->save()) {
+                        Yii::$app->session->setFlash('success', 'Reserva criada com sucesso! Agora é só pagar.');
+                        return $this->redirect(['/payment/checkout', 'reservation_id' => $model->id]);
+                    }
+                    Yii::$app->session->setFlash('error', 'Erro ao salvar: ' . implode(', ', $model->getFirstErrors()));
+                } catch (\yii\db\IntegrityException $e) {
+                    if (strpos($e->getMessage(), 'uk-reserva_sala_tempo') !== false) {
+                        Yii::$app->session->setFlash('error', 'Sala/mesa já ocupada nesse período. Por favor, escolha outra.');
+                    } else {
+                        Yii::$app->session->setFlash('error', 'Erro de integridade ao salvar reserva.');
+                    }
+                } catch (\Exception $e) {
+                    Yii::$app->session->setFlash('error', 'Erro inesperado ao salvar reserva.');
                 }
-
-                Yii::$app->session->setFlash('error', 'Erro ao salvar: ' . implode(', ', $model->getFirstErrors()));
             } else {
                 Yii::$app->session->setFlash('error', 'Por favor, corrija os erros no formulário.');
             }

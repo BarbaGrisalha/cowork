@@ -1,94 +1,57 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="<?= $assetDir ?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <a href="<?= Yii::$app->homeUrl ?>" class="brand-link text-center py-3">
+        <span class="brand-text font-weight-light fw-bold text-white">Cowork IPLeiria - Admin</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <!-- Sidebar user panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
             <div class="image">
                 <img src="<?= $assetDir ?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">
-                    <?php
-                    // Usa 'echo' para imprimir o resultado na tela
-                    echo (Yii::$app->user->isGuest)
-                        ? 'Convidado'
-                        : ucfirst( // A função ucfirst() garante que o primeiro caractere seja maiúsculo
-                            // Tenta puxar o nome completo ou o username
-                            !empty(Yii::$app->user->identity->nome)
-                                ? Yii::$app->user->identity->nome
-                                : Yii::$app->user->identity->username
-                        );
-                    ?>
+                <a href="#" class="d-block text-white">
+                    <?= Yii::$app->user->isGuest ? 'Convidado' : ucfirst(Yii::$app->user->identity->username ?? 'Admin') ?>
                 </a>
             </div>
         </div>
 
-        <!-- SidebarSearch Form -->
-        <!-- href be escaped -->
-        <!-- <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div> -->
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <?php
-            echo \hail812\adminlte\widgets\Menu::widget([
+            <?= \hail812\adminlte\widgets\Menu::widget([
+                'options' => ['class' => 'nav nav-pills nav-sidebar flex-column', 'data-widget' => 'treeview', 'role' => 'menu', 'data-accordion' => 'false'],
                 'items' => [
-                    [
-                        'label' => 'Starter Pages',
-                        'icon' => 'tachometer-alt',
-                        'badge' => '<span class="right badge badge-info">2</span>',
-                        'items' => [
-                            ['label' => 'Active Page', 'url' => ['site/index'], 'iconStyle' => 'far'],
-                            ['label' => 'Inactive Page', 'iconStyle' => 'far'],
-                        ]
-                    ],
-                    ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],
-                    ['label' => 'Yii2 PROVIDED', 'header' => true],
-                    ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
-                    ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
-                    ['label' => 'MULTI LEVEL EXAMPLE', 'header' => true],
-                    ['label' => 'Level1'],
-                    [
-                        'label' => 'Level1',
-                        'items' => [
-                            ['label' => 'Level2', 'iconStyle' => 'far'],
-                            [
-                                'label' => 'Level2',
-                                'iconStyle' => 'far',
-                                'items' => [
-                                    ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle'],
-                                    ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle'],
-                                    ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle']
-                                ]
-                            ],
-                            ['label' => 'Level2', 'iconStyle' => 'far']
-                        ]
-                    ],
-                    ['label' => 'Level1'],
-                    ['label' => 'LABELS', 'header' => true],
-                    ['label' => 'Important', 'iconStyle' => 'far', 'iconClassAdded' => 'text-danger'],
-                    ['label' => 'Warning', 'iconClass' => 'nav-icon far fa-circle text-warning'],
-                    ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'],
+                    ['label' => 'Dashboard', 'icon' => 'tachometer-alt', 'url' => ['/admin/index']],
+
+                    ['label' => 'Utilizadores', 'icon' => 'users', 'items' => [
+                        ['label' => 'Utilizadores', 'icon' => 'circle', 'url' => ['/user/index']],
+
+                    ]],
+
+                    ['label' => 'Espaços', 'icon' => 'building', 'items' => [
+                        ['label' => 'Salas/Mesas', 'icon' => 'circle', 'url' => ['/rooms/index']],
+                    ]],
+
+
+
+                    ['label' => 'Relatórios', 'icon' => 'chart-bar', 'items' => [
+                        ['label' => 'Faturamento Mensal', 'icon' => 'circle', 'url' => ['/relatorio/clientes-mes-atual']],
+                        ['label' => 'Reservas Futuras', 'icon' => 'circle', 'url' => ['/relatorio/clientes-futuros']],
+                        ['label' => 'Reservas por Sala', 'icon' => 'circle', 'url' => ['/relatorio/reservas-salas']],
+                        ['label' => 'Salas Mais Alugadas', 'icon' => 'circle', 'url' => ['/relatorio/salas-ranking']],
+                        ['label' => 'Reservas Pendentes', 'icon' => 'circle', 'url' => ['/relatorio/reservas-pendentes']],
+                    ]],
+
+                    ['label' => 'Ferramentas', 'icon' => 'tools', 'items' => [
+                        ['label' => 'Gii', 'icon' => 'circle', 'url' => ['/gii'], 'visible' => !Yii::$app->user->isGuest],
+                        ['label' => 'Debug', 'icon' => 'circle', 'url' => ['/debug'], 'visible' => YII_DEBUG],
+                    ]],
+
+                    ['label' => 'Logout', 'icon' => 'sign-out-alt', 'url' => ['/site/logout'], 'visible' => !Yii::$app->user->isGuest, 'linkOptions' => ['data-method' => 'post']],
                 ],
-            ]);
-            ?>
+            ]) ?>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>
